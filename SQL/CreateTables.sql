@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     contrasenaAntigua VARCHAR(100),
     RUC VARCHAR(20),
     nombreEmpresa VARCHAR(150),
-    DNI VARCHAR(20),
+    DNI VARCHAR(20)
 );
 
 
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Almacen (
 CREATE TABLE IF NOT EXISTS TipoProducto (
     idTipoProducto INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
-    descripcion VARCHAR(200),
+    descripcion VARCHAR(200)
 );
 
 CREATE TABLE IF NOT EXISTS Producto (
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Producto (
     idAlmacen INT,
     idTipoProducto INT,
     FOREIGN KEY (idAlmacen) REFERENCES Almacen(idAlmacen),
-    FOREIGN KEY (idTipoProducto) REFERENCES TipoProducto(idTipoProducto),
+    FOREIGN KEY (idTipoProducto) REFERENCES TipoProducto(idTipoProducto)
 );
 
 CREATE TABLE IF NOT EXISTS Oferta (
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Factura (
     idFactura INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
     total DOUBLE,
-    tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
+    tipoPago ENUM('VISA', 'PAYPAL', 'CUPON')
 );
 
 CREATE TABLE IF NOT EXISTS DetalleFactura (
