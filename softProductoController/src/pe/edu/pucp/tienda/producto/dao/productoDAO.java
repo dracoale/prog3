@@ -14,16 +14,16 @@ import pe.edu.pucp.tienda.producto.model.Producto;
  */
 public interface productoDAO {
         // Create
-    public void insertar(Producto producto);
+    public int insertar(Producto producto);
     
     // Read
     //public Factura consultarPorId(int id);
     public ArrayList<Producto> listar();
     
     // Update
-    public void actualizar(Producto producto);
+    public int actualizar(Producto producto);
     
     // Delete
-    public void eliminar(int id);
+    public int eliminar(int id);
     
 }

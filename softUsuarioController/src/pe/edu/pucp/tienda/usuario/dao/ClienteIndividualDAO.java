@@ -5,13 +5,13 @@ import pe.edu.pucp.tienda.usuario.model.ClienteIndividual;
 
 public interface ClienteIndividualDAO {
     
-    void inserta(ClienteIndividual cliente);
+    int inserta(ClienteIndividual cliente);
     
    // ClienteIndividual consultaPorId(int id);
     
     ArrayList<ClienteIndividual> lista();
     
-    void actualiza(ClienteIndividual cliente);
+    int actualiza(ClienteIndividual cliente);
     
-    void elimina(int id);
+    int elimina(int id);
 }

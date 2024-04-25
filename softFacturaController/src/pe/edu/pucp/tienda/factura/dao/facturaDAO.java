@@ -13,16 +13,16 @@ import pe.edu.pucp.tienda.factura.model.Factura;
  */
 public interface facturaDAO {
         // Create
-    public void insertar(Factura factura);
+    public int insertar(Factura factura);
     
     // Read
     //public Factura consultarPorId(int id);
     public ArrayList<Factura> listar();
     
     // Update
-    public void actualizar(Factura factura);
+    public int actualizar(Factura factura);
     
     // Delete
-    public void eliminar(int id);
+    public int eliminar(int id);
     
 }

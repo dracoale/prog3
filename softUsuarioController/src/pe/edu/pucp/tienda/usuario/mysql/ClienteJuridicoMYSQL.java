@@ -8,32 +8,76 @@ import java.util.ArrayList;
 import java.util.Date;
 import pe.edu.pucp.tienda.usuario.dao.ClienteJuridicoDAO;
 import pe.edu.pucp.tienda.usuario.model.ClienteJuridico;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.sql.Connection;
+import pe.edu.pucp.tienda.config.DBManager;
 
-/**
- *
- * @author james
- */
 public class ClienteJuridicoMYSQL implements ClienteJuridicoDAO{
+	private Connection con;
+	private CallableStatement cs;
+
 
     @Override
-    public void insertar(ClienteJuridico cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int insertar(ClienteJuridico cliente) {
+        try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call INSERTAR_CLIENTE_JURIDICO"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 	
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		}    
+        return 1;
     }
 
 
     @Override
     public ArrayList<ClienteJuridico> listar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       ArrayList<ClienteJuridico> clientesJud = new ArrayList<>();
+		try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call LISTAR_CLIENTES_JURIDICOS"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 	
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		}
+		return clientesJud;
     }
 
     @Override
-    public void actualizar(ClienteJuridico cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int actualizar(ClienteJuridico cliente) {
+        try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call ACTUALIZAR_CLIENTE_JURIDICO"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		}
+        return 1;
     }
 
     @Override
-    public void eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int eliminar(int id) {
+        try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call ELIMINAR_CLIENTE_JURIDICO"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		}
+        return 1;
     }
 
 }

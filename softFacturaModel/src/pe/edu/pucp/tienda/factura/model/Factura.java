@@ -13,6 +13,9 @@ public class Factura {
     private Date fecha;
     private double total;
     //private Pedido pedido;
+    public Factura(){
+        
+    };
     public Factura(int idFactura, Date fecha, double total) {
         this.idFactura = idFactura;
         this.fecha = fecha;

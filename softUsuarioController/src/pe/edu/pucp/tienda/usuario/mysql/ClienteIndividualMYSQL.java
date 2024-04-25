@@ -6,19 +6,33 @@ package pe.edu.pucp.tienda.usuario.mysql;
 
 import java.util.ArrayList;
 import java.util.Date;
+import pe.edu.pucp.tienda.config.DBManager;
 import pe.edu.pucp.tienda.usuario.dao.ClienteIndividualDAO;
 import pe.edu.pucp.tienda.usuario.dao.ClienteJuridicoDAO;
 import pe.edu.pucp.tienda.usuario.model.ClienteIndividual;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.sql.Connection;
+//import java.util.Exception;
 
-/**
- *
- * @author james
- */
+
 public class ClienteIndividualMYSQL implements ClienteIndividualDAO{
+	private Connection con;
+	private CallableStatement cs;
 
     @Override
-    public void inserta(ClienteIndividual cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int inserta(ClienteIndividual cliente) {
+        try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call INSERTAR_CLIENTE_INDIVIDUAL"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 	
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		} 
+        return 1;
     }
 
 //    @Override
@@ -28,17 +42,49 @@ public class ClienteIndividualMYSQL implements ClienteIndividualDAO{
 
     @Override
     public ArrayList<ClienteIndividual> lista() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       ArrayList<ClienteIndividual> clientesInd = new ArrayList<>();
+		try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call LISTAR_CLIENTES_INDIVIDUALES"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 	
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		}
+		return clientesInd;
     }
 
     @Override
-    public void actualiza(ClienteIndividual cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int actualiza(ClienteIndividual cliente) {
+        try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call ACTUALIZAR_CLIENTE_INDIVIDUAL"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		}
+        return 1;
     }
 
     @Override
-    public void elimina(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int elimina(int id) {
+        try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call ELIMINAR_CLIENTE_INDIVIDUAL"
+                    + "(?,?,?,?,?,?,?,?,?)}"); 
+			
+		}catch(SQLException ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+		}
+        return 1;
     }
+    
 
 }

@@ -7,33 +7,135 @@ package pe.edu.pucp.tienda.producto.mysql;
 import java.util.ArrayList;
 import pe.edu.pucp.tienda.producto.dao.productoDAO;
 import pe.edu.pucp.tienda.producto.model.Producto;
-
+import java.sql.Connection;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import pe.edu.pucp.tienda.config.DBManager;
+import java.sql.ResultSet;
 
 /**
  *
  * @author USER
  */
-public class productoMYSQL implements productoDAO{
+public class productoMYSQL implements productoDAO {
+
+    private Connection con;
+    private CallableStatement cs;
+    private ResultSet rs;
 
     @Override
-    public void insertar(Producto producto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int insertar(Producto producto) {
+        int resultado = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            System.out.println(con);
+            cs = con.prepareCall("{call InsertaProducto"
+                    + "(?,?,?,?,?,?,?,?)}");
+            cs.registerOutParameter("p_idProducto", java.sql.Types.INTEGER);
+            //cs.setString("_DNI", cliente.getDNI());
+            cs.setString("p_nombre", producto.getNombre());
+            cs.setString("p_descripcion", producto.getDescripcion());
+            cs.setInt("p_categoria", producto.getCategoria().getIdTipoProducto());
+            cs.setInt("p_idAlmacen", 1);
+            cs.setDouble("p_precio", producto.getPrecio());
+            //  cs.setDouble("_linea_credito", producto.getLineaCredito());
+            cs.setInt("p_idEstadoProducto", 1);
+            cs.setInt("p_stock", producto.getStock());
+            //System.out.println(producto.getStock());
+            cs.executeUpdate();
+            producto.setCodigo(cs.getInt("p_idProducto"));
+            resultado = producto.getCodigo();
+        } catch (Exception ex) {
+            // System.out.println("no entrio");
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        System.out.println(resultado);
+        return resultado;
     }
 
     @Override
     public ArrayList<Producto> listar() {
-        return null;
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Producto> productos = new ArrayList<>();
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call ListaProductos()}");
+            rs = cs.executeQuery();
+            while (rs.next()) {
+                Producto producto = new Producto();
+
+                producto.setNombre(rs.getString("nombre"));
+                producto.setDescripcion(rs.getString("descripcion"));
+                producto.setPrecio(rs.getDouble("precio"));
+
+                productos.add(producto);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return productos;
+        //  return null;
+
     }
 
     @Override
-    public void actualizar(Producto producto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int actualizar(Producto producto) {
+        int resultado = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call ActualizaProducto"
+                    + "(?,?,?)}");
+            cs.setInt("p_idProducto", producto.getCodigo());
+
+            cs.setDouble("p_precio", producto.getPrecio());
+            cs.setInt("p_stock", producto.getStock());
+            resultado = cs.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return resultado;
     }
 
     @Override
-    public void eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int eliminar(int id) {
+        int resultado = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call EliminaProducto"
+                    + "(?)}");
+            cs.setInt("p_idProducto", id);
+            cs.executeUpdate();
+            resultado = 1;
+            cs.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return resultado;
     }
-    
+
 }

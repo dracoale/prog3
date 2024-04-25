@@ -7,14 +7,14 @@ import pe.edu.pucp.tienda.usuario.model.Administrador;
 public class AdministradorMYSQL implements AdministradorDAO{
 
     @Override
-    public void insertar(Administrador administrador) {
+    public int insertar(Administrador administrador) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public Administrador consultarPorId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+//    @Override
+//    public Administrador consultarPorId(int id) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
 
     @Override
     public ArrayList<Administrador> listar() {
@@ -22,12 +22,12 @@ public class AdministradorMYSQL implements AdministradorDAO{
     }
 
     @Override
-    public void actualizar(Administrador administrador) {
+    public int actualizar(Administrador administrador) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void eliminar(int id) {
+    public int eliminar(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
   

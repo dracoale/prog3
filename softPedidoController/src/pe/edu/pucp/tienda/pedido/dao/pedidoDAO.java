@@ -14,16 +14,16 @@ import pe.edu.pucp.tienda.pedido.model.Pedido;
  */
 public interface pedidoDAO {
         // Create
-    public void insertar(Pedido pedido);
+    public int insertar(Pedido pedido,int id);
     
     // Read
     //public Factura consultarPorId(int id);
     public ArrayList<Pedido> listar();
     
     // Update
-    public void actualizar(Pedido pedido);
+    public int actualizar(Pedido pedido);
     
     // Delete
-    public void eliminar(int id);
+    public int eliminar(int id);
     
 }
