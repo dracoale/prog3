@@ -9,7 +9,6 @@ import pe.edu.pucp.tienda.pedido.dao.pedidoDAO;
 import pe.edu.pucp.tienda.pedido.model.Pedido;
 import java.sql.Connection;
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import pe.edu.pucp.tienda.config.DBManager;
 
@@ -27,7 +26,7 @@ public class pedidoMYSQL implements pedidoDAO{
         int resultado =0;
         try{
 			con = DBManager.getInstance().getConnection();
-			cs = con.prepareCall("{call InsertaPedido"
+			cs = con.prepareCall("{Call InsertaPedido"
                     + "(?,?,?,?,?,?,?)}"); 	
 			cs.setInt("p_idPedido", pedido.getIdPedido());
             cs.setInt("p_idEstadoPedido", pedido.getEstado().ordinal()+1);
