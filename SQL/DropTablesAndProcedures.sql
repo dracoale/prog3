@@ -15,20 +15,10 @@ DROP TABLE IF EXISTS Prioridad;
 DROP TABLE IF EXISTS TipoPago;
 DROP TABLE IF EXISTS EstadoCuenta;
 
-DROP PROCEDURE IF EXISTS InsertaUsuarioNatural;
-DROP PROCEDURE IF EXISTS ActualizaUsuarioNatural;
-DROP PROCEDURE IF EXISTS EliminaUsuarioNatural;
-DROP PROCEDURE IF EXISTS ListaUsuariosNaturales;
-
-DROP PROCEDURE IF EXISTS InsertaUsuarioJuridico;
-DROP PROCEDURE IF EXISTS ActualizaUsuarioJuridico;
-DROP PROCEDURE IF EXISTS EliminaUsuarioJuridico;
-DROP PROCEDURE IF EXISTS ListaUsuariosJuridicos;
-
-DROP PROCEDURE IF EXISTS InsertaAdministrador;
-DROP PROCEDURE IF EXISTS ActualizaAdministrador;
-DROP PROCEDURE IF EXISTS EliminaAdministrador;
-DROP PROCEDURE IF EXISTS ListaAdministradores;
+DROP PROCEDURE IF EXISTS InsertaUsuario;
+DROP PROCEDURE IF EXISTS ActualizaUsuario;
+DROP PROCEDURE IF EXISTS EliminaUsuario;
+DROP PROCEDURE IF EXISTS ListaUsuarios;
 
 DROP PROCEDURE IF EXISTS InsertaProducto;
 DROP PROCEDURE IF EXISTS ActualizaProducto;

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     correo VARCHAR(100),
     fechaRegistro DATE,
     idEstadoCuenta ENUM('ACTIVO', 'DESACTIVADO', 'SUSPENDIDO'),
-    tipoUsuario ENUM('ADMIN', 'MEMBER'),
+    tipoUsuario ENUM('ADMINISTRADOR', 'USER_NATURAL', 'USER_JURIDICO'),
     fechaCreacion DATE,
     nombreUsuario VARCHAR(100),
     contrasena VARCHAR(50),

@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE PROCEDURE InsertaUsuarioNatural(
+CREATE PROCEDURE InsertaUsuario(
     OUT p_idUsuario INT,
     IN p_nombre VARCHAR(100),
     IN p_telefono VARCHAR(20),
@@ -22,7 +22,7 @@ END$$
 
 
 
-CREATE PROCEDURE ActualizaUsuarioNatural(
+CREATE PROCEDURE ActualizaUsuario(
     IN p_idUsuario INT,
     IN p_nombre VARCHAR(100),
     IN p_telefono VARCHAR(20),
@@ -45,7 +45,7 @@ END$$
 
 
 
-CREATE PROCEDURE EliminaUsuarioNatural(
+CREATE PROCEDURE EliminaUsuario(
     IN p_idUsuario INT
 )
 BEGIN
@@ -53,164 +53,10 @@ BEGIN
 END$$
 
 
-CREATE PROCEDURE ListaUsuariosNaturales()
+CREATE PROCEDURE ListaUsuarios()
 BEGIN
     SELECT nombre, telefono, correo, fechaRegistro, idEstadoCuenta, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno FROM Usuario;
 END$$
-
-
-
-
-
-
-
-
-CREATE PROCEDURE InsertaUsuarioJuridico(
-    OUT p_idUsuario INT,
-    IN p_nombre VARCHAR(100),
-    IN p_telefono VARCHAR(20),
-    IN p_correo VARCHAR(100),
-    IN p_fechaRegistro DATE,
-    IN p_idEstadoCuenta TINYINT,
-    IN p_fechaCreacion DATE,
-    IN p_nombreUsuario VARCHAR(100),
-    IN p_contrasena VARCHAR(50),
-    IN p_apellidoPaterno VARCHAR(100),
-    IN p_apellidoMaterno VARCHAR(100),
-    IN p_RUC VARCHAR(20),
-    IN p_nombreEmpresa VARCHAR(150)
-)
-BEGIN
-    INSERT INTO Usuario(nombre, telefono, correo, fechaRegistro, idEstadoCuenta, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno, RUC, nombreEmpresa)
-    VALUES (p_nombre, p_telefono, p_correo, p_fechaRegistro, p_idEstadoCuenta, p_fechaCreacion, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno, p_RUC, p_nombreEmpresa);
-    SET p_idUsuario = @@last_insert_id;
-END$$
-
-
-
-
-CREATE PROCEDURE ActualizaUsuarioJuridico(
-    IN p_idUsuario INT,
-    IN p_nombre VARCHAR(100),
-    IN p_telefono VARCHAR(20),
-    IN p_correo VARCHAR(100),
-    IN p_nombreUsuario VARCHAR(100),
-    IN p_contrasena VARCHAR(50),
-    IN p_apellidoPaterno VARCHAR(100),
-    IN p_apellidoMaterno VARCHAR(100)
-)
-BEGIN
-    DECLARE old_password VARCHAR(50);
-    SELECT contrasena INTO old_password FROM Usuario WHERE idUsuario = p_idUsuario;
-    IF old_password <> p_contrasena THEN
-        UPDATE Usuario SET contrasenaAntigua = old_password WHERE idUsuario = p_idUsuario;
-    END IF;
-    UPDATE Usuario
-    SET nombre = p_nombre, telefono = p_telefono, correo = p_correo, nombreUsuario = p_nombreUsuario, contrasena = p_contrasena, apellidoPaterno = p_apellidoPaterno, apellidoMaterno = p_apellidoMaterno
-    WHERE idUsuario = p_idUsuario;
-END$$
-
-
-
-CREATE PROCEDURE EliminaUsuarioJuridico(
-    IN p_idUsuario INT
-)
-BEGIN
-    Update Usuario SET idEstadoCuenta=2 WHERE idUsuario = p_idUsuario;
-END$$
-
-
-CREATE PROCEDURE ListaUsuariosJuridicos()
-BEGIN
-    SELECT nombre, telefono, correo, fechaRegistro, idEstadoCuenta, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno FROM Usuario;
-END$$
-
-
-
-
-
-
-
-
-
-
-CREATE PROCEDURE InsertaAdministrador(
-    OUT p_idAdministrador INT,
-    IN p_descripcion VARCHAR(200),
-    IN p_nombre VARCHAR(100),
-    IN p_telefono VARCHAR(20),
-    IN p_correo VARCHAR(100),
-    IN p_fechaRegistro DATE,
-    IN p_idEstadoCuenta TINYINT,
-    IN p_fechaCreacion DATE,
-    IN p_nombreUsuario VARCHAR(50),
-    IN p_contrasena VARCHAR(100),
-    IN p_apellidoPaterno VARCHAR(100),
-    IN p_apellidoMaterno VARCHAR(100)
-)
-BEGIN
-    INSERT INTO Administrador(descripcion, nombre, telefono, correo, fechaRegistro, idEstadoCuenta, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno)
-    VALUES (p_descripcion, p_nombre, p_telefono, p_correo, p_fechaRegistro, p_idEstadoCuenta, p_fechaCreacion, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno);
-    SET p_idAdministrador = @@last_insert_id;
-END$$
-
-
-
-CREATE PROCEDURE ActualizaAdministrador(
-    IN p_idAdministrador INT,
-    IN p_descripcion VARCHAR(200),
-    IN p_nombre VARCHAR(100),
-    IN p_telefono VARCHAR(20),
-    IN p_correo VARCHAR(100),
-    IN p_fechaRegistro DATE,
-    IN p_idEstadoCuenta TINYINT,
-    IN p_fechaCreacion DATE,
-    IN p_nombreUsuario VARCHAR(50),
-    IN p_contrasena VARCHAR(100),
-    IN p_apellidoPaterno VARCHAR(100),
-    IN p_apellidoMaterno VARCHAR(100),
-)
-BEGIN
-    DECLARE old_password VARCHAR(100);
-    SELECT contrasena INTO old_password FROM Administrador WHERE idAdministrador = p_idAdministrador;
-
-    IF old_password <> p_contrasena THEN
-        UPDATE Administrador
-        SET contrasenaAntigua = old_password WHERE idAdministrador = p_idAdministrador;
-    END IF;
-    UPDATE Administrador
-    SET descripcion = p_descripcion,
-        nombre = p_nombre,
-        telefono = p_telefono,
-        correo = p_correo,
-        fechaRegistro = p_fechaRegistro,
-        idEstadoCuenta = p_idEstadoCuenta,
-        fechaCreacion = p_fechaCreacion,
-        nombreUsuario = p_nombreUsuario,
-        contrasena = p_contrasena,
-        apellidoPaterno = p_apellidoPaterno,
-        apellidoMaterno = p_apellidoMaterno
-    WHERE idAdministrador = p_idAdministrador;
-END$$
-
-
-
-CREATE PROCEDURE EliminaAdministrador(
-    IN p_idAdministrador INT
-)
-BEGIN
-    Update Administrador SET idEstadoCuenta=2
-    WHERE idAdministrador = p_idAdministrador;
-END$$
-
-
-
-CREATE PROCEDURE ListaAdministradores()
-BEGIN
-    SELECT descripcion, nombre, telefono, correo, fechaRegistro, idEstadoCuenta, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno FROM Administrador;
-END$$
-
-
 
 
 
