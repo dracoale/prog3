@@ -32,3 +32,4 @@ INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Bebidas', 'Bebidas no al
 INSERT INTO FormaDePago (descripcion, idTipoPago) VALUES ('Pago en efectivo', 1);
 INSERT INTO FormaDePago (descripcion, idTipoPago) VALUES ('Transferencia bancaria', 2);
 INSERT INTO FormaDePago (descripcion, idTipoPago) VALUES ('Pago con tarjeta', 1);
+INSERT INTO FormaDePago (descripcion, idTipoPago) VALUES ('Pago Debito', 1);
