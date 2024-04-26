@@ -14,7 +14,7 @@ import pe.edu.pucp.tienda.pedido.model.Pedido;
  */
 public interface pedidoDAO {
         // Create
-    public int insertar(Pedido pedido,int id);
+    public int insertar(Pedido pedido);
     
     // Read
     //public Factura consultarPorId(int id);
