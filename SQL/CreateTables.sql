@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS DetallePedido (
     idProducto INT,
     cantidad INT,
     subtotal DOUBLE,
+    estadoDetallePedido ENUM('ACTIVO', 'DESACTIVO'),
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );

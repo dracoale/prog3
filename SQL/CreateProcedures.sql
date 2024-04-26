@@ -342,7 +342,54 @@ CREATE PROCEDURE ListaPedidos()
 BEGIN
     SELECT idEstadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura FROM Pedido;
 END$$
-DELIMITER;
+
+
+
+
+CREATE PROCEDURE InsertaDetallePedido (
+    OUT p_idDetallePedido INT,
+    IN p_idPedido INT,
+    IN p_idProducto INT,
+    IN p_cantidad INT,
+    IN p_subtotal DOUBLE
+)
+BEGIN
+    INSERT INTO DetallePedido (idPedido, idProducto, cantidad, subtotal, estadoDetallePedido)
+    VALUES (p_idPedido, p_idProducto, p_cantidad, p_subtotal, 'ACTIVO');
+    SET p_idDetallePedido = @@last_insert_id;
+END $$
+
+
+CREATE PROCEDURE ActualizaDetallePedido (
+    IN p_idDetallePedido INT,
+    IN p_cantidad INT,
+    IN p_subtotal DOUBLE,
+    IN p_estadoDetallePedido ENUM('ACTIVO', 'DESACTIVO')
+)
+BEGIN
+    UPDATE DetallePedido
+    SET cantidad = p_cantidad, subtotal = p_subtotal, estadoDetallePedido = estadoDetallePedido 
+    WHERE idDetallePedido = p_idDetallePedido;
+END $$
+
+
+
+
+CREATE PROCEDURE EliminaDetallePedido (
+    IN p_idDetallePedido INT
+)
+BEGIN
+    UPDATE DetallePedido
+    SET estadoDetallePedido='DESACTIVO'
+    WHERE idDetallePedido = p_idDetallePedido;
+END $$
+
+
+CREATE PROCEDURE ListarDetallePedido ()
+BEGIN
+    SELECT * FROM DetallePedido;
+END $$
+
 
 
 
