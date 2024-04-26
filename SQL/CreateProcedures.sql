@@ -385,7 +385,7 @@ BEGIN
 END $$
 
 
-CREATE PROCEDURE ListarDetallePedido ()
+CREATE PROCEDURE ListaDetallePedido ()
 BEGIN
     SELECT * FROM DetallePedido;
 END $$
