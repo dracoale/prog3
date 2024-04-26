@@ -43,7 +43,7 @@ CREATE PROCEDURE EliminaUsuarioNatural(
     IN p_idUsuario INT
 )
 BEGIN
-    Update Usuario SET estadoCuenta='DESCTIVADO' WHERE idUsuario = p_idUsuario;
+    Update Usuario SET estadoCuenta='DESACTIVADO' WHERE idUsuario = p_idUsuario;
 END$$
 
 
@@ -194,19 +194,16 @@ CREATE PROCEDURE InsertaProducto(
     OUT p_idProducto INT,
     IN p_nombre VARCHAR(150),
     IN p_descripcion VARCHAR(200),
-    IN p_categoria TINYINT,
     IN p_precio DOUBLE,
     IN p_stock INT,
-    IN p_idEstadoProducto TINYINT,
-    IN p_idAlmacen INT
+    IN p_idAlmacen INT,
+    IN p_idTipoProducto INT
 )
 BEGIN
-    INSERT INTO Producto(nombre, descripcion, categoria, precio, stock, idEstadoProducto, idAlmacen)
-    VALUES (p_nombre, p_descripcion, p_categoria, p_precio, p_stock, p_idEstadoProducto, p_idAlmacen);
+    INSERT INTO Producto(nombre, descripcion, categoria, precio, stock, estadoProducto, idAlmacen, idTipoProducto)
+    VALUES (p_nombre, p_descripcion, p_precio, p_stock, 'ACTIVO', p_idAlmacen, p_idTipoProducto);
     SET p_idProducto = @@last_insert_id;
 END$$
-
-
 
 
 
@@ -217,14 +214,13 @@ CREATE PROCEDURE ActualizaProducto(
     IN p_categoria TINYINT,
     IN p_precio DOUBLE,
     IN p_stock INT,
-    IN p_idEstadoProducto TINYINT,
-    IN p_idAlmacen INT
+    IN estadoProducto ENUM('DESCONTINUADO', 'ACTIVO', 'AGOTADO'),
+    IN p_idAlmacen INT,
+    IN p_idTipoProducto INT
 )
 BEGIN
     UPDATE Producto
-    SET nombre = p_nombre, descripcion = p_descripcion, categoria = p_categoria,
-        precio = p_precio, stock = p_stock, idEstadoProducto = p_idEstadoProducto,
-        idAlmacen = p_idAlmacen
+    SET nombre = p_nombre, descripcion = p_descripcion, categoria = p_categoria, precio = p_precio, stock = p_stock, estadoProducto = estadoProducto, idAlmacen = p_idAlmacen, p_idTipoProducto=idTipoProducto
     WHERE idProducto = p_idProducto;
 END$$
 
@@ -233,14 +229,14 @@ CREATE PROCEDURE EliminaProducto(
     IN p_idProducto INT
 )
 BEGIN
-    Update Producto SET idEstadoProducto=1 WHERE idProducto = p_idProducto;
+    Update Producto SET estadoProducto='DESCONTINUADO' WHERE idProducto = p_idProducto;
 END$$
 
 
 
 CREATE PROCEDURE ListaProductos()
 BEGIN
-    SELECT nombre, descripcion, categoria, precio, idEstadoProducto FROM Producto;
+    SELECT nombre, descripcion, categoria, precio, estadoProducto FROM Producto;
 END$$
 
 
@@ -302,17 +298,16 @@ END$$
 
 CREATE PROCEDURE InsertaPedido(
     OUT p_idPedido INT,
-    IN p_idEstadoPedido TINYINT,
     IN p_fechaPedido DATE,
     IN p_fechaCreacion DATE,
-    IN p_idPrioridad TINYINT,
+    IN p_prioridad ENUM('URGENTE', 'NO_URGENTE'),
     IN p_fechaEntrega DATE,
     IN p_idUsuario INT,
     IN p_idFactura INT
 )
 BEGIN
-    INSERT INTO Pedido(idEstadoPedido, fechaPedido, fechaCreacion, idPrioridad, fechaEntrega, idUsuario, idFactura)
-    VALUES (p_idEstadoPedido, p_fechaPedido, p_fechaCreacion, p_idPrioridad, p_fechaEntrega, p_idUsuario, p_idFactura);
+    INSERT INTO Pedido(estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura)
+    VALUES ('PROCESADA', p_fechaPedido, p_fechaCreacion, p_prioridad, p_fechaEntrega, p_idUsuario, p_idFactura);
     SET p_idPedido = @@last_insert_id;
 END$$
 
@@ -320,18 +315,14 @@ END$$
 
 CREATE PROCEDURE ActualizaPedido(
     IN p_idPedido INT,
-    IN p_idEstadoPedido TINYINT,
+    IN p_estadoPedido ENUM('ENTREGADA', 'PROCESADA', 'CANCELADA','EN_CAMINO'),
     IN p_fechaPedido DATE,
-    IN p_fechaCreacion DATE,
-    IN p_idPrioridad TINYINT,
-    IN p_fechaEntrega DATE,
-    IN p_idUsuario INT,
-    IN p_idFactura INT
+    IN p_prioridad ENUM('URGENTE', 'NO_URGENTE')
 )
 BEGIN
     UPDATE Pedido
-    SET idEstadoPedido = p_idEstadoPedido, fechaPedido = p_fechaPedido, fechaCreacion = p_fechaCreacion,
-        idPrioridad = p_idPrioridad, fechaEntrega = p_fechaEntrega, idUsuario = p_idUsuario, idFactura = p_idFactura
+    SET estadoPedido = p_estadoPedido, fechaPedido = p_fechaPedido,
+        prioridad = prioridad
     WHERE idPedido = p_idPedido;
 END$$
 
@@ -341,7 +332,7 @@ CREATE PROCEDURE EliminaPedido(
     IN p_idPedido INT
 )
 BEGIN
-    Update Pedido SET idEstadoPedido=3
+    Update Pedido SET estadoPedido='CANCELADA'
     WHERE idPedido = p_idPedido;
 END$$
 
@@ -349,7 +340,7 @@ END$$
 
 CREATE PROCEDURE ListaPedidos()
 BEGIN
-    SELECT idEstadoPedido, fechaPedido, fechaCreacion, idPrioridad, fechaEntrega, idUsuario, idFactura FROM Pedido;
+    SELECT idEstadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura FROM Pedido;
 END$$
 DELIMITER;
 
