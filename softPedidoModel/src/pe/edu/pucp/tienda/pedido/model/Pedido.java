@@ -11,6 +11,7 @@ public class Pedido {
 
     private int idPedido;
     private EstadoPedido estado;
+    private int idUsuario;
     private Date fechaPedido;
     private Date fechaCreacion;
     private Prioridad prioridad;
@@ -52,6 +53,14 @@ public class Pedido {
 
     public Prioridad getPrioridad() {
         return prioridad;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public Date getFechaEntrega() {

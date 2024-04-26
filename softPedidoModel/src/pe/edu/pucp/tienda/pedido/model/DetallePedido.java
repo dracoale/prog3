@@ -12,7 +12,7 @@ public class DetallePedido {
     private int cantidad;
     private double subtotal;
     private Producto producto;
-    private boolean activo;
+    private EstadoDetallePedido estado;
     
     public DetallePedido() {
     }
@@ -40,13 +40,14 @@ public class DetallePedido {
         return producto;
     }
 
-    public boolean isActivo() {
-        return activo;
+    public EstadoDetallePedido getEstado() {
+        return estado;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setEstado(EstadoDetallePedido estado) {
+        this.estado = estado;
     }
+
     
     // Setters
     public void setIdDetallePedido(int idDetallePedido) {

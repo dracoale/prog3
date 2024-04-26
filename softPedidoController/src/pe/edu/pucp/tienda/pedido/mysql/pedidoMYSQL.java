@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import pe.edu.pucp.tienda.config.DBManager;
+import pe.edu.pucp.tienda.factura.model.Factura;
+import pe.edu.pucp.tienda.pedido.model.EstadoPedido;
+import pe.edu.pucp.tienda.pedido.model.Prioridad;
 
 /**
  *
@@ -22,46 +25,50 @@ public class pedidoMYSQL implements pedidoDAO{
 	private ResultSet rs;
 
     @Override
-    public int insertar(Pedido pedido,int idFactura) {
+    public int insertar(Pedido pedido) {
         int resultado =0;
         try{
-			con = DBManager.getInstance().getConnection();
-			cs = con.prepareCall("{Call InsertaPedido"
-                    + "(?,?,?,?,?,?,?)}"); 	
-			cs.setInt("p_idPedido", pedido.getIdPedido());
-            cs.setInt("p_idEstadoPedido", pedido.getEstado().ordinal()+1);
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{Call InsertaPedido"
+            + "(?,?,?,?,?,?,?)}"); 	
+            cs.registerOutParameter("p_idPedido", java.sql.Types.INTEGER);
             cs.setDate("p_fechaPedido", new java.sql.Date(pedido.getFechaPedido().getTime()));
             cs.setDate("p_fechaCreacion", new java.sql.Date(pedido.getFechaCreacion().getTime()));
-            cs.setInt("p_idPrioridad", pedido.getPrioridad().ordinal()+1);
+            cs.setString("p_prioridad", pedido.getPrioridad().toString());
             cs.setDate("p_fechaEntrega", new java.sql.Date(pedido.getFechaEntrega().getTime()));
-			//cs.setInt("p_idUsuario",idUsuario);
-            cs.setInt("p_idFactura", idFactura);
+            cs.setInt("p_idFactura", 1);
+            cs.setInt("p_idUsuario", 1);
+            cs.executeUpdate();
+            pedido.setIdPedido(cs.getInt("p_idPedido"));
+            resultado = pedido.getIdPedido();
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 		}finally{
 			try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
 		}
-        return 1;
+        return resultado ;
     }
 
     @Override
     public ArrayList<Pedido> listar() {
-        int resultado =0;
+        
         ArrayList<Pedido> pedidos = new ArrayList<>();
 		try{
 			con = DBManager.getInstance().getConnection();
 			cs = con.prepareCall("{call ListaPedidos"
-                    + "(?,?,?,?,?,?)}"); 
+                    + "()}"); 
 			rs = cs.executeQuery();
             while(rs.next()){
                 Pedido pedido = new Pedido();
-                pedido.setIdPedido(rs.getInt("idPedido"));
-               // pedido.setEstado(rs.getInt("idEstadoPedido"));
+                pedido.setEstado(EstadoPedido.valueOf(rs.getString("estadoPedido")));
                 pedido.setFechaPedido(rs.getDate("fechaPedido"));
                 pedido.setFechaCreacion(rs.getDate("fechaCreacion"));
-               // pedido.setPrioridad(rs.getInt("idPrioridad"));
+                pedido.setFactura(new Factura());
+                pedido.getFactura().setIdFactura(rs.getInt("idFactura"));
+                pedido.setIdUsuario(rs.getInt("idUsuario"));
+                pedido.setPrioridad(Prioridad.valueOf(rs.getString("prioridad")));
                 pedido.setFechaEntrega(rs.getDate("fechaEntrega"));
-              //  clientes.add(cliente);
+                pedidos.add(pedido);
             }
 			
 		}catch(Exception ex){
@@ -78,20 +85,18 @@ public class pedidoMYSQL implements pedidoDAO{
         try{
 			con = DBManager.getInstance().getConnection();
 			cs = con.prepareCall("{call ActualizaPedido"
-                    + "(?,?,?,?,?,?)}"); 
-			cs.setInt("p_idPedido", pedido.getIdPedido());
-            cs.setInt("p_idEstadoPedido", pedido.getEstado().ordinal()+1);
+                    + "(?,?,?,?)}");
+            cs.setInt("p_idPedido", pedido.getIdPedido());
+            cs.setString("p_estadoPedido", pedido.getEstado().toString());
             cs.setDate("p_fechaPedido", new java.sql.Date(pedido.getFechaPedido().getTime()));
-            cs.setDate("p_fechaCreacion", new java.sql.Date(pedido.getFechaCreacion().getTime()));
-            cs.setInt("p_idPrioridad", pedido.getPrioridad().ordinal()+1);
-            cs.setDate("p_fechaEntrega", new java.sql.Date(pedido.getFechaEntrega().getTime()));           
+            cs.setString("p_prioridad", pedido.getPrioridad().toString());
             resultado = cs.executeUpdate();
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 		}finally{
 			try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
 		}
-        return 1;
+        return resultado;
     }
 
     @Override
@@ -103,12 +108,11 @@ public class pedidoMYSQL implements pedidoDAO{
                     + "(?)}");
 			cs.setInt("p_idPedido",id);
 			resultado=cs.executeUpdate();
-			
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 		}finally{
 			try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
 		}
-    return 1;
+    return resultado;
  }
 }
