@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS Factura (
     idFactura INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
     total DOUBLE,
-    tipoPago ENUM('VISA', 'PAYPAL', 'CUPON')
+    tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
+    estadoFactura ENUM('ACTIVO', 'DESACTIVO')
 );
 
 CREATE TABLE IF NOT EXISTS DetalleFactura (
