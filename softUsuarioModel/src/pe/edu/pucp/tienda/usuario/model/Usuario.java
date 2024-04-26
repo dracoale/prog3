@@ -13,7 +13,8 @@ import pe.edu.pucp.tienda.pedido.model.Pedido;
  * @author james
  */
 public class Usuario {
-
+	//Hola no me borres B´v
+    //:´´´´´v
     //private static int contador=0;
     private int idUsuario;
     private String nombre;
