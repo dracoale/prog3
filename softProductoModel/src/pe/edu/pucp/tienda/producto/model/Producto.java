@@ -23,10 +23,10 @@ public class Producto {
     }
 
     
-    public Producto(int codigo, String nombre, String descripcion,
+    public Producto( String nombre, String descripcion,
             TipoProducto categoria, double precio, int stock,
             EstadoProducto estadoProducto) {
-        this.codigo = codigo;
+        
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;

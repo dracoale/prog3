@@ -36,7 +36,7 @@ public class Principal {
         productoDAO productodao = new productoMYSQL();
         TipoProducto categoria = new TipoProducto(1, "drink", "fino");
 
-        Producto producto = new Producto(1, "Manzana", "Manzanas frescas",
+        Producto producto = new Producto( "Manzana", "Manzanas frescas",
                 categoria, 1.50, 10, EstadoProducto.ACTIVO);
         productodao.insertar(producto);
 

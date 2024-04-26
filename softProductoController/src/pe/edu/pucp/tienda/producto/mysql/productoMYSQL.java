@@ -69,7 +69,7 @@ public class productoMYSQL implements productoDAO {
             rs = cs.executeQuery();
             while (rs.next()) {
                 Producto producto = new Producto();
-
+                producto.setCodigo(rs.getInt("idTipoProducto"));
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDescripcion(rs.getString("descripcion"));
                 producto.setPrecio(rs.getDouble("precio"));

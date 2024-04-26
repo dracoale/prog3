@@ -4,10 +4,17 @@
  */
 package pe.edu.pucp.tienda.producto.dao;
 
+
+import java.util.ArrayList;
+import pe.edu.pucp.tienda.producto.model.TipoProducto;
 /**
  *
  * @author alexis
  */
 public interface TipoProductoDAO {
+    int insertar(TipoProducto tipoProducto);
+    ArrayList<TipoProducto> listar();
+    int eliminar(int id);
+    int actualizar(TipoProducto tipoProducto);
     
 }
