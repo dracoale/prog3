@@ -13,9 +13,11 @@ import java.util.Date;
 public class ClienteIndividual extends Usuario{
     private String DNI;
     
+    public ClienteIndividual(){}
+    
     public ClienteIndividual(String nombre, String telefono, String correo, EstadoCuenta estadocuenta, Date fechaCreacion, String nombreUsuario, String contraseña, String apellidoPaterno, String apellidoMaterno,String DNI) {
         super(nombre,telefono,correo,estadocuenta,fechaCreacion,nombreUsuario,
-                contraseña,apellidoPaterno,apellidoMaterno,TipoUsuario.MEMBER);
+                contraseña,apellidoPaterno,apellidoMaterno,TipoUsuario.USER_NATURAL);
         this.DNI = DNI;
     }
 

@@ -9,5 +9,5 @@ package pe.edu.pucp.tienda.usuario.model;
  * @author USER
  */
 public enum TipoUsuario {
-     ADMIN,MEMBER
+     ADMINISTRADOR, USER_NATURAL, USER_JURIDICO
 }

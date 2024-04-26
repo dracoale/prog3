@@ -1,67 +1,20 @@
-CREATE TABLE IF NOT EXISTS EstadoCuenta (
-    idEstadoCuenta TINYINT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(200)
-);
-
-CREATE TABLE IF NOT EXISTS TipoPago (
-    idTipoPago TINYINT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(200)
-);
-
-CREATE TABLE IF NOT EXISTS Prioridad (
-    idPrioridad TINYINT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(200)
-);
-
-CREATE TABLE IF NOT EXISTS EstadoPedido (
-    idEstadoPedido TINYINT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(200)
-);
-
-CREATE TABLE IF NOT EXISTS EstadoProducto (
-    idEstadoProducto TINYINT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(200)
-);
-
-
-
 CREATE TABLE IF NOT EXISTS Usuario (
     idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     telefono VARCHAR(20),
     correo VARCHAR(100),
     fechaRegistro DATE,
-    idEstadoCuenta TINYINT,
+    estadoCuenta ENUM('ACTIVO', 'DESACTIVADO', 'SUSPENDIDO'),
+    tipoUsuario ENUM('ADMINISTRADOR', 'USER_NATURAL', 'USER_JURIDICO'),
     fechaCreacion DATE,
     nombreUsuario VARCHAR(100),
     contrasena VARCHAR(50),
     apellidoPaterno VARCHAR(100),
     apellidoMaterno VARCHAR(100),
-    contrasenaAntigua VARCHAR(100),
     RUC VARCHAR(20),
     nombreEmpresa VARCHAR(150),
-    DNI VARCHAR(20),
-    FOREIGN KEY (idEstadoCuenta) REFERENCES EstadoCuenta(idEstadoCuenta)
+    DNI VARCHAR(20)
 );
-
-CREATE TABLE IF NOT EXISTS Administrador (
-    idAdministrador INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(200),
-    nombre VARCHAR(100),
-    telefono VARCHAR(20),
-    correo VARCHAR(100),
-    fechaRegistro DATE,
-    idEstadoCuenta TINYINT,
-    fechaCreacion DATE,
-    nombreUsuario VARCHAR(50),
-    contrasena VARCHAR(100),
-    apellidoPaterno VARCHAR(100),
-    apellidoMaterno VARCHAR(100),
-    contrasenaAntigua VARCHAR(100),
-    FOREIGN KEY (idEstadoCuenta) REFERENCES EstadoCuenta(idEstadoCuenta)
-);
-
-
 
 
 CREATE TABLE IF NOT EXISTS Almacen (
@@ -72,22 +25,20 @@ CREATE TABLE IF NOT EXISTS Almacen (
 CREATE TABLE IF NOT EXISTS TipoProducto (
     idTipoProducto INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
-    descripcion VARCHAR(200),
+    descripcion VARCHAR(200)
 );
 
 CREATE TABLE IF NOT EXISTS Producto (
     idProducto INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(150),
     descripcion VARCHAR(200),
-    categoria TINYINT,
     precio DOUBLE,
     stock INT,
-    idEstadoProducto TINYINT,
+    estadoProducto ENUM('DESCONTINUADO', 'ACTIVO', 'AGOTADO'),
     idAlmacen INT,
     idTipoProducto INT,
     FOREIGN KEY (idAlmacen) REFERENCES Almacen(idAlmacen),
-    FOREIGN KEY (idEstadoProducto) REFERENCES EstadoProducto(idEstadoProducto),
-    FOREIGN KEY (idTipoProducto) REFERENCES TipoProducto(idTipoProducto),
+    FOREIGN KEY (idTipoProducto) REFERENCES TipoProducto(idTipoProducto)
 );
 
 CREATE TABLE IF NOT EXISTS Oferta (
@@ -101,19 +52,12 @@ CREATE TABLE IF NOT EXISTS Oferta (
 );
 
 
-CREATE TABLE IF NOT EXISTS FormaDePago (
-    idPago INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(200),
-    idTipoPago TINYINT,
-    FOREIGN KEY (idTipoPago) REFERENCES TipoPago(idTipoPago)
-);
-
 CREATE TABLE IF NOT EXISTS Factura (
     idFactura INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
     total DOUBLE,
-    idPago INT,
-    FOREIGN KEY (idPago) REFERENCES FormaDePago(idPago)
+    tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
+    estadoFactura ENUM('ACTIVO', 'DESACTIVO')
 );
 
 CREATE TABLE IF NOT EXISTS DetalleFactura (
@@ -130,17 +74,15 @@ CREATE TABLE IF NOT EXISTS DetalleFactura (
 
 CREATE TABLE IF NOT EXISTS Pedido (
     idPedido INT AUTO_INCREMENT PRIMARY KEY,
-    idEstadoPedido TINYINT,
+    estadoPedido ENUM('ENTREGADA', 'PROCESADA', 'CANCELADA', 'EN_CAMINO'),
+    prioridad ENUM('URGENTE', 'NO_URGENTE'),
     fechaPedido DATE,
     fechaCreacion DATE,
-    idPrioridad TINYINT,
     fechaEntrega DATE,
     idUsuario INT,
     idFactura INT,
     FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
-    FOREIGN KEY (idFactura) REFERENCES Factura(idFactura),
-    FOREIGN KEY (idEstadoPedido) REFERENCES EstadoPedido(idEstadoPedido),
-    FOREIGN KEY (idPrioridad) REFERENCES Prioridad(idPrioridad)
+    FOREIGN KEY (idFactura) REFERENCES Factura(idFactura)
 );
 
 CREATE TABLE IF NOT EXISTS DetallePedido (
@@ -149,6 +91,7 @@ CREATE TABLE IF NOT EXISTS DetallePedido (
     idProducto INT,
     cantidad INT,
     subtotal DOUBLE,
+    estadoDetallePedido ENUM('ACTIVO', 'DESACTIVO'),
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
