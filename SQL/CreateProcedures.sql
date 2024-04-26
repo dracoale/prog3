@@ -251,11 +251,11 @@ CREATE PROCEDURE InsertaFactura(
     OUT p_idFactura INT,
     IN p_fecha DATE,
     IN p_total DOUBLE,
-    IN p_idPago INT
+    IN p_tipoPago INT
 )
 BEGIN
-    INSERT INTO Factura(fecha, total, idPago)
-    VALUES (p_fecha, p_total, p_idPago);
+    INSERT INTO Factura(fecha, total, tipoPago, estadoFactura)
+    VALUES (p_fecha, p_total, p_tipoPago, 'ACTIVO');
     SET p_idFactura = @@last_insert_id;
 END$$
 
@@ -266,11 +266,11 @@ CREATE PROCEDURE ActualizaFactura(
     IN p_idFactura INT,
     IN p_fecha DATE,
     IN p_total DOUBLE,
-    IN p_idPago INT
+    IN p_tipoPago INT
 )
 BEGIN
     UPDATE Factura
-    SET fecha = p_fecha, total = p_total, idPago = p_idPago
+    SET fecha = p_fecha, total = p_total, tipoPago = p_tipoPago
     WHERE idFactura = p_idFactura;
 END$$
 
@@ -280,14 +280,14 @@ CREATE PROCEDURE EliminaFactura(
     IN p_idFactura INT
 )
 BEGIN
-    --DELETE FROM Factura
-    --WHERE idFactura = p_idFactura;
+    Update Factura SET estadoFactura='DESACTIVO'
+    WHERE idFactura = p_idFactura;
 END$$
 
 
 CREATE PROCEDURE ListaFacturas()
 BEGIN
-    SELECT fecha, total, idPago FROM Factura;
+    SELECT fecha, total, tipoPago FROM Factura;
 END$$
 
 
