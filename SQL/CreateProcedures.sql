@@ -340,7 +340,7 @@ END$$
 
 CREATE PROCEDURE ListaPedidos()
 BEGIN
-    SELECT idEstadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura FROM Pedido;
+    SELECT estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura FROM Pedido;
 END$$
 
 
