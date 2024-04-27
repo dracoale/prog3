@@ -4,24 +4,23 @@
  */
 package pe.edu.pucp.tienda.pedido.model;
 
-import java.util.ArrayList;
 import pe.edu.pucp.tienda.producto.model.Producto;
 
 public class DetallePedido {
     private int idDetallePedido;
+    private int idPedido;
     private int cantidad;
     private double subtotal;
-    private ArrayList<Producto> productos;
+    private Producto producto;
+    private EstadoDetallePedido estado;
     
     public DetallePedido() {
     }
 
     
-    public DetallePedido(int idDetallePedido, int cantidad, double subtotal) {
-        this.idDetallePedido = idDetallePedido;
+    public DetallePedido(int cantidad, double subtotal) {
         this.cantidad = cantidad;
         this.subtotal = subtotal;
-        productos=new ArrayList<>();
     }
 
     // Getters
@@ -36,7 +35,20 @@ public class DetallePedido {
     public double getSubtotal() {
         return subtotal;
     }
+    
+    public Producto getProducto() {
+        return producto;
+    }
 
+    public EstadoDetallePedido getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoDetallePedido estado) {
+        this.estado = estado;
+    }
+
+    
     // Setters
     public void setIdDetallePedido(int idDetallePedido) {
         this.idDetallePedido = idDetallePedido;
@@ -45,10 +57,23 @@ public class DetallePedido {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
-    public ArrayList<Producto> getListaProductos() {
-        return productos;
-    }
+
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
+    
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public int getIdPedido() {
+        return idPedido;
+    }
+
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
+    }
+
+   
 }

@@ -11,6 +11,7 @@ public class Pedido {
 
     private int idPedido;
     private EstadoPedido estado;
+    private int idUsuario;
     private Date fechaPedido;
     private Date fechaCreacion;
     private Prioridad prioridad;
@@ -22,8 +23,7 @@ public class Pedido {
     }
 
   
-    public Pedido(int idPedido, EstadoPedido estado, Date fechaPedido, Date fechaCreacion, Prioridad prioridad, Date fechaEntrega) {
-        this.idPedido = idPedido;
+    public Pedido(EstadoPedido estado, Date fechaPedido, Date fechaCreacion, Prioridad prioridad, Date fechaEntrega) {
         this.estado = estado;
         this.fechaPedido = fechaPedido;
         this.fechaCreacion = fechaCreacion;
@@ -55,6 +55,14 @@ public class Pedido {
         return prioridad;
     }
 
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public Date getFechaEntrega() {
         return fechaEntrega;
     }
@@ -83,6 +91,15 @@ public class Pedido {
     public void setFechaEntrega(Date fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
+    
     public ArrayList<DetallePedido> getListaDetallesPedidos() {
         return detallePedidos;
     }
