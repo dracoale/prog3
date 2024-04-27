@@ -12,15 +12,15 @@ import pe.edu.pucp.tienda.factura.model.DetalleFactura;
  * @author james
  */
 public interface detalleFacturaDAO {
-    public void insertar(DetalleFactura detallefactura);
+    int insertar(DetalleFactura detallefactura);
     
     // Read
     //public Factura consultarPorId(int id);
     public ArrayList<DetalleFactura> listar();
     
     // Update
-    public void actualizar(DetalleFactura detallefactura);
+    public int actualizar(DetalleFactura detallefactura);
     
     // Delete
-    public void eliminar(int id);
+    public int eliminar(int id);
 }
