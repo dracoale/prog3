@@ -213,13 +213,13 @@ CREATE PROCEDURE ActualizaProducto(
     IN p_descripcion VARCHAR(200),
     IN p_precio DOUBLE,
     IN p_stock INT,
-    IN estadoProducto ENUM('DESCONTINUADO', 'ACTIVO', 'AGOTADO'),
+    IN p_estadoProducto ENUM('DESCONTINUADO', 'ACTIVO', 'AGOTADO'),
     IN p_idAlmacen INT,
     IN p_idTipoProducto INT
 )
 BEGIN
     UPDATE Producto
-    SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = estadoProducto, idAlmacen = p_idAlmacen, p_idTipoProducto=idTipoProducto
+    SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = p_estadoProducto, idAlmacen = p_idAlmacen, idTipoProducto=p_idTipoProducto
     WHERE idProducto = p_idProducto;
 END$$
 
@@ -320,8 +320,7 @@ CREATE PROCEDURE ActualizaPedido(
 )
 BEGIN
     UPDATE Pedido
-    SET estadoPedido = p_estadoPedido, fechaPedido = p_fechaPedido,
-        prioridad = prioridad
+    SET estadoPedido = p_estadoPedido, fechaPedido = p_fechaPedido, prioridad = p_prioridad
     WHERE idPedido = p_idPedido;
 END$$
 
@@ -367,7 +366,7 @@ CREATE PROCEDURE ActualizaDetallePedido (
 )
 BEGIN
     UPDATE DetallePedido
-    SET cantidad = p_cantidad, subtotal = p_subtotal, estadoDetallePedido = estadoDetallePedido 
+    SET cantidad = p_cantidad, subtotal = p_subtotal, estadoDetallePedido = p_estadoDetallePedido 
     WHERE idDetallePedido = p_idDetallePedido;
 END $$
 
