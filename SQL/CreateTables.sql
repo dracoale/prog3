@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     correo VARCHAR(100),
     fechaRegistro DATE,
     estadoCuenta ENUM('ACTIVO', 'DESACTIVADO', 'SUSPENDIDO'),
-    tipoUsuario ENUM('ADMINISTRADOR', 'USER_NATURAL', 'USER_JURIDICO'),
+    tipoUsuario ENUM('ADMINISTRADOR', 'USER_NATURAL', 'USER_JURIDICO', 'EMPLEADO'),
     fechaCreacion DATE,
     nombreUsuario VARCHAR(100),
     contrasena VARCHAR(50),
@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS Almacen (
 CREATE TABLE IF NOT EXISTS TipoProducto (
     idTipoProducto INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
-    descripcion VARCHAR(200)
+    descripcion VARCHAR(200),
+    estadoTipoProducto ENUM('ACTIVO', 'Desactivado')
 );
 
 CREATE TABLE IF NOT EXISTS Producto (
@@ -67,6 +68,7 @@ CREATE TABLE IF NOT EXISTS DetalleFactura (
     cantidad INT,
     precioUnitario DOUBLE,
     subtotal DOUBLE,
+    estadoDetalleFactura ENUM('ACTIVO', 'DESACTIVO'),
     FOREIGN KEY (idFactura) REFERENCES Factura(idFactura),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
