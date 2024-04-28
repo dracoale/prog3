@@ -235,7 +235,7 @@ END$$
 
 CREATE PROCEDURE ListaProductos()
 BEGIN
-    SELECT nombre, descripcion, categoria, precio, estadoProducto FROM Producto;
+    SELECT nombre, descripcion, idTipoProducto, precio, estadoProducto FROM Producto;
 END$$
 
 
