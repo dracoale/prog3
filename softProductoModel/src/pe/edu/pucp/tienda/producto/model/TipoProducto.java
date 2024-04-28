@@ -19,7 +19,7 @@ public class TipoProducto {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
-
+   
     public TipoProducto() {
 
     }

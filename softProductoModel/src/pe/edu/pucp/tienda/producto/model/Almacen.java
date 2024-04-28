@@ -4,7 +4,7 @@
  */
 package pe.edu.pucp.tienda.producto.model;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 /**
  *
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 public class Almacen {
     private int idAlmacen;
     private String direccion;
-    private ArrayList<Producto> productos;
+    //private ArrayList<Producto> productos;
 
-    public Almacen(int idAlmacen, String direccion, ArrayList<Producto> productos) {
+    public Almacen(int idAlmacen, String direccion) {
         this.idAlmacen = idAlmacen;
         this.direccion = direccion;
-        this.productos = productos;
+       // this.productos = productos;
     }
-
+    public Almacen(){}
     public int getIdAlmacen() {
         return idAlmacen;
     }
@@ -37,14 +37,14 @@ public class Almacen {
         this.direccion = direccion;
     }
 
-    public ArrayList<Producto> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(ArrayList<Producto> productos) {
-        this.productos = productos;
-    }
-    
+//    public ArrayList<Producto> getProductos() {
+//        return productos;
+//    }
+//
+//    public void setProductos(ArrayList<Producto> productos) {
+//        this.productos = productos;
+//    }
+//    
     
     
     

@@ -14,49 +14,50 @@ import pe.edu.pucp.tienda.usuario.model.EstadoCuenta;
 import pe.edu.pucp.tienda.usuario.model.TipoUsuario;
 import pe.edu.pucp.tienda.usuario.model.Usuario;
 import pe.edu.pucp.tienda.producto.dao.productoDAO;
+import pe.edu.pucp.tienda.producto.model.Almacen;
 import pe.edu.pucp.tienda.producto.mysql.productoMYSQL;
 
 public class Principal {
 
     public static void main(String[] args) {
-        int resultado;
-        Pedido pedido = new Pedido(1, EstadoPedido.CANCELADA, new Date(),
-                new Date(), Prioridad.NO_URGENTE, new Date());
-        DetallePedido detallePedido = new DetallePedido(0, 0, 0);
-        Factura factura = new Factura(1, new Date(), 0);
-
-        Usuario usuario = new Usuario("Juan", "123456789", ""
-                + "juan@example.com", EstadoCuenta.ACTIVO,
-                new Date(), "juanj", "contraseña",
-                "Pérez", "Gómez", TipoUsuario.ADMIN);
-        // detallePedido.getListaProductos().add(producto);
-        pedido.getListaDetallesPedidos().add(detallePedido);
+//        int resultado;
+//        Pedido pedido = new Pedido(1, EstadoPedido.CANCELADA, new Date(),
+//                new Date(), Prioridad.NO_URGENTE, new Date());
+//        DetallePedido detallePedido = new DetallePedido(0, 0, 0);
+//        Factura factura = new Factura(1, new Date(), 0);
+//
+//        Usuario usuario = new Usuario("Juan", "123456789", ""
+//                + "juan@example.com", EstadoCuenta.ACTIVO,
+//                new Date(), "juanj", "contraseña",
+//                "Pérez", "Gómez", TipoUsuario.ADMIN);
+//        // detallePedido.getListaProductos().add(producto);
+//        pedido.getListaDetallesPedidos().add(detallePedido);
 
         //////////////////////////////////////////
         productoDAO productodao = new productoMYSQL();
-        TipoProducto categoria = new TipoProducto(1, "drink", "fino");
-
+       // TipoProducto categoria = new TipoProducto(1, "drink", "fino");
+//Almacen almacen =new Almacen("sdg");
         Producto producto = new Producto( "Manzana", "Manzanas frescas",
-                categoria, 1.50, 10, EstadoProducto.ACTIVO);
-        productodao.insertar(producto);
+                1.50, 10,new Almacen(),new TipoProducto());
+        System.out.println("el id es de insertado"+productodao.insertar(producto));
 
-        ArrayList<Producto> productos = new productoMYSQL().listar();
-        for (Producto item : productos) {
-            System.out.println(item.getNombre());
-            System.out.println(item.getDescripcion());
+        //ArrayList<Producto> productos = new productoMYSQL().listar();
+//        for (Producto item : productos) {
+//            System.out.print(item.getNombre()+ " ");
+//            System.out.print(item.getDescripcion());
+//
+//            System.out.println(item.getEstadoProducto());
+//        }
 
-            System.out.println();
-        }
-
-        producto.setNombre("NARANJA");
+      producto.setNombre("NARANJA");
         producto.setStock(20);
-
-        resultado = productodao.actualizar(producto);
-        if (resultado != 0) {
-            System.out.println("Se ha modificado con exito");
-        }
-
-        productodao.eliminar(producto.getCodigo());
+        producto.setEstadoProducto(EstadoProducto.DESCONTINUADO);
+     producto.getTipoProducto().setIdTipoProducto(1);
+      producto.getAlmacen().setIdAlmacen(1);
+       System.out.println("Se ha modificado con exito el id "+productodao.actualizar(producto));
+        
+//
+      productodao.eliminar(producto.getCodigo());
 
     }
 }

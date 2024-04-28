@@ -10,29 +10,29 @@ package pe.edu.pucp.tienda.producto.model;
  */
 public class Producto {
 
+  
     private int codigo;
     private String nombre;
     private String descripcion;
-    private TipoProducto categoria;
+    private TipoProducto tipoProducto;
     private double precio;
     private int stock;
     private EstadoProducto estadoProducto;
-
+    private Almacen almacen;
     public Producto() {
 
     }
 
     
     public Producto( String nombre, String descripcion,
-            TipoProducto categoria, double precio, int stock,
-            EstadoProducto estadoProducto) {
+             double precio, int stock,Almacen almacen,TipoProducto tipoProducto) {
         
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.categoria = categoria;
+        this.tipoProducto = tipoProducto;
         this.precio = precio;
         this.stock = stock;
-        this.estadoProducto = estadoProducto;
+        this.almacen=almacen;
     }
 
     public int getCodigo() {
@@ -59,12 +59,12 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public TipoProducto getCategoria() {
-        return categoria;
+    public TipoProducto getTipoProducto() {
+        return tipoProducto;
     }
 
-    public void setCategoria(TipoProducto categoria) {
-        this.categoria = categoria;
+    public void setTipoProducto(TipoProducto tipoProducto) {
+        this.tipoProducto = tipoProducto;
     }
 
     public double getPrecio() {
@@ -89,6 +89,15 @@ public class Producto {
 
     public void setEstadoProducto(EstadoProducto estadoProducto) {
         this.estadoProducto = estadoProducto;
+    }
+
+    public Almacen getAlmacen() {
+        return almacen;
+    }
+
+
+    public void setAlmacen(Almacen almacen) {
+        this.almacen = almacen;
     }
 
 }
