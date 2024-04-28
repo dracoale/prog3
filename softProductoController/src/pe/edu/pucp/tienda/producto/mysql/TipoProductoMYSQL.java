@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import pe.edu.pucp.tienda.config.DBManager;
 import pe.edu.pucp.tienda.producto.dao.TipoProductoDAO;
+import pe.edu.pucp.tienda.producto.model.EstadoTipoProducto;
 import pe.edu.pucp.tienda.producto.model.TipoProducto;
 //import pe.edu.pucp.tienda.producto.model.Oferta;
 
@@ -30,13 +31,12 @@ public class TipoProductoMYSQL implements TipoProductoDAO {
             con = DBManager.getInstance().getConnection();
             //System.out.println(con);
             cs = con.prepareCall("{call InsertaTipoProducto"
-                    + "(?,?)}");
+                    + "(?,?,?,?,?,?)}");
             cs.registerOutParameter("p_idTipoProducto", java.sql.Types.INTEGER);
             //cs.setString("_DNI", cliente.getDNI());
-           cs.setString("p_nombre", tipoProducto.getNombre());
+            cs.setString("p_nombre", tipoProducto.getNombre());
             cs.setString("p_descripcion", tipoProducto.getDescripcion());
-            
-            
+
             cs.executeUpdate();
             tipoProducto.setIdTipoProducto(cs.getInt("p_idTipoProducto"));
             resultado = tipoProducto.getIdTipoProducto();
@@ -66,7 +66,7 @@ public class TipoProductoMYSQL implements TipoProductoDAO {
                 tipoProducto.setIdTipoProducto(rs.getInt("idTipoProducto"));
                 tipoProducto.setNombre(rs.getString("nombre"));
                 tipoProducto.setDescripcion(rs.getString("descripcion"));
-
+                tipoProducto.setEstadoTipoProducto(EstadoTipoProducto.valueOf(rs.getString("estadoTipoProducto")));
                 tipoProductos.add(tipoProducto);
             }
         } catch (Exception ex) {
@@ -78,16 +78,57 @@ public class TipoProductoMYSQL implements TipoProductoDAO {
                 System.out.println(ex.getMessage());
             }
         }
-        return tipoProductos;    }
+        return tipoProductos;
+    }
 
     @Override
     public int eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int resultado = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call EliminaTipoProducto"
+                    + "(?)}");
+            cs.setInt("p_idTipoProducto", id);
+            cs.executeUpdate();
+            resultado = 1;
+            cs.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return resultado;
     }
 
     @Override
     public int actualizar(TipoProducto tipoProducto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        int resultado = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call ActualizaTipoProducto"
+                    + "(?,?,?,?)}");
+            cs.setInt("p_idTipoProducto", tipoProducto.getIdTipoProducto());
+            //System.out.println(producto.getCodigo());
+            cs.setString("p_nombre", tipoProducto.getNombre());
+            cs.setString("p_descripcion", tipoProducto.getDescripcion());
+
+            cs.setString("p_estadoTipoProducto", tipoProducto.getEstadoTipoProducto().toString());
+            
+            resultado = cs.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return resultado;    }
 
 }

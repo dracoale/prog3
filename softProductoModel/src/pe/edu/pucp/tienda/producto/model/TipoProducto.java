@@ -13,13 +13,14 @@ public class TipoProducto {
     private int idTipoProducto;
     private String nombre;
     private String descripcion;
+    private EstadoTipoProducto estadoTipoProducto;
 
     public TipoProducto(int idTipoProducto, String nombre, String descripcion) {
         this.idTipoProducto = idTipoProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
-   
+
     public TipoProducto() {
 
     }
@@ -46,6 +47,14 @@ public class TipoProducto {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public EstadoTipoProducto getEstadoTipoProducto() {
+        return estadoTipoProducto;
+    }
+
+    public void setEstadoTipoProducto(EstadoTipoProducto estadoTipoProducto) {
+        this.estadoTipoProducto = estadoTipoProducto;
     }
 
 }

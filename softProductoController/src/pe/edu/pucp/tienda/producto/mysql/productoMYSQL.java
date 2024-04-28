@@ -104,7 +104,7 @@ public class productoMYSQL implements productoDAO {
             cs = con.prepareCall("{call ActualizaProducto"
                     + "(?,?,?,?,?,?,?,?)}");
             cs.setInt("p_idProducto", producto.getCodigo());
-            System.out.println(producto.getCodigo());
+            //System.out.println(producto.getCodigo());
             cs.setString("p_nombre", producto.getNombre());
             cs.setString("p_descripcion", producto.getDescripcion());
 

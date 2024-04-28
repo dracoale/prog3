@@ -29,16 +29,17 @@ public class OfertaMYSQL implements OfertaDAO {
         try {
             con = DBManager.getInstance().getConnection();
             //System.out.println(con);
-            cs = con.prepareCall("{call InsertaTipoProducto"
-                    + "(?,?)}");
+            cs = con.prepareCall("{call InsertarOferta"
+                    + "(?,?,?,?,?,?)}");
             cs.registerOutParameter("p_idOferta", java.sql.Types.INTEGER);
             //cs.setString("_DNI", cliente.getDNI());
             cs.setString("p_descripcion", oferta.getDescripcion());
             cs.setDouble("p_descuento", oferta.getDescuento());
             cs.setDate("p_fechaInicio", (Date) oferta.getFechaInicio());
             cs.setDate("p_fechaFin", (Date) oferta.getFechaFin());
+            cs.setInt("p_idProducto", oferta.getProducto().getCodigo());
             cs.executeUpdate();
-            oferta.setIdOferta(cs.getInt("p_idTipoProducto"));
+            oferta.setIdOferta(cs.getInt("p_idOferta"));
             resultado = oferta.getIdOferta();
         } catch (Exception ex) {
             // System.out.println("no entrio");
@@ -59,16 +60,17 @@ public class OfertaMYSQL implements OfertaDAO {
 ArrayList<Oferta> ofertas = new ArrayList<>();
         try {
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call ListaTipoProducto()}");
+            cs = con.prepareCall("{call ListaOferta()}");
             rs = cs.executeQuery();
             while (rs.next()) {
                 Oferta oferta = new Oferta();
-                oferta.setIdOferta(rs.getInt("idTipoProducto"));
+                oferta.setIdOferta(rs.getInt("idOferta"));
                 //oferta.setDescripcion(rs.getString("des"));
                 oferta.setDescripcion(rs.getString("descripcion"));
                 oferta.setDescuento(rs.getDouble("descuento"));
                 oferta.setFechaInicio(rs.getDate("fechaInicio"));
                 oferta.setFechaInicio(rs.getDate("fechaFin"));
+                //oferta.setProducto();
                 ofertas.add(oferta);
             }
         } catch (Exception ex) {
@@ -84,12 +86,56 @@ ArrayList<Oferta> ofertas = new ArrayList<>();
 
     @Override
     public int eliminar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+int resultado = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call EliminaOferta"
+                    + "(?)}");
+            cs.setInt("p_idOferta", id);
+            cs.executeUpdate();
+            resultado = 1;
+            cs.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return resultado;
     }
 
     @Override
     public int actualizar(Oferta oferta) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int resultado = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call ActualizaTipoProducto"
+                    + "(?,?,?,?,?)}");
+            cs.setInt("p_idOferta", oferta.getIdOferta());
+            //System.out.println(producto.getCodigo());
+            //cs.setString("p_nombre", oferta.getNombre());
+            cs.setString("p_descripcion", oferta.getDescripcion());
+
+            //cs.setString("p_estadoTipoProducto", oferta.getEstadoTipoProducto().toString());
+            cs.setDouble("p_descuento",oferta.getDescuento());
+            cs.setDate("fechaInicio", (Date) oferta.getFechaInicio());
+            cs.setDate("fechaFin", (Date) oferta.getFechaFin());
+            resultado = cs.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return resultado;   
+    }
     }
 
-}
+

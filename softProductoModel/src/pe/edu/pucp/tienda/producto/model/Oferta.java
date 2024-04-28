@@ -19,7 +19,7 @@ public class Oferta {
     private Date fechaFin;
     private Producto producto;
 
-    public Oferta() {
+    public Oferta(){
 
     }
 
