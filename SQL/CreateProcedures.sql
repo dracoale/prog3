@@ -200,7 +200,7 @@ CREATE PROCEDURE InsertaProducto(
     IN p_idTipoProducto INT
 )
 BEGIN
-    INSERT INTO Producto(nombre, descripcion, categoria, precio, stock, estadoProducto, idAlmacen, idTipoProducto)
+    INSERT INTO Producto(nombre, descripcion, precio, stock, estadoProducto, idAlmacen, idTipoProducto)
     VALUES (p_nombre, p_descripcion, p_precio, p_stock, 'ACTIVO', p_idAlmacen, p_idTipoProducto);
     SET p_idProducto = @@last_insert_id;
 END$$
@@ -211,7 +211,6 @@ CREATE PROCEDURE ActualizaProducto(
     IN p_idProducto INT,
     IN p_nombre VARCHAR(150),
     IN p_descripcion VARCHAR(200),
-    IN p_categoria TINYINT,
     IN p_precio DOUBLE,
     IN p_stock INT,
     IN estadoProducto ENUM('DESCONTINUADO', 'ACTIVO', 'AGOTADO'),
@@ -220,7 +219,7 @@ CREATE PROCEDURE ActualizaProducto(
 )
 BEGIN
     UPDATE Producto
-    SET nombre = p_nombre, descripcion = p_descripcion, categoria = p_categoria, precio = p_precio, stock = p_stock, estadoProducto = estadoProducto, idAlmacen = p_idAlmacen, p_idTipoProducto=idTipoProducto
+    SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = estadoProducto, idAlmacen = p_idAlmacen, p_idTipoProducto=idTipoProducto
     WHERE idProducto = p_idProducto;
 END$$
 
