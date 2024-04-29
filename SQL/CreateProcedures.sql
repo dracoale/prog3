@@ -49,7 +49,9 @@ END$$
 
 CREATE PROCEDURE ListaUsuariosNaturales()
 BEGIN
-    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno FROM Usuario;
+    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno
+    FROM Usuario
+    WHERE tipoUsuario='USER_NATURAL';
 END$$
 
 
@@ -110,7 +112,9 @@ END$$
 
 CREATE PROCEDURE ListaUsuariosJuridicos()
 BEGIN
-    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno FROM Usuario;
+    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno 
+    FROM Usuario
+    WHERE tipoUsuario='USER_JURIDICO';
 END$$
 
 
@@ -182,7 +186,9 @@ END$$
 
 CREATE PROCEDURE ListaAdministradores()
 BEGIN
-    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno FROM Usuario;
+    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno 
+    FROM Usuario
+    WHERE tipoUsuario='USER_ADMINISTRADOR';
 END$$
 
 
@@ -361,12 +367,11 @@ END $$
 CREATE PROCEDURE ActualizaDetallePedido (
     IN p_idDetallePedido INT,
     IN p_cantidad INT,
-    IN p_subtotal DOUBLE,
-    IN p_estadoDetallePedido ENUM('ACTIVO', 'DESACTIVO')
+    IN p_subtotal DOUBLE
 )
 BEGIN
     UPDATE DetallePedido
-    SET cantidad = p_cantidad, subtotal = p_subtotal, estadoDetallePedido = p_estadoDetallePedido 
+    SET cantidad = p_cantidad, subtotal = p_subtotal
     WHERE idDetallePedido = p_idDetallePedido;
 END $$
 
@@ -383,9 +388,86 @@ BEGIN
 END $$
 
 
-CREATE PROCEDURE ListaDetallePedido ()
+CREATE PROCEDURE ListaDetallePedidos()
 BEGIN
-    SELECT * FROM DetallePedido;
+    SELECT * FROM DetallePedido WHERE estadoDetallePedido='ACTIVO';
+END $$
+
+
+
+
+
+CREATE PROCEDURE InsertaAlmacen(
+	OUT p_idAlmacen INT,
+    IN p_direccion VARCHAR(150)
+)
+BEGIN
+    INSERT INTO Almacen (direccion, estadoAlmacen) VALUES (p_direccion, 'ACTIVO');
+    SET p_idAlmacen = @@last_insert_id;
+END $$
+
+
+CREATE PROCEDURE ActualizaAlmacen(
+    IN p_idAlmacen INT,
+    IN p_direccion VARCHAR(150)
+)
+BEGIN
+    UPDATE Almacen SET direccion = p_direccion WHERE idAlmacen = p_idAlmacen;
+END $$
+
+
+CREATE PROCEDURE EliminaAlmacen(
+    IN p_idAlmacen INT
+)
+BEGIN
+    UPDATE Almacen SET estadoAlmacen = 'DESACTIVADO' WHERE idAlmacen = p_idAlmacen;
+END $$
+
+
+CREATE PROCEDURE ListaAlmacenes()
+BEGIN
+    SELECT * FROM Almacen WHERE estadoAlmacen='ACTIVO';
+END $$
+
+
+
+
+
+CREATE PROCEDURE InsertaTipoProducto(
+	OUT p_idTipoProducto INT,
+    IN p_nombre VARCHAR(100),
+    IN p_descripcion VARCHAR(200),
+    IN p_estadoTipoProducto ENUM('ACTIVO', 'DESACTIVADO')
+)
+BEGIN
+    INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES (p_nombre, p_descripcion, p_estadoTipoProducto);
+    SET p_idTipoProducto = @@last_insert_id;
+END $$
+
+
+CREATE PROCEDURE ActualizaTipoProducto(
+    IN p_idTipoProducto INT,
+    IN p_nombre VARCHAR(100),
+    IN p_descripcion VARCHAR(200)
+)
+BEGIN
+    UPDATE TipoProducto 
+    SET nombre = p_nombre, descripcion = p_descripcion
+    WHERE idTipoProducto = p_idTipoProducto;
+END $$
+
+
+CREATE PROCEDURE EliminaTipoProducto(
+    IN p_idTipoProducto INT
+)
+BEGIN
+    UPDATE TipoProducto SET estadoTipoProducto='DESACTIVADO'
+    WHERE idTipoProducto = p_idTipoProducto;
+END $$
+
+CREATE PROCEDURE ListaTiposProducto()
+BEGIN
+    SELECT * FROM TipoProducto WHERE estadoTipoProducto='ACTIVO';
 END $$
 
 
@@ -395,17 +477,49 @@ END $$
 
 
 
+CREATE PROCEDURE InsertaOferta(
+	OUT p_idOferta INT,
+    IN p_descripcion VARCHAR(200),
+    IN p_descuento DOUBLE,
+    IN p_fechaInicio DATE,
+    IN p_fechaFin DATE,
+    IN p_idProducto INT
+)
+BEGIN
+    INSERT INTO Oferta (descripcion, descuento, fechaInicio, fechaFin, idProducto, estadoOferta)
+    VALUES (p_descripcion, p_descuento, p_fechaInicio, p_fechaFin, p_idProducto, 'ACTIVO');
+    SET p_idOferta = @@last_insert_id;
+END$$
 
+CREATE PROCEDURE ActualizaOferta(
+    IN p_idOferta INT,
+    IN p_descripcion VARCHAR(200),
+    IN p_descuento DOUBLE,
+    IN p_fechaInicio DATE,
+    IN p_fechaFin DATE,
+    IN p_idProducto INT
+)
+BEGIN
+    UPDATE Oferta 
+    SET descripcion = p_descripcion, 
+        descuento = p_descuento, 
+        fechaInicio = p_fechaInicio, 
+        fechaFin = p_fechaFin, 
+        idProducto = p_idProducto
+    WHERE idOferta = p_idOferta;
+END$$
 
+CREATE PROCEDURE EliminaOferta(
+    IN p_idOferta INT
+)
+BEGIN
+    UPDATE Oferta SET estadoOferta = 'DESACTIVADO' WHERE idOferta = p_idOferta;
+END$$
 
-
-
-
-
-
-
-
-
+CREATE PROCEDURE ListaOfertas()
+BEGIN
+    SELECT * FROM Oferta WHERE estadoOferta='ACTIVO';
+END$$
 
 
 

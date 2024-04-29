@@ -19,14 +19,15 @@ CREATE TABLE IF NOT EXISTS Usuario (
 
 CREATE TABLE IF NOT EXISTS Almacen (
     idAlmacen INT AUTO_INCREMENT PRIMARY KEY,
-    direccion VARCHAR(150)
+    direccion VARCHAR(150),
+    estadoAlmacen ENUM('ACTIVO', 'DESACTIVADO')
 );
 
 CREATE TABLE IF NOT EXISTS TipoProducto (
     idTipoProducto INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     descripcion VARCHAR(200),
-    estadoTipoProducto ENUM('ACTIVO', 'Desactivado')
+    estadoTipoProducto ENUM('ACTIVO', 'DESACTIVADO')
 );
 
 CREATE TABLE IF NOT EXISTS Producto (
@@ -49,6 +50,7 @@ CREATE TABLE IF NOT EXISTS Oferta (
     fechaInicio DATE,
     fechaFin DATE,
     idProducto INT,
+    estadoOferta ENUM('ACTIVO', 'DESACTIVADO'),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
 
