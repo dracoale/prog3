@@ -14,12 +14,11 @@ public class Factura {
     private Date fecha;
     private double total;
     private TipoPago tipoPago;
-    ArrayList<DetalleFactura>detalle;
     private EstadoFactura estado;
 
     public Factura() {
     }
-
+    
     public int getIdFactura() {
         return idFactura;
     }
@@ -52,13 +51,6 @@ public class Factura {
         this.tipoPago = tipoPago;
     }
 
-    public ArrayList<DetalleFactura> getDetalle() {
-        return detalle;
-    }
-
-    public void setDetalle(ArrayList<DetalleFactura> detalle) {
-        this.detalle = detalle;
-    }
 
     public EstadoFactura getEstado() {
         return estado;

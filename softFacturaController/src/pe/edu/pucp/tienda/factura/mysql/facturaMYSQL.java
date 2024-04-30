@@ -30,11 +30,11 @@ public class facturaMYSQL implements facturaDAO{
         try{
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call InsertaFactura (?,?,?,?,?)}");
-            cs.registerOutParameter("p_idFactura ", java.sql.Types.INTEGER);
-            cs.setDate("p_fecha ", new java.sql.Date(factura.getFecha().getTime()) );
-            cs.setDouble("p_total ", factura.getTotal());
-            cs.setString("p_tipoPago ", factura.getTipoPago().toString());
-            cs.setString("p_eatado", factura.getEstado().toString());
+            cs.registerOutParameter("p_idFactura", java.sql.Types.INTEGER);
+            cs.setDate("p_fecha", new java.sql.Date(factura.getFecha().getTime()) );
+            cs.setDouble("p_total", factura.getTotal());
+            cs.setString("p_tipoPago", factura.getTipoPago().toString());
+            cs.setString("p_estadoFactura", factura.getEstado().toString());
             cs.executeUpdate();
             
             factura.setIdFactura(cs.getInt("p_idFactura"));
@@ -62,7 +62,7 @@ public class facturaMYSQL implements facturaDAO{
                 factura.setFecha(rs.getDate("fecha"));
                 factura.setTotal(rs.getDouble("total"));
                 factura.setTipoPago(  TipoPago.valueOf(rs.getString("tipoPago") )   );
-                factura.setEstado( EstadoFactura.valueOf(rs.getString("estado")));
+                factura.setEstado( EstadoFactura.valueOf(rs.getString("estadoFactura")));
                 facturas.add(factura);
             }
         }catch(Exception ex){
@@ -80,11 +80,11 @@ public class facturaMYSQL implements facturaDAO{
         try{
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call ActualizaFactura (?,?,?,?,?)}");
-            cs.setInt("p_idFactura ", factura.getIdFactura());
-            cs.setDate("p_fecha ", new java.sql.Date(factura.getFecha().getTime()) );
-            cs.setDouble("p_total ", factura.getTotal());
-            cs.setString("p_tipoPago ", factura.getTipoPago().toString());
-            cs.setString("p_estado", factura.getEstado().toString());
+            cs.setInt("p_idFactura", factura.getIdFactura());
+            cs.setDate("p_fecha", new java.sql.Date(factura.getFecha().getTime()) );
+            cs.setDouble("p_total", factura.getTotal());
+            cs.setString("p_tipoPago", factura.getTipoPago().toString());
+            cs.setString("p_estadoFactura", factura.getEstado().toString());
             resultado = cs.executeUpdate();
             
         }catch(Exception ex){
