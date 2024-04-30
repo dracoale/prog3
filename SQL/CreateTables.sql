@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS Factura (
     fecha DATE,
     total DOUBLE,
     tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
-    estadoFactura ENUM('ACTIVO', 'DESACTIVO')
+    estadoFactura ENUM('ACTIVO', 'DESACTIVADO')
 );
 
 CREATE TABLE IF NOT EXISTS DetalleFactura (
