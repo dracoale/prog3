@@ -11,7 +11,6 @@ import java.util.Date;
  * @author Windows 10
  */
 public class Oferta {
-
     private int idOferta;
     private String descripcion;
     private double descuento;
@@ -19,19 +18,16 @@ public class Oferta {
     private Date fechaFin;
     private Producto producto;
 
-    public Oferta(){
-
-    }
-
-    public Oferta(String descripcion, double descuento,
+    public Oferta(int idOferta, String descripcion, double descuento, 
             Date fechaInicio, Date fechaFin, Producto producto) {
-
+        this.idOferta = idOferta;
         this.descripcion = descripcion;
         this.descuento = descuento;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.producto = producto;
     }
+
 
     public int getIdOferta() {
         return idOferta;
@@ -80,27 +76,27 @@ public class Oferta {
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
-
-    public String imprimirProducto() {
-        String cadena = " ";
+    
+    public String imprimirProducto(){
+        String cadena=" ";
         return cadena;
     }
-
-    public void actualizarStock(int cant) {
+    
+    public void actualizarStock(int cant){
     }
-
-    public void agregarProducto(Producto producto) {
+    
+    public void agregarProducto(Producto producto){
     }
-
-    public void modificarProducto(String nombre, Producto producto) {
+    
+    public void modificarProducto(String nombre, Producto producto){
     }
-
-    public void eliminarProducto(String nombre) {
+    
+    public void eliminarProducto(String nombre){
     }
-
-    public String generarEstadisticas(Producto producto) {
-        String cadena = "";
+    
+    public String generarEstadisticas(Producto producto){
+        String cadena="";
         return cadena;
     }
-
+    
 }

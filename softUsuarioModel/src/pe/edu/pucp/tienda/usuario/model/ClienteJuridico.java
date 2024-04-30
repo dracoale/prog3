@@ -14,13 +14,11 @@ public class ClienteJuridico extends Usuario{
     private String RUC;
     private String nombreEmpresa;
 
-    public ClienteJuridico(){}
-    
     public ClienteJuridico(String nombre, String telefono, String correo, 
             EstadoCuenta estadocuenta, Date fechaCreacion, String nombreUsuario, 
             String contraseña, String apellidoPaterno, String apellidoMaterno,String RUC, String nombreEmpresa) {
         super(nombre, telefono, correo, estadocuenta, fechaCreacion, nombreUsuario,
-                contraseña, apellidoPaterno, apellidoMaterno,TipoUsuario.USER_JURIDICO);
+                contraseña, apellidoPaterno, apellidoMaterno,TipoUsuario.MEMBER);
         this.RUC = RUC;
         this.nombreEmpresa = nombreEmpresa;
     }

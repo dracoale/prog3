@@ -10,29 +10,29 @@ package pe.edu.pucp.tienda.producto.model;
  */
 public class Producto {
 
-  
     private int codigo;
     private String nombre;
     private String descripcion;
-    private TipoProducto tipoProducto;
+    private TipoProducto categoria;
     private double precio;
     private int stock;
     private EstadoProducto estadoProducto;
-    private Almacen almacen;
+
     public Producto() {
 
     }
 
     
-    public Producto( String nombre, String descripcion,
-             double precio, int stock,Almacen almacen,TipoProducto tipoProducto) {
-        
+    public Producto(int codigo, String nombre, String descripcion,
+            TipoProducto categoria, double precio, int stock,
+            EstadoProducto estadoProducto) {
+        this.codigo = codigo;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.tipoProducto = tipoProducto;
+        this.categoria = categoria;
         this.precio = precio;
         this.stock = stock;
-        this.almacen=almacen;
+        this.estadoProducto = estadoProducto;
     }
 
     public int getCodigo() {
@@ -59,12 +59,12 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public TipoProducto getTipoProducto() {
-        return tipoProducto;
+    public TipoProducto getCategoria() {
+        return categoria;
     }
 
-    public void setTipoProducto(TipoProducto tipoProducto) {
-        this.tipoProducto = tipoProducto;
+    public void setCategoria(TipoProducto categoria) {
+        this.categoria = categoria;
     }
 
     public double getPrecio() {
@@ -89,15 +89,6 @@ public class Producto {
 
     public void setEstadoProducto(EstadoProducto estadoProducto) {
         this.estadoProducto = estadoProducto;
-    }
-
-    public Almacen getAlmacen() {
-        return almacen;
-    }
-
-
-    public void setAlmacen(Almacen almacen) {
-        this.almacen = almacen;
     }
 
 }
