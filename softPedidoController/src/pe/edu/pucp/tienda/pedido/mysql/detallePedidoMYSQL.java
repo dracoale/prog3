@@ -49,13 +49,13 @@ public class detallePedidoMYSQL implements detallePedidoDAO{
       ArrayList<DetallePedido> detalles = new ArrayList<>();
         try{
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call ListaDetallePedido()}");
+            cs = con.prepareCall("{call ListaDetallePedidos()}");
             rs = cs.executeQuery();
             while(rs.next()){
                 DetallePedido detalle = new DetallePedido();
                 detalle.setCantidad(rs.getInt("cantidad"));
                 detalle.setProducto(new Producto());
-                detalle.getProducto().setCodigo(rs.getInt("id_producto"));
+                detalle.getProducto().setCodigo(rs.getInt("idProducto"));
                 detalle.setSubtotal(rs.getDouble("subtotal"));
                 detalles.add(detalle);
             }
@@ -72,11 +72,10 @@ public class detallePedidoMYSQL implements detallePedidoDAO{
         int resultado = 0;
         try{
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call ActualizaDetallePedido(?,?,?,?)}");
+            cs = con.prepareCall("{call ActualizaDetallePedido(?,?,?)}");
             cs.setInt("p_idDetallePedido", detallepedido.getIdDetallePedido());
             cs.setInt("p_cantidad", detallepedido.getCantidad());
             cs.setDouble("p_subtotal", detallepedido.getSubtotal());
-            cs.setString("_estado_detalle_pedido", detallepedido.getEstado().toString());
             resultado = cs.executeUpdate();
         }catch(Exception ex){
             System.out.println(ex.getMessage());

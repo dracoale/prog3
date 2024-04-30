@@ -36,10 +36,6 @@ public class Principal {
         detallePedido.getProducto().setCodigo(4);
         Factura factura = new Factura(1, new Date(), 0);
 
-//        Usuario usuario = new Usuario("Juan", "123456789", ""
-//                + "juan@example.com", EstadoCuenta.ACTIVO,
-//                new Date(), "juanj", "contraseña",
-//                "Pérez", "Gómez", TipoUsuario.ADMIN);
         pedidoDAO pedidodao = new pedidoMYSQL();
         detallePedidoDAO detalledao = new detallePedidoMYSQL();
         // detallePedido.getListaProductos().add(producto);
@@ -67,7 +63,18 @@ public class Principal {
 //            System.out.println();
 //        }
         resultado = detalledao.insertar(detallePedido);
-        System.out.println(resultado);
+        detallePedido.setSubtotal(100);
+        detallePedido.setIdDetallePedido(15);
+        detalledao.actualizar(detallePedido);
+        detalledao.eliminar(14);
+        ArrayList<DetallePedido> detalles = detalledao.listar();        ArrayList<Pedido> pedidos = pedidodao.listar();
+        for (DetallePedido detalle : detalles) {
+            System.out.println(detalle.getProducto().getCodigo());
+            System.out.println(detalle.getSubtotal());
+
+            System.out.println();
+        }
+//        System.out.println(resultado);
     //    resultado = detalledao.insertar(detallePedido);
         
 //        ArrayList<Producto> productos = new productoMYSQL().listar();
