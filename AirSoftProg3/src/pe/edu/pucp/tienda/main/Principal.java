@@ -6,6 +6,7 @@ import pe.edu.pucp.tienda.factura.model.Factura;
 import pe.edu.pucp.tienda.pedido.dao.detallePedidoDAO;
 import pe.edu.pucp.tienda.pedido.dao.pedidoDAO;
 import pe.edu.pucp.tienda.pedido.model.DetallePedido;
+import pe.edu.pucp.tienda.pedido.model.EstadoDetallePedido;
 import pe.edu.pucp.tienda.pedido.model.EstadoPedido;
 import pe.edu.pucp.tienda.pedido.model.Pedido;
 import pe.edu.pucp.tienda.pedido.model.Prioridad;
@@ -29,6 +30,10 @@ public class Principal {
         Pedido pedido2 = new Pedido(EstadoPedido.ENTREGADA, new Date(),
                 new Date(), Prioridad.URGENTE, new Date());
         DetallePedido detallePedido = new DetallePedido(0, 0);
+        detallePedido.setEstado(EstadoDetallePedido.ACTIVO);
+        detallePedido.setIdPedido(3);
+        detallePedido.setProducto(new Producto());
+        detallePedido.getProducto().setCodigo(4);
         Factura factura = new Factura(1, new Date(), 0);
 
 //        Usuario usuario = new Usuario("Juan", "123456789", ""
@@ -47,20 +52,22 @@ public class Principal {
 //        Producto producto = new Producto(1, "Manzana", "Manzanas frescas",
 //                categoria, 1.50, 10, EstadoProducto.ACTIVO);
 //        productodao.insertar(producto);
-        pedido.setFactura(factura);
+//        pedido.setFactura(factura);
 //        detallePedido.setProducto(producto);
         
         //Añadir Agregar
-        resultado = pedidodao.insertar(pedido);
+//        resultado = pedidodao.insertar(pedido);
+//        System.out.println(resultado);
+//        pedidodao.actualizar(pedido);
+//        ArrayList<Pedido> pedidos = pedidodao.listar();
+//        for (Pedido ped : pedidos) {
+//            System.out.println(ped.getIdPedido());
+//            System.out.println(ped.getIdUsuario());
+//
+//            System.out.println();
+//        }
+        resultado = detalledao.insertar(detallePedido);
         System.out.println(resultado);
-        pedidodao.actualizar(pedido);
-        ArrayList<Pedido> pedidos = pedidodao.listar();
-        for (Pedido ped : pedidos) {
-            System.out.println(ped.getIdPedido());
-            System.out.println(ped.getIdUsuario());
-
-            System.out.println();
-        }
     //    resultado = detalledao.insertar(detallePedido);
         
 //        ArrayList<Producto> productos = new productoMYSQL().listar();
