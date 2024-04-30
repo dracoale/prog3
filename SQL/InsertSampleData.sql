@@ -8,6 +8,16 @@ INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Carn
 INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Frutas y Verduras', 'Frutas y verduras frescas y de temporada.', 'ACTIVO');
 INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Bebidas', 'Bebidas no alcohólicas como jugos, refrescos, agua embotellada, etc.', 'ACTIVO');
 
+CALL InsertaOferta(
+	@idOferta,
+    'Descuento de verano 20%',
+    20,
+    '2024-03-29',
+    '2024-04-29',
+    3
+);
+SELECT @idOferta AS idOferta;
+
 CALL InsertaUsuarioNatural(
     @idUsuario,
     'Juan',
