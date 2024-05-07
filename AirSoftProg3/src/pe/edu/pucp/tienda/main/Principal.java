@@ -163,45 +163,51 @@ public class Principal {
 
             System.out.println();
         }
-    //    resultado = detalledao.insertar(detallePedido);
-        
-//        ArrayList<Producto> productos = new productoMYSQL().listar();
-//        for (Producto item : productos) {
-//            System.out.println(item.getNombre());
-//            System.out.println(item.getDescripcion());
-//
-//            System.out.println();
-//        }
-//
-//        producto.setNombre("NARANJA");
-//        producto.setStock(20);
-//
-//        resultado = productodao.actualizar(producto);
-//        if (resultado != 0) {
-//            System.out.println("Se ha modificado con exito");
-//        }
-//
-//        productodao.eliminar(producto.getCodigo());
+/////////////////  productos///////////////////////////////////
+////////////////////////////////////////////////////////////////        
+       int resultado;
 
+       
+        productoDAO productodao = new productoMYSQL();
 
-        //ArrayList<Producto> productos = new productoMYSQL().listar();
-//        for (Producto item : productos) {
-//            System.out.print(item.getNombre()+ " ");
-//            System.out.print(item.getDescripcion());
+        Producto producto = new Producto("Manzana", "Manzanas frescas",
+                1.50, 10, new Almacen(), new TipoProducto());
+       System.out.println("el id es de insertado" + productodao.insertar(producto));
 //
-//            System.out.println(item.getEstadoProducto());
-//        }
+        productodao.insertar(producto);
 
-      producto.setNombre("NARANJA");
+       ArrayList<Producto> productos = new productoMYSQL().listar();
+        for (Producto item : productos) {
+            System.out.println(item.getNombre());
+            System.out.println(item.getDescripcion());
+
+            System.out.println();
+        }
+
+        producto.setNombre("NARANJA");
         producto.setStock(20);
         producto.setEstadoProducto(EstadoProducto.DESCONTINUADO);
-     producto.getTipoProducto().setIdTipoProducto(1);
-      producto.getAlmacen().setIdAlmacen(1);
-       System.out.println("Se ha modificado con exito el id "+productodao.actualizar(producto));
-        
-//
-      productodao.eliminar(producto.getCodigo());
+        producto.getTipoProducto().setIdTipoProducto(1);
+        producto.getAlmacen().setIdAlmacen(1);
 
+        resultado = productodao.actualizar(producto);
+        if (resultado != 0) {
+            System.out.println("Se ha modificado con exito");
+        }
+
+        productodao.eliminar(producto.getCodigo());
+
+        ArrayList<Producto> productoss = new productoMYSQL().listar();
+        for (Producto item : productoss) {
+            System.out.print(item.getNombre() + " ");
+            System.out.print(item.getDescripcion());
+
+            System.out.println(item.getEstadoProducto());
+        }
+
+
+/////////////////////////////////////////////////////
+    }
 
     }
 }
