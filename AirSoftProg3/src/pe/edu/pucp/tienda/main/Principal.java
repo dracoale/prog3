@@ -165,7 +165,7 @@ public class Principal {
         }
 /////////////////  productos///////////////////////////////////
 ////////////////////////////////////////////////////////////////        
-       int resultado;
+  
 
        
         productoDAO productodao = new productoMYSQL();
