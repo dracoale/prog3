@@ -11,6 +11,7 @@ import java.util.Date;
 public class Factura {
 
     private int idFactura;
+    private int idPedido;
     private Date fecha;
     private double total;
     private TipoPago tipoPago;
@@ -25,6 +26,13 @@ public class Factura {
 
     public void setIdFactura(int idFactura) {
         this.idFactura = idFactura;
+    }
+    public int getIdPedido() {
+        return idPedido;
+    }
+
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
     }
 
     public Date getFecha() {

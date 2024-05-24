@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import pe.edu.pucp.tienda.config.DBManager;
-import pe.edu.pucp.tienda.factura.model.Factura;
 import pe.edu.pucp.tienda.pedido.model.EstadoPedido;
 import pe.edu.pucp.tienda.pedido.model.Prioridad;
 
@@ -30,14 +29,13 @@ public class pedidoMYSQL implements pedidoDAO{
         try{
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{Call InsertaPedido"
-            + "(?,?,?,?,?,?,?)}"); 	
+            + "(?,?,?,?,?,?)}"); 	
             cs.registerOutParameter("p_idPedido", java.sql.Types.INTEGER);
             cs.setDate("p_fechaPedido", new java.sql.Date(pedido.getFechaPedido().getTime()));
             cs.setDate("p_fechaCreacion", new java.sql.Date(pedido.getFechaCreacion().getTime()));
             cs.setString("p_prioridad", pedido.getPrioridad().toString());
             cs.setDate("p_fechaEntrega", new java.sql.Date(pedido.getFechaEntrega().getTime()));
-            cs.setInt("p_idFactura", 1);
-            cs.setInt("p_idUsuario", 1);
+            cs.setInt("p_idUsuario", pedido.getIdUsuario());
             cs.executeUpdate();
             pedido.setIdPedido(cs.getInt("p_idPedido"));
             resultado = pedido.getIdPedido();
@@ -63,8 +61,6 @@ public class pedidoMYSQL implements pedidoDAO{
                 pedido.setEstado(EstadoPedido.valueOf(rs.getString("estadoPedido")));
                 pedido.setFechaPedido(rs.getDate("fechaPedido"));
                 pedido.setFechaCreacion(rs.getDate("fechaCreacion"));
-                pedido.setFactura(new Factura());
-                pedido.getFactura().setIdFactura(rs.getInt("idFactura"));
                 pedido.setIdUsuario(rs.getInt("idUsuario"));
                 pedido.setPrioridad(Prioridad.valueOf(rs.getString("prioridad")));
                 pedido.setFechaEntrega(rs.getDate("fechaEntrega"));

@@ -57,10 +57,13 @@ CREATE TABLE IF NOT EXISTS Oferta (
 
 CREATE TABLE IF NOT EXISTS Factura (
     idFactura INT AUTO_INCREMENT PRIMARY KEY,
+    idPedido INT,
     fecha DATE,
     total DOUBLE,
     tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
-    estadoFactura ENUM('ACTIVO', 'DESACTIVADO')
+    estadoFactura ENUM('ACTIVO', 'DESACTIVADO'),
+    FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido)
+    
 );
 
 CREATE TABLE IF NOT EXISTS DetalleFactura (
@@ -84,9 +87,7 @@ CREATE TABLE IF NOT EXISTS Pedido (
     fechaCreacion DATE,
     fechaEntrega DATE,
     idUsuario INT,
-    idFactura INT,
-    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
-    FOREIGN KEY (idFactura) REFERENCES Factura(idFactura)
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
 
 CREATE TABLE IF NOT EXISTS DetallePedido (

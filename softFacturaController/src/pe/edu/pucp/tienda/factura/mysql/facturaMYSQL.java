@@ -29,8 +29,9 @@ public class facturaMYSQL implements facturaDAO{
         int resultado = 0;
         try{
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call InsertaFactura (?,?,?,?,?)}");
+            cs = con.prepareCall("{call InsertaFactura (?,?,?,?,?,?)}");
             cs.registerOutParameter("p_idFactura", java.sql.Types.INTEGER);
+            cs.setInt("p_idPedido", factura.getIdPedido());
             cs.setDate("p_fecha", new java.sql.Date(factura.getFecha().getTime()) );
             cs.setDouble("p_total", factura.getTotal());
             cs.setString("p_tipoPago", factura.getTipoPago().toString());
@@ -59,6 +60,7 @@ public class facturaMYSQL implements facturaDAO{
             while(rs.next()){
                 Factura factura = new Factura();
                 factura.setIdFactura(rs.getInt("idFactura"));
+                factura.setIdPedido(rs.getInt("idPedido"));
                 factura.setFecha(rs.getDate("fecha"));
                 factura.setTotal(rs.getDouble("total"));
                 factura.setTipoPago(  TipoPago.valueOf(rs.getString("tipoPago") )   );

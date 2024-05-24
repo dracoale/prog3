@@ -253,14 +253,15 @@ END$$
 
 CREATE PROCEDURE InsertaFactura(
     OUT p_idFactura INT,
+    IN p_idPedido INT,
     IN p_fecha DATE,
     IN p_total DOUBLE,
     IN p_tipoPago ENUM('VISA','PAYPAL','CUPON'),
-	in p_estadoFactura ENUM('ACTIVO','DESACTIVADO')
+	IN p_estadoFactura ENUM('ACTIVO','DESACTIVADO')
 )
 BEGIN
-    INSERT INTO Factura(fecha, total, tipoPago, estadoFactura)
-    VALUES (p_fecha, p_total, p_tipoPago, 'ACTIVO');
+    INSERT INTO Factura(idPedido,fecha, total, tipoPago, estadoFactura)
+    VALUES (p_idPedido,p_fecha, p_total, p_tipoPago, 'ACTIVO');
     SET p_idFactura = @@last_insert_id;
 END$$
 
@@ -293,7 +294,7 @@ END$$
 
 CREATE PROCEDURE ListaFacturas()
 BEGIN
-    SELECT fecha, total, tipoPago, estadoFactura FROM Factura;
+    SELECT idPedido,fecha, total, tipoPago, estadoFactura FROM Factura;
 END$$
 
 
@@ -304,17 +305,16 @@ END$$
 
 
 CREATE PROCEDURE InsertaPedido(
-    OUT p_idPedido INT,
+		p_idPedido INT,
     IN p_fechaPedido DATE,
     IN p_fechaCreacion DATE,
     IN p_prioridad ENUM('URGENTE', 'NO_URGENTE'),
     IN p_fechaEntrega DATE,
-    IN p_idUsuario INT,
-    IN p_idFactura INT
+    IN p_idUsuario INT
 )
 BEGIN
-    INSERT INTO Pedido(estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura)
-    VALUES ('PROCESADA', p_fechaPedido, p_fechaCreacion, p_prioridad, p_fechaEntrega, p_idUsuario, p_idFactura);
+    INSERT INTO Pedido(estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario)
+    VALUES ('PROCESADA', p_fechaPedido, p_fechaCreacion, p_prioridad, p_fechaEntrega, p_idUsuario);
     SET p_idPedido = @@last_insert_id;
 END$$
 
@@ -346,7 +346,7 @@ END$$
 
 CREATE PROCEDURE ListaPedidos()
 BEGIN
-    SELECT estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura FROM Pedido;
+    SELECT estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario FROM Pedido;
 END$$
 
 
