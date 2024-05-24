@@ -4,6 +4,7 @@
  */
 package pe.edu.pucp.tienda.factura.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 //import pe.edu.pucp.tienda.pedido.model.Pedido;
 
@@ -12,16 +13,12 @@ public class Factura {
     private int idFactura;
     private Date fecha;
     private double total;
-    //private Pedido pedido;
-    public Factura(){
-        
-    };
-    public Factura(int idFactura, Date fecha, double total) {
-        this.idFactura = idFactura;
-        this.fecha = fecha;
-        this.total = total;
-    }
+    private TipoPago tipoPago;
+    private EstadoFactura estado;
 
+    public Factura() {
+    }
+    
     public int getIdFactura() {
         return idFactura;
     }
@@ -45,6 +42,25 @@ public class Factura {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public TipoPago getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(TipoPago tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
+
+    public EstadoFactura getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoFactura estado) {
+        this.estado = estado;
+    }
+   
+    
 }
 
 

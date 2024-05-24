@@ -31,6 +31,8 @@ public class Usuario {
     private TipoUsuario tipoUsuario;
     private ArrayList<Pedido> pedidos;
 
+    public Usuario(){}
+    
     public Usuario(String nombre, String telefono, String correo, EstadoCuenta estadocuenta,
             Date fechaCreacion, String nombreUsuario, String contraseña,
             String apellidoPaterno, String apellidoMaterno, TipoUsuario tipoUsuario) {
@@ -50,13 +52,14 @@ public class Usuario {
         pedidos = new ArrayList<>();
     }
 
+    
     public int getIdUsuario() {
         return idUsuario;
     }
-//
-//    public void setIdUsuario(int idUsuario) {
-//        this.idUsuario = idUsuario;
-//    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public String getNombre() {
         return nombre;
@@ -184,6 +187,14 @@ public class Usuario {
 
     public void eliminarUsuario(String DNI) {
 
+    }
+    
+     public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
 }
