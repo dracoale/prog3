@@ -71,13 +71,9 @@ CREATE TABLE IF NOT EXISTS Factura (
     fecha DATE,
     total DOUBLE,
     tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
-<<<<<<< HEAD
     estadoFactura ENUM('ACTIVO', 'DESACTIVADO'),
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido)
     
-=======
-    estadoFactura ENUM('ACTIVO', 'DESACTIVADO')
->>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
 );
 
 CREATE TABLE IF NOT EXISTS DetalleFactura (
