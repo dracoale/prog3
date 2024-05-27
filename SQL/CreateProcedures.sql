@@ -259,10 +259,7 @@ BEGIN
     SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto 
     WHERE idTipoProducto = p_idTipo AND estadoProducto = 'ACTIVO';
 END$$
-<<<<<<< HEAD
-=======
 
->>>>>>> James
 #DELIMITER $$
 CREATE PROCEDURE LISTAR_PRODUCTOS_POR_NOMBRE(
 	_nombre VARCHAR(300)
@@ -275,14 +272,14 @@ END$$
 
 
 
+
 CREATE PROCEDURE InsertaFactura(
     OUT p_idFactura INT,
     IN p_idPedido INT,
     IN p_fecha DATE,
     IN p_total DOUBLE,
     IN p_tipoPago ENUM('VISA','PAYPAL','CUPON'),
-	IN p_estadoFactura ENUM('ACTIVO','DESACTIVADO'),
-	in p_estadoFactura ENUM('ACTIVO','DESACTIVADO')
+	IN p_estadoFactura ENUM('ACTIVO','DESACTIVADO')
 )
 BEGIN
     INSERT INTO Factura(idPedido,fecha, total, tipoPago, estadoFactura)
@@ -320,8 +317,6 @@ END$$
 CREATE PROCEDURE ListaFacturas()
 BEGIN
     SELECT idPedido,fecha, total, tipoPago, estadoFactura FROM Factura;
-=======
-    SELECT fecha, total, tipoPago, estadoFactura FROM Factura;
 END$$
 
 
