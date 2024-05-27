@@ -63,17 +63,6 @@ CREATE TABLE IF NOT EXISTS Factura (
     estadoFactura ENUM('ACTIVO', 'DESACTIVADO')
 );
 
-CREATE TABLE IF NOT EXISTS DetalleFactura (
-    idDetalleFactura INT AUTO_INCREMENT PRIMARY KEY,
-    idFactura INT,
-    idProducto INT,
-    cantidad INT,
-    precioUnitario DOUBLE,
-    subtotal DOUBLE,
-    estadoDetalleFactura ENUM('ACTIVO', 'DESACTIVO'),
-    FOREIGN KEY (idFactura) REFERENCES Factura(idFactura),
-    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
-);
 
 
 CREATE TABLE IF NOT EXISTS Pedido (
