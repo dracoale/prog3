@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pe.edu.pucp.tienda.pedido.model;
-import  pe.edu.pucp.tienda.factura.model.Factura;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,15 +15,13 @@ public class Pedido {
     private Date fechaCreacion;
     private Prioridad prioridad;
     private Date fechaEntrega;
-    private Factura factura;
     private ArrayList<DetallePedido> detallePedidos; 
     
     public Pedido() {
     }
 
   
-    public Pedido(EstadoPedido estado, Date fechaPedido, Date fechaCreacion, Prioridad prioridad, Date fechaEntrega) {
-        this.estado = estado;
+    public Pedido(Date fechaPedido, Date fechaCreacion, Prioridad prioridad, Date fechaEntrega) {
         this.fechaPedido = fechaPedido;
         this.fechaCreacion = fechaCreacion;
         this.prioridad = prioridad;
@@ -91,15 +88,6 @@ public class Pedido {
     public void setFechaEntrega(Date fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
-
-    public Factura getFactura() {
-        return factura;
-    }
-
-    public void setFactura(Factura factura) {
-        this.factura = factura;
-    }
-    
     public ArrayList<DetallePedido> getListaDetallesPedidos() {
         return detallePedidos;
     }

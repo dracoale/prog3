@@ -20,10 +20,15 @@ public interface productoDAO {
     //public Factura consultarPorId(int id);
     public ArrayList<Producto> listar();
     
+    
     // Update
     public int actualizar(Producto producto);
     
     // Delete
     public int eliminar(int id);
+    
+    public ArrayList<Producto> listarXTipo(int idTipo);
+    
+    public ArrayList<Producto> listarXNombre(String nombre);
     
 }

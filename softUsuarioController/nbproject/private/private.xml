@@ -2,11 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
             <file>file:/E:/DOCUMENTOS/Documentos%20PUCP/11avo%20Ciclo/Prog%203/Lab7/prog3/softUsuarioController/src/pe/edu/pucp/tienda/usuario/mysql/ClienteIndividualMYSQL.java</file>
             <file>file:/E:/DOCUMENTOS/Documentos%20PUCP/11avo%20Ciclo/Prog%203/Lab7/prog3/softUsuarioController/src/pe/edu/pucp/tienda/usuario/dao/ClienteJuridicoDAO.java</file>
             <file>file:/E:/DOCUMENTOS/Documentos%20PUCP/11avo%20Ciclo/Prog%203/Lab7/prog3/softUsuarioController/src/pe/edu/pucp/tienda/usuario/mysql/ClienteJuridicoMYSQL.java</file>
             <file>file:/E:/DOCUMENTOS/Documentos%20PUCP/11avo%20Ciclo/Prog%203/Lab7/prog3/softUsuarioController/src/pe/edu/pucp/tienda/usuario/dao/ClienteIndividualDAO.java</file>
         </group>
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
     </open-files>
 </project-private>

@@ -54,17 +54,6 @@ CREATE TABLE IF NOT EXISTS Oferta (
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
 
-
-CREATE TABLE IF NOT EXISTS Factura (
-    idFactura INT AUTO_INCREMENT PRIMARY KEY,
-    fecha DATE,
-    total DOUBLE,
-    tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
-    estadoFactura ENUM('ACTIVO', 'DESACTIVADO')
-);
-
-
-
 CREATE TABLE IF NOT EXISTS Pedido (
     idPedido INT AUTO_INCREMENT PRIMARY KEY,
     estadoPedido ENUM('ENTREGADA', 'PROCESADA', 'CANCELADA', 'EN_CAMINO'),
@@ -73,10 +62,27 @@ CREATE TABLE IF NOT EXISTS Pedido (
     fechaCreacion DATE,
     fechaEntrega DATE,
     idUsuario INT,
-    idFactura INT,
-    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
-    FOREIGN KEY (idFactura) REFERENCES Factura(idFactura)
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
+
+CREATE TABLE IF NOT EXISTS Factura (
+    idFactura INT AUTO_INCREMENT PRIMARY KEY,
+    idPedido INT,
+    fecha DATE,
+    total DOUBLE,
+    tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
+<<<<<<< HEAD
+    estadoFactura ENUM('ACTIVO', 'DESACTIVADO'),
+    FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido)
+    
+=======
+    estadoFactura ENUM('ACTIVO', 'DESACTIVADO')
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
+);
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS DetallePedido (
     idDetallePedido INT AUTO_INCREMENT PRIMARY KEY,

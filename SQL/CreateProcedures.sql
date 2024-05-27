@@ -190,8 +190,15 @@ BEGIN
     FROM Usuario
     WHERE tipoUsuario='USER_ADMINISTRADOR';
 END$$
-
-
+#DELIMITER $$
+CREATE PROCEDURE ListarUsuariosXNombre(
+	_nombre VARCHAR(300)
+)
+BEGIN
+	SELECT idUsuario, CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno) as 'NombreCompleto', nombreUsuario, correo,telefono
+    ,estadoCuenta FROM Usuario where estadoCuenta = 'ACTIVO' 
+    AND CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno, ' ',nombreUsuario) LIKE CONCAT('%',_nombre,'%');
+END$$
 
 
 
@@ -225,7 +232,8 @@ CREATE PROCEDURE ActualizaProducto(
 )
 BEGIN
     UPDATE Producto
-    SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = p_estadoProducto, idAlmacen = p_idAlmacen, idTipoProducto=p_idTipoProducto
+    SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = p_estadoProducto,
+    idAlmacen = p_idAlmacen, idTipoProducto=p_idTipoProducto, unidadMedida = p_unidadMedida
     WHERE idProducto = p_idProducto;
 END$$
 
@@ -241,11 +249,27 @@ END$$
 
 CREATE PROCEDURE ListaProductos()
 BEGIN
-    SELECT nombre, descripcion, idTipoProducto, precio, estadoProducto FROM Producto;
+    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto;
 END$$
+#DELIMITER $$
+CREATE PROCEDURE ListaProductosXTipo(
+	p_idTipo INT
+)
+BEGIN
+    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto 
+    WHERE idTipoProducto = p_idTipo AND estadoProducto = 'ACTIVO';
+END$$
+<<<<<<< HEAD
+=======
 
-
-
+>>>>>>> James
+#DELIMITER $$
+CREATE PROCEDURE LISTAR_PRODUCTOS_POR_NOMBRE(
+	_nombre VARCHAR(300)
+)
+BEGIN
+	SELECT idProducto, nombre,descripcion,idTipoProducto, precio,estadoProducto FROM Producto where estadoProducto = 'ACTIVO' AND CONCAT(nombre,' ',descripcion) LIKE CONCAT('%',_nombre,'%');
+END$$
 
 
 
@@ -253,14 +277,16 @@ END$$
 
 CREATE PROCEDURE InsertaFactura(
     OUT p_idFactura INT,
+    IN p_idPedido INT,
     IN p_fecha DATE,
     IN p_total DOUBLE,
     IN p_tipoPago ENUM('VISA','PAYPAL','CUPON'),
+	IN p_estadoFactura ENUM('ACTIVO','DESACTIVADO'),
 	in p_estadoFactura ENUM('ACTIVO','DESACTIVADO')
 )
 BEGIN
-    INSERT INTO Factura(fecha, total, tipoPago, estadoFactura)
-    VALUES (p_fecha, p_total, p_tipoPago, 'ACTIVO');
+    INSERT INTO Factura(idPedido,fecha, total, tipoPago, estadoFactura)
+    VALUES (p_idPedido,p_fecha, p_total, p_tipoPago, 'ACTIVO');
     SET p_idFactura = @@last_insert_id;
 END$$
 
@@ -293,6 +319,8 @@ END$$
 
 CREATE PROCEDURE ListaFacturas()
 BEGIN
+    SELECT idPedido,fecha, total, tipoPago, estadoFactura FROM Factura;
+=======
     SELECT fecha, total, tipoPago, estadoFactura FROM Factura;
 END$$
 
@@ -304,17 +332,16 @@ END$$
 
 
 CREATE PROCEDURE InsertaPedido(
-    OUT p_idPedido INT,
+		p_idPedido INT,
     IN p_fechaPedido DATE,
     IN p_fechaCreacion DATE,
     IN p_prioridad ENUM('URGENTE', 'NO_URGENTE'),
     IN p_fechaEntrega DATE,
-    IN p_idUsuario INT,
-    IN p_idFactura INT
+    IN p_idUsuario INT
 )
 BEGIN
-    INSERT INTO Pedido(estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura)
-    VALUES ('PROCESADA', p_fechaPedido, p_fechaCreacion, p_prioridad, p_fechaEntrega, p_idUsuario, p_idFactura);
+    INSERT INTO Pedido(estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario)
+    VALUES ('PROCESADA', p_fechaPedido, p_fechaCreacion, p_prioridad, p_fechaEntrega, p_idUsuario);
     SET p_idPedido = @@last_insert_id;
 END$$
 
@@ -346,7 +373,7 @@ END$$
 
 CREATE PROCEDURE ListaPedidos()
 BEGIN
-    SELECT estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario, idFactura FROM Pedido;
+    SELECT estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario FROM Pedido;
 END$$
 
 

@@ -8,6 +8,18 @@ INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Carn
 INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Frutas y Verduras', 'Frutas y verduras frescas y de temporada.', 'ACTIVO');
 INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Bebidas', 'Bebidas no alcohólicas como jugos, refrescos, agua embotellada, etc.', 'ACTIVO');
 
+<<<<<<< HEAD
+
+INSERT INTO Almacen (direccion) VALUES ('Av. Javier Prado Este 123, Lima');
+INSERT INTO Almacen (direccion) VALUES ('Jr. de la Unión 456, Lima');
+INSERT INTO Almacen (direccion) VALUES ('Av. Arequipa 789, Lima');
+
+INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Lácteos', 'Productos lácteos como leche, queso, yogur, etc.');
+INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Menestras', 'Productos como frijoles, lentejas, garbanzos, etc.');
+INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Carnes', 'Productos cárnicos frescos y procesados como pollo, carne de res, embutidos, etc.');
+INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Frutas y Verduras', 'Frutas y verduras frescas y de temporada.');
+INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Bebidas', 'Bebidas no alcohólicas como jugos, refrescos, agua embotellada, etc.');
+=======
 CALL InsertaOferta(
 	@idOferta,
     'Descuento de verano 20%',
@@ -18,6 +30,7 @@ CALL InsertaOferta(
 );
 SELECT @idOferta AS idOferta;
 
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
 CALL InsertaUsuarioNatural(
     @idUsuario,
     'Juan',
@@ -31,9 +44,20 @@ CALL InsertaUsuarioNatural(
     'Gonzalez',
     '12345678A'
 );
-SELECT @idUsuario AS idUsuario;
-
-
+CALL InsertaUsuarioNatural(
+    @idUsuario,
+    'Pablo',
+    '12321312',
+    'xXpabloXx@example.com',
+    '2024-04-27',
+    '2024-04-27',
+    'pablomarmol',
+    '1232',
+    'Marmol',
+    'Guinea',
+    '1234567B'
+);
+CALL InsertaPedido(@idPedido,'2024-03-29','2024-04-29','URGENTE','2024-05-29',1);
 CALL InsertaProducto(
     @idProducto,
     'Camisa',
@@ -43,4 +67,62 @@ CALL InsertaProducto(
     1,
     1
 );
+CALL InsertaProducto(
+    @idProducto,
+    'Gaseosa INCA KOLA',
+    '1L',
+    25.99,
+    100,
+    1,
+    5
+);
+CALL InsertaProducto(
+    @idProducto,
+    'Gaseosa INCA KOLA',
+    '2L',
+    29.99,
+    100,
+    1,
+    5
+);
+CALL InsertaProducto(
+    @idProducto,
+    'Gaseosa INCA KOLA',
+    '3L',
+    35.99,
+    100,
+    1,
+    5
+);
+CALL InsertaProducto(
+    @idProducto,
+    'Piqueos Snack',
+    '2KG',
+    35.99,
+    100,
+    1,
+    5
+);
+CALL InsertaOferta(
+	@idOferta,
+    'Descuento de verano 20%',
+    20,
+    '2024-03-29',
+    '2024-04-29',
+    1
+);
+SELECT @idOferta AS idOferta;
+
+
+SELECT @idUsuario AS idUsuario;
+
+
+
 SELECT @idProducto AS idProducto;
+CALL ActualizaPedido(1,'CANCELADA','2024-04-29','NO_URGENTE');
+CALL ListaPedidos();
+CALL EliminaPedido(1);
+CALL LISTAR_PRODUCTOS_POR_NOMBRE('KG');
+CALL ListarUsuariosXNombre('Juan');
+CALL EliminaUsuarioNatural(1);
+CALL ListaProductosXTipo(5);
