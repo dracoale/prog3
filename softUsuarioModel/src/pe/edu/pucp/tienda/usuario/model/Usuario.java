@@ -196,5 +196,8 @@ public class Usuario {
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+    public String getNombreCompleto() {
+        return nombre + ' ' + apellidoPaterno + ' ' + apellidoMaterno + ' ';
+    }
 
 }

@@ -5,11 +5,12 @@
 package pe.edu.pucp.tienda.config;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBManager {
     private Connection con;
     private String url = "jdbc:mysql://prog03ta.cxbuc8p1ynms.us-east-1.rds.amazonaws.com"
-             +":3306/prog03";
+             +":3306/prog03?useSSL=false";
     private String user = "admin";
     private String password = "12345678";
     private static DBManager dbManager;

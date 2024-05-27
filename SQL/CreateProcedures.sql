@@ -190,8 +190,15 @@ BEGIN
     FROM Usuario
     WHERE tipoUsuario='USER_ADMINISTRADOR';
 END$$
-
-
+#DELIMITER $$
+CREATE PROCEDURE ListarUsuariosXNombre(
+	_nombre VARCHAR(300)
+)
+BEGIN
+	SELECT idUsuario, CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno) as 'NombreCompleto', nombreUsuario, correo,telefono
+    ,estadoCuenta FROM Usuario where estadoCuenta = 'ACTIVO' 
+    AND CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno, ' ',nombreUsuario) LIKE CONCAT('%',_nombre,'%');
+END$$
 
 
 
@@ -225,7 +232,8 @@ CREATE PROCEDURE ActualizaProducto(
 )
 BEGIN
     UPDATE Producto
-    SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = p_estadoProducto, idAlmacen = p_idAlmacen, idTipoProducto=p_idTipoProducto
+    SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = p_estadoProducto,
+    idAlmacen = p_idAlmacen, idTipoProducto=p_idTipoProducto, unidadMedida = p_unidadMedida
     WHERE idProducto = p_idProducto;
 END$$
 
@@ -241,10 +249,15 @@ END$$
 
 CREATE PROCEDURE ListaProductos()
 BEGIN
-    SELECT nombre, descripcion, idTipoProducto, precio, estadoProducto FROM Producto;
+    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto;
 END$$
-
-
+#DELIMITER $$
+CREATE PROCEDURE LISTAR_PRODUCTOS_POR_NOMBRE(
+	_nombre VARCHAR(300)
+)
+BEGIN
+	SELECT idProducto, nombre,descripcion,idTipoProducto, precio,estadoProducto FROM Producto where estadoProducto = 'ACTIVO' AND CONCAT(nombre,' ',descripcion) LIKE CONCAT('%',_nombre,'%');
+END$$
 
 
 

@@ -151,4 +151,40 @@ public class productoMYSQL implements productoDAO {
         return resultado;
     }
 
+    @Override
+    public ArrayList<Producto> listarXNombre(String nombre) {
+        ArrayList<Producto> productos = new ArrayList<>();
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call LISTAR_PRODUCTOS_POR_NOMBRE"
+                    + "(?)}");
+            cs.setString("_nombre", nombre);
+            rs = cs.executeQuery();
+            while (rs.next()) {
+                Producto producto = new Producto();
+                producto.setNombre(rs.getString("nombre"));
+                producto.setDescripcion(rs.getString("descripcion"));
+                producto.setCodigo(rs.getInt("idTipoProducto"));
+                
+                
+                //int idtipo=rs.getInt("categoria");
+                producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
+                producto.setPrecio(rs.getDouble("precio"));
+
+                productos.add(producto);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return productos;
+    }
+
+    
+
 }

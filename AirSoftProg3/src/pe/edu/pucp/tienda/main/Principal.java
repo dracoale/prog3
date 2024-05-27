@@ -23,6 +23,8 @@ import pe.edu.pucp.tienda.producto.model.TipoProducto;
 import pe.edu.pucp.tienda.usuario.model.EstadoCuenta;
 import pe.edu.pucp.tienda.usuario.model.TipoUsuario;
 import pe.edu.pucp.tienda.usuario.model.Usuario;
+import pe.edu.pucp.tienda.usuario.dao.UsuarioDAO;
+import pe.edu.pucp.tienda.usuario.mysql.UsuarioMYSQL;
 import pe.edu.pucp.tienda.producto.dao.productoDAO;
 import pe.edu.pucp.tienda.producto.model.Almacen;
 import pe.edu.pucp.tienda.producto.mysql.productoMYSQL;
@@ -62,7 +64,30 @@ public class Principal {
 //          facturaDAO facturadao = new facturaMYSQL();
 //          facturadao.insertar(fac);
 //
+//Prueba Busqueda Productos
 //
+//      
+//           productoDAO productodao = new productoMYSQL();
+//           ArrayList<Producto> productos = productodao.listarXNombre("KG");
+//            for (Producto item : productos) {
+//                System.out.println(item.getNombre());
+//                System.out.println(item.getDescripcion());
+//
+//                System.out.println();
+//            }
+//
+//
+//Prueba Busqueda Usuarios
+//
+//
+//           UsuarioDAO usuariodao = new UsuarioMYSQL();
+//           ArrayList<Usuario> usuarios = usuariodao.ListarUsuariosXNombre("P");
+//            for (Usuario p : usuarios) {
+//                System.out.println(p.getNombreCompleto());
+//                System.out.println(p.getNombreUsuario());
+//
+//                System.out.println();
+//            }
 //        Usuario usuario = new Usuario("Juan", "123456789", ""
 //                + "juan@example.com", EstadoCuenta.ACTIVO,
 //                new Date(), "juanj", "contraseña",
