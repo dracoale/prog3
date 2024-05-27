@@ -112,3 +112,4 @@ CALL EliminaPedido(1);
 CALL LISTAR_PRODUCTOS_POR_NOMBRE('KG');
 CALL ListarUsuariosXNombre('Juan');
 CALL EliminaUsuarioNatural(1);
+CALL ListaProductosXTipo(5);

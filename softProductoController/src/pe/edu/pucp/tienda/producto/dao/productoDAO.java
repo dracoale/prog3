@@ -27,6 +27,8 @@ public interface productoDAO {
     // Delete
     public int eliminar(int id);
     
+    public ArrayList<Producto> listarXTipo(int idTipo);
+    
     public ArrayList<Producto> listarXNombre(String nombre);
     
 }

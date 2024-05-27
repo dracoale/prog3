@@ -252,6 +252,15 @@ BEGIN
     SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto;
 END$$
 #DELIMITER $$
+CREATE PROCEDURE ListaProductosXTipo(
+	p_idTipo INT
+)
+BEGIN
+    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto 
+    WHERE idTipoProducto = p_idTipo AND estadoProducto = 'ACTIVO';
+END$$
+
+#DELIMITER $$
 CREATE PROCEDURE LISTAR_PRODUCTOS_POR_NOMBRE(
 	_nombre VARCHAR(300)
 )
