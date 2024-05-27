@@ -38,9 +38,16 @@ import pe.edu.pucp.tienda.usuario.mysql.ClienteJuridicoMYSQL;
 public class Principal {
 
     public static void main(String[] args) {
+<<<<<<< HEAD
 // Prueba Pedido
 //        int resultado;
 //        Pedido ped = new Pedido(new Date(),
+=======
+
+      int resultado;
+
+//        Pedido pedido = new Pedido(1, EstadoPedido.CANCELADA, new Date(),
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
 //                new Date(), Prioridad.NO_URGENTE, new Date());
 //        pedidoDAO pedidodao = new pedidoMYSQL();
 //        ped.setIdUsuario(1);
@@ -121,6 +128,7 @@ public class Principal {
 //        }
 //
 //        productodao.eliminar(producto.getCodigo());
+<<<<<<< HEAD
 //        resultado=0;
 //        
 //        ClienteIndividual clienteI=new ClienteIndividual();
@@ -178,6 +186,66 @@ public class Principal {
 //                "Pérez", "Gómez", TipoUsuario.ADMINISTRADOR);
 //        pedidoDAO pedidodao = new pedidoMYSQL();
 //        detallePedidoDAO detalledao = new detallePedidoMYSQL();
+=======
+        resultado=0;
+        
+        ClienteIndividual clienteI=new ClienteIndividual();
+        clienteI.setIdUsuario(1);
+        clienteI.setNombre("Sapito");
+        clienteI.setApellidoPaterno("Jara");
+        clienteI.setApellidoMaterno("Pepito");
+        clienteI.setDNI("894612354");
+        clienteI.setCorreo("drStr0ng@hotmail.com");
+        LocalDate fechaActual=LocalDate.now();
+        clienteI.setFechaCreacion(Date.from(fechaActual.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        clienteI.setTelefono("987654321");
+        clienteI.setFechaRegistro(Date.from(fechaActual.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        clienteI.setNombreUsuario("BilletePuertas123");
+        clienteI.setContraseña("contraseña9");
+        
+        ClienteJuridico clienteJ=new ClienteJuridico();
+        clienteJ.setIdUsuario(2);
+        clienteJ.setNombre("Manolo");
+        clienteJ.setApellidoPaterno("Neyra");
+        clienteJ.setApellidoMaterno("Yara");
+        clienteJ.setRUC("89121544612354");
+        clienteJ.setNombreEmpresa("Doof MyA INC");
+        clienteJ.setCorreo("FC_Prog03@hotmail.com");
+        clienteJ.setFechaCreacion(Date.from(fechaActual.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        clienteJ.setTelefono("994512833");
+        clienteJ.setFechaRegistro(Date.from(fechaActual.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        clienteJ.setNombreUsuario("VendedorDeSapitos");
+        clienteJ.setContraseña("Ezzzzzzzzz");
+    //    productoDAO productodao = new productoMYSQL();
+//        TipoProducto categoria = new TipoProducto(1, "drink", "fino");
+        ClienteIndividualDAO clienteIndDao=new ClienteIndividualMYSQL();
+        ClienteJuridicoDAO clienteJudDao=new ClienteJuridicoMYSQL();
+        //resultado=clienteJudDao.actualizar(clienteJ);
+        //resultado=clienteIndDao.actualiza(clienteI);
+        ArrayList<ClienteIndividual> clientesI= new ArrayList<ClienteIndividual>();
+        clientesI=clienteIndDao.lista();
+        for(ClienteIndividual item: clientesI){
+            System.out.println(item.getNombre());
+        }
+        System.out.println("aea "+resultado);
+        Pedido p = new Pedido();
+//        if(resultado!=0) System.out.println("Se ha actualizado con exito");
+
+        Pedido pedido = new Pedido(EstadoPedido.CANCELADA, new Date(),
+                new Date(), Prioridad.NO_URGENTE, new Date());
+        Pedido pedido2 = new Pedido(EstadoPedido.ENTREGADA, new Date(),
+                new Date(), Prioridad.URGENTE, new Date());
+        DetallePedido detallePedido = new DetallePedido(0, 0);
+        Factura factura = new Factura(1, new Date(), 0);
+
+        Usuario usuario = new Usuario("Juan", "123456789", ""
+                + "juan@example.com", EstadoCuenta.ACTIVO,
+                new Date(), "juanj", "contraseña",
+                "Pérez", "Gómez", TipoUsuario.ADMIN);
+        pedidoDAO pedidodao = new pedidoMYSQL();
+        detallePedidoDAO detalledao = new detallePedidoMYSQL();
+        detallePedidoDAO 
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
         // detallePedido.getListaProductos().add(producto);
         //pedido.getListaDetallesPedidos().add(detallePedido);
 
@@ -214,6 +282,7 @@ public class Principal {
 ////////////////////////////////////////////////////////////////        
   
 
+<<<<<<< HEAD
        
 //        productoDAO productodao = new productoMYSQL();
 
@@ -254,6 +323,72 @@ public class Principal {
 
 
 /////////////////////////////////////////////////////
+=======
+
+        Producto producto = new Producto(1, "Manzana", "Manzanas frescas",
+                categoria, 1.50, 10, EstadoProducto.ACTIVO);
+        productodao.insertar(producto);
+        pedido.setFactura(factura);
+//        detallePedido.setProducto(producto);
+        
+        //Añadir Agregar
+        resultado = pedidodao.insertar(pedido);
+        System.out.println(resultado);
+        pedidodao.actualizar(pedido);
+        ArrayList<Pedido> pedidos = pedidodao.listar();
+        for (Pedido ped : pedidos) {
+            System.out.println(ped.getIdPedido());
+            System.out.println(ped.getIdUsuario());
+
+            System.out.println();
+        }
+/////////////////  productos///////////////////////////////////
+////////////////////////////////////////////////////////////////        
+  
+
+       
+        productoDAO productodao = new productoMYSQL();
+
+        Producto producto = new Producto("Manzana", "Manzanas frescas",
+                1.50, 10, new Almacen(), new TipoProducto());
+       System.out.println("el id es de insertado" + productodao.insertar(producto));
+//
+        productodao.insertar(producto);
+
+       ArrayList<Producto> productos = new productoMYSQL().listar();
+        for (Producto item : productos) {
+            System.out.println(item.getNombre());
+            System.out.println(item.getDescripcion());
+
+            System.out.println();
+        }
+
+        producto.setNombre("NARANJA");
+        producto.setStock(20);
+        producto.setEstadoProducto(EstadoProducto.DESCONTINUADO);
+        producto.getTipoProducto().setIdTipoProducto(1);
+        producto.getAlmacen().setIdAlmacen(1);
+
+        resultado = productodao.actualizar(producto);
+        if (resultado != 0) {
+            System.out.println("Se ha modificado con exito");
+        }
+
+        productodao.eliminar(producto.getCodigo());
+
+        ArrayList<Producto> productoss = new productoMYSQL().listar();
+        for (Producto item : productoss) {
+            System.out.print(item.getNombre() + " ");
+            System.out.print(item.getDescripcion());
+
+            System.out.println(item.getEstadoProducto());
+        }
+
+
+/////////////////////////////////////////////////////
+    }
+
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
     }
 
 }

@@ -1112,6 +1112,7 @@ is divided into following sections:
         </antcall>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
+<<<<<<< HEAD
             <param location="${project.softFacturaController-1}" name="call.subproject"/>
             <param location="${project.softFacturaController-1}/build.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
@@ -1121,6 +1122,8 @@ is divided into following sections:
         </antcall>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-jar.properties}"/>
+=======
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
             <param location="${project.softFacturaModel}" name="call.subproject"/>
             <param location="${project.softFacturaModel}/build.xml" name="call.script"/>
             <param name="call.target" value="jar"/>
@@ -1885,6 +1888,7 @@ is divided into following sections:
         </antcall>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-clean.properties}"/>
+<<<<<<< HEAD
             <param location="${project.softFacturaController-1}" name="call.subproject"/>
             <param location="${project.softFacturaController-1}/build.xml" name="call.script"/>
             <param name="call.target" value="clean"/>
@@ -1894,6 +1898,8 @@ is divided into following sections:
         </antcall>
         <antcall target="-maybe-call-dep">
             <param name="call.built.properties" value="${built-clean.properties}"/>
+=======
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
             <param location="${project.softFacturaModel}" name="call.subproject"/>
             <param location="${project.softFacturaModel}/build.xml" name="call.script"/>
             <param name="call.target" value="clean"/>

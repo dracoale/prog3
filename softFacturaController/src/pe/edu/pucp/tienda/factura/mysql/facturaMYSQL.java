@@ -29,9 +29,14 @@ public class facturaMYSQL implements facturaDAO{
         int resultado = 0;
         try{
             con = DBManager.getInstance().getConnection();
+<<<<<<< HEAD
             cs = con.prepareCall("{call InsertaFactura (?,?,?,?,?,?)}");
             cs.registerOutParameter("p_idFactura", java.sql.Types.INTEGER);
             cs.setInt("p_idPedido", factura.getIdPedido());
+=======
+            cs = con.prepareCall("{call InsertaFactura (?,?,?,?,?)}");
+            cs.registerOutParameter("p_idFactura", java.sql.Types.INTEGER);
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
             cs.setDate("p_fecha", new java.sql.Date(factura.getFecha().getTime()) );
             cs.setDouble("p_total", factura.getTotal());
             cs.setString("p_tipoPago", factura.getTipoPago().toString());

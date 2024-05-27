@@ -8,6 +8,7 @@ INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Carn
 INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Frutas y Verduras', 'Frutas y verduras frescas y de temporada.', 'ACTIVO');
 INSERT INTO TipoProducto (nombre, descripcion, estadoTipoProducto) VALUES ('Bebidas', 'Bebidas no alcohólicas como jugos, refrescos, agua embotellada, etc.', 'ACTIVO');
 
+<<<<<<< HEAD
 
 INSERT INTO Almacen (direccion) VALUES ('Av. Javier Prado Este 123, Lima');
 INSERT INTO Almacen (direccion) VALUES ('Jr. de la Unión 456, Lima');
@@ -18,6 +19,18 @@ INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Menestras', 'Productos c
 INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Carnes', 'Productos cárnicos frescos y procesados como pollo, carne de res, embutidos, etc.');
 INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Frutas y Verduras', 'Frutas y verduras frescas y de temporada.');
 INSERT INTO TipoProducto (nombre, descripcion) VALUES ('Bebidas', 'Bebidas no alcohólicas como jugos, refrescos, agua embotellada, etc.');
+=======
+CALL InsertaOferta(
+	@idOferta,
+    'Descuento de verano 20%',
+    20,
+    '2024-03-29',
+    '2024-04-29',
+    3
+);
+SELECT @idOferta AS idOferta;
+
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
 CALL InsertaUsuarioNatural(
     @idUsuario,
     'Juan',

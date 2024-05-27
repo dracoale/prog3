@@ -30,6 +30,7 @@
                 <id>jar</id>
             </reference>
             <reference>
+<<<<<<< HEAD
                 <foreign-project>softFacturaController-1</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
@@ -38,6 +39,8 @@
                 <id>jar</id>
             </reference>
             <reference>
+=======
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
                 <foreign-project>softFacturaModel</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>

@@ -263,14 +263,17 @@ END$$
 
 
 
-
 CREATE PROCEDURE InsertaFactura(
     OUT p_idFactura INT,
     IN p_idPedido INT,
     IN p_fecha DATE,
     IN p_total DOUBLE,
     IN p_tipoPago ENUM('VISA','PAYPAL','CUPON'),
+<<<<<<< HEAD
 	IN p_estadoFactura ENUM('ACTIVO','DESACTIVADO')
+=======
+	in p_estadoFactura ENUM('ACTIVO','DESACTIVADO')
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
 )
 BEGIN
     INSERT INTO Factura(idPedido,fecha, total, tipoPago, estadoFactura)
@@ -307,7 +310,11 @@ END$$
 
 CREATE PROCEDURE ListaFacturas()
 BEGIN
+<<<<<<< HEAD
     SELECT idPedido,fecha, total, tipoPago, estadoFactura FROM Factura;
+=======
+    SELECT fecha, total, tipoPago, estadoFactura FROM Factura;
+>>>>>>> 4bfb077fc66817bc69a0a458d3156109c3e875f5
 END$$
 
 
