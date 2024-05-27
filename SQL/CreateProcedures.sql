@@ -259,6 +259,10 @@ BEGIN
     SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto 
     WHERE idTipoProducto = p_idTipo AND estadoProducto = 'ACTIVO';
 END$$
+<<<<<<< HEAD
+=======
+
+>>>>>>> James
 #DELIMITER $$
 CREATE PROCEDURE LISTAR_PRODUCTOS_POR_NOMBRE(
 	_nombre VARCHAR(300)

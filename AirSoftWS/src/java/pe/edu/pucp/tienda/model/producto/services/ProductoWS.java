@@ -78,4 +78,15 @@ public class ProductoWS {
         }
         return productos;
     }
+    @WebMethod(operationName = "buscarProductoXTipo")
+    public ArrayList<Producto> buscarProductoXTipo(@WebParam(name = "idTipo") int idTipo) {
+        ArrayList<Producto> productos = null;
+        try{
+            productodao = new productoMYSQL();
+            productos = productodao.listarXTipo(idTipo);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return productos;
+    }
 }
