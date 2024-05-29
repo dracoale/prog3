@@ -35,4 +35,16 @@ public class UsuarioWS {
         }
         return usuarios;
     }
+    @WebMethod(operationName = "loginUsuario")
+    public Usuario loginUsuario(@WebParam(name = "usuario") String usuario,
+            @WebParam(name = "contraseña") String contraseña) {
+        Usuario user = new Usuario();
+        try{
+            usuariodao = new UsuarioMYSQL();
+            user = usuariodao.LoginUsuario(usuario,contraseña);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return user;
+    }
 }

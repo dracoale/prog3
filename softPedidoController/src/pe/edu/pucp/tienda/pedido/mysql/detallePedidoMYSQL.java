@@ -27,12 +27,11 @@ public class detallePedidoMYSQL implements detallePedidoDAO{
         try{
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{Call InsertaDetallePedido"
-            + "(?,?,?,?,?)}"); 	
+            + "(?,?,?,?)}"); 	
             cs.registerOutParameter("p_idDetallePedido", java.sql.Types.INTEGER);
             cs.setInt("p_idPedido", detallepedido.getIdPedido());
             cs.setInt("p_idProducto", detallepedido.getProducto().getCodigo());
             cs.setInt("p_cantidad",detallepedido.getCantidad());
-            cs.setDouble("p_subtotal",detallepedido.getSubtotal());
             cs.executeUpdate();
             detallepedido.setIdDetallePedido(cs.getInt("p_idDetallePedido"));
             resultado = detallepedido.getIdDetallePedido();
@@ -103,6 +102,51 @@ public class detallePedidoMYSQL implements detallePedidoDAO{
             }
         }
         return resultado;   
+    }
+
+    @Override
+    public ArrayList<DetallePedido> listarXPedido(int idPedido) {
+        ArrayList<DetallePedido> detalles = new ArrayList<>();
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call ListaDetallesDePedido"
+                    + "(?)}");
+            cs.setInt("p_idPedido", idPedido);
+            rs = cs.executeQuery();
+            while(rs.next()){
+                DetallePedido detalle = new DetallePedido();
+                detalle.setCantidad(rs.getInt("cantidad"));
+                detalle.setProducto(new Producto());
+                detalle.getProducto().setCodigo(rs.getInt("idProducto"));
+                detalle.setSubtotal(rs.getDouble("subtotal"));
+                detalles.add(detalle);
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }finally{
+            try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+        }
+        return detalles;
+    }
+
+    @Override
+    public double sumarDetallesPedido(int idPedido) {
+        double total=0;
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call ListaDetallesDePedido"
+                    + "(?)}");
+            cs.setInt("p_idPedido", idPedido);
+            rs = cs.executeQuery();
+            while(rs.next()){
+                total += rs.getDouble("subtotal");
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }finally{
+            try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+        }
+        return total;
     }
     
 }

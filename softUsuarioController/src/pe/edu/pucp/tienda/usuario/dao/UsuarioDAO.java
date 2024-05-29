@@ -13,4 +13,5 @@ import pe.edu.pucp.tienda.usuario.model.Usuario;
  */
 public interface UsuarioDAO {
     public ArrayList<Usuario> ListarUsuariosXNombre(String nombre);
+    public Usuario LoginUsuario(String usuario,String contra);
 }

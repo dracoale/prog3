@@ -199,6 +199,17 @@ BEGIN
     ,estadoCuenta FROM Usuario where estadoCuenta = 'ACTIVO' 
     AND CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno, ' ',nombreUsuario) LIKE CONCAT('%',_nombre,'%');
 END$$
+#DELIMITER $$
+CREATE PROCEDURE LoginUsuario(
+	_usuario VARCHAR(300),
+    _contra VARCHAR(300)
+)
+BEGIN
+	SELECT idUsuario, CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno) as 'NombreCompleto',
+    nombreUsuario, correo, telefono, tipoUsuario, contrasena, estadoCuenta FROM Usuario
+    where estadoCuenta = 'ACTIVO' 
+    AND (_usuario=nombreUsuario OR _usuario=correo) AND _contra=contrasena;
+END$$
 
 
 
@@ -268,8 +279,13 @@ BEGIN
 	SELECT idProducto, nombre,descripcion,idTipoProducto, precio,estadoProducto FROM Producto where estadoProducto = 'ACTIVO' AND CONCAT(nombre,' ',descripcion) LIKE CONCAT('%',_nombre,'%');
 END$$
 
-
-
+#DELIMITER $$
+CREATE PROCEDURE buscarProducto(
+	IN p_idProducto INT
+)
+BEGIN
+	SELECT nombre,descripcion,idTipoProducto, precio,estadoProducto FROM Producto where estadoProducto = 'ACTIVO' AND p_idProducto=idProducto;
+END$$
 
 
 
@@ -373,17 +389,16 @@ END$$
 
 
 
-
+#DELIMITER $$
 CREATE PROCEDURE InsertaDetallePedido (
     OUT p_idDetallePedido INT,
     IN p_idPedido INT,
     IN p_idProducto INT,
-    IN p_cantidad INT,
-    IN p_subtotal DOUBLE
+    IN p_cantidad INT
 )
 BEGIN
-    INSERT INTO DetallePedido (idPedido, idProducto, cantidad, subtotal, estadoDetallePedido)
-    VALUES (p_idPedido, p_idProducto, p_cantidad, p_subtotal, 'ACTIVO');
+    INSERT INTO DetallePedido (idPedido, idProducto, cantidad, estadoDetallePedido)
+    VALUES (p_idPedido, p_idProducto, p_cantidad, 'ACTIVO');
     SET p_idDetallePedido = @@last_insert_id;
 END $$
 
@@ -415,6 +430,13 @@ END $$
 CREATE PROCEDURE ListaDetallePedidos()
 BEGIN
     SELECT * FROM DetallePedido WHERE estadoDetallePedido='ACTIVO';
+END $$
+#DELIMITER $$
+CREATE PROCEDURE ListaDetallesDePedido(
+	IN p_idPedido INT
+)
+BEGIN
+    SELECT * FROM DetallePedido WHERE estadoDetallePedido='ACTIVO' AND p_idPedido=idPedido;
 END $$
 
 

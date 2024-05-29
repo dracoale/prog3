@@ -31,4 +31,6 @@ public interface productoDAO {
     
     public ArrayList<Producto> listarXNombre(String nombre);
     
+    public Producto buscarProducto(int idProducto);
+    
 }

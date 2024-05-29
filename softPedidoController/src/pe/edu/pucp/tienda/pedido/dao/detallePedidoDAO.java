@@ -24,4 +24,8 @@ public interface detallePedidoDAO {
     
     // Delete
     public int eliminar(int id);
+    
+    public ArrayList<DetallePedido> listarXPedido(int idPedido);
+    
+    public double sumarDetallesPedido(int idPedido);
 }

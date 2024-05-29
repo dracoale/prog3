@@ -113,3 +113,7 @@ CALL LISTAR_PRODUCTOS_POR_NOMBRE('KG');
 CALL ListarUsuariosXNombre('Juan');
 CALL EliminaUsuarioNatural(1);
 CALL ListaProductosXTipo(5);
+CALL LoginUsuario('xXpabloXx@example.com','dsa');
+CALL ListaDetallesDePedido(3);
+CALL buscarProducto(5);
+CALL InsertaDetallePedido(@idDetallePedido,3,5,4);

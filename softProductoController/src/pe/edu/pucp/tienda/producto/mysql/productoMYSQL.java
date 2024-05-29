@@ -218,4 +218,34 @@ public class productoMYSQL implements productoDAO {
         }
         return productos;
     }
+
+    @Override
+    public Producto buscarProducto(int idProducto) {
+        Producto prod = new Producto();
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscarProducto"
+                    + "(?)}");
+            cs.setInt("p_idProducto", idProducto);
+            rs = cs.executeQuery();
+            if (rs.next()) {
+                prod.setNombre(rs.getString("nombre"));
+                prod.setDescripcion(rs.getString("descripcion"));
+                prod.setCodigo(rs.getInt("idTipoProducto"));
+                //int idtipo=rs.getInt("categoria");
+                prod.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
+                prod.setPrecio(rs.getDouble("precio"));
+            }else{
+                prod.setCodigo(0);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return prod;    }
 }

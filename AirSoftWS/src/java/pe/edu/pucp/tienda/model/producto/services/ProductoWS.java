@@ -89,4 +89,15 @@ public class ProductoWS {
         }
         return productos;
     }
+    @WebMethod(operationName = "buscarPrecioProducto")
+    public double buscarPrecioProducto(@WebParam(name = "idProducto") int idProducto) {
+        Producto prod = new Producto();
+        try{
+            productodao = new productoMYSQL();
+            prod = productodao.buscarProducto(idProducto);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return prod.getPrecio();
+    }
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import pe.edu.pucp.tienda.config.DBManager;
 import pe.edu.pucp.tienda.usuario.dao.UsuarioDAO;
 import pe.edu.pucp.tienda.usuario.model.EstadoCuenta;
+import pe.edu.pucp.tienda.usuario.model.TipoUsuario;
 import pe.edu.pucp.tienda.usuario.model.Usuario;
 
 /**
@@ -51,6 +52,38 @@ public class UsuarioMYSQL implements UsuarioDAO {
                 try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
         }
         return usuarios;
+    }
+
+    @Override
+    public Usuario LoginUsuario(String usuario,String contra) {
+        Usuario user= new Usuario();
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call LoginUsuario"
+                    + "(?,?)}"); 	
+            cs.setString("_usuario", usuario);
+            cs.setString("_contra", contra);
+            rs=cs.executeQuery();
+            if(rs.next()){
+                user.setIdUsuario(rs.getInt("idUsuario"));
+                user.setNombre(rs.getString("NombreCompleto"));
+                user.setNombreUsuario(rs.getString("nombreUsuario"));
+                user.setTelefono(rs.getString("telefono"));
+                user.setCorreo(rs.getString("correo"));
+                user.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("estadoCuenta")));
+                user.setTipoUsuario(TipoUsuario.valueOf(rs.getString("tipoUsuario")));
+                user.setContraseña(rs.getString("contrasena"));
+            }else{
+                user.setIdUsuario(0);
+            }
+                
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+                try{rs.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        }
+        return user;
     }
     
 }
