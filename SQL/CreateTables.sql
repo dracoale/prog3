@@ -4,9 +4,10 @@ CREATE TABLE IF NOT EXISTS Usuario (
     telefono VARCHAR(20),
     correo VARCHAR(100),
     fechaRegistro DATE,
+    genero CHAR(1),
     estadoCuenta ENUM('ACTIVO', 'DESACTIVADO', 'SUSPENDIDO'),
     tipoUsuario ENUM('ADMINISTRADOR', 'USER_NATURAL', 'USER_JURIDICO', 'EMPLEADO'),
-    fechaCreacion DATE,
+    fechaNacimiento DATE,
     nombreUsuario VARCHAR(100),
     contrasena VARCHAR(50),
     apellidoPaterno VARCHAR(100),
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS Producto (
     estadoProducto ENUM('DESCONTINUADO', 'ACTIVO', 'AGOTADO'),
     idAlmacen INT,
     idTipoProducto INT,
+    foto BLOB,
     FOREIGN KEY (idAlmacen) REFERENCES Almacen(idAlmacen),
     FOREIGN KEY (idTipoProducto) REFERENCES TipoProducto(idTipoProducto)
 );
@@ -59,7 +61,6 @@ CREATE TABLE IF NOT EXISTS Pedido (
     estadoPedido ENUM('ENTREGADA', 'PROCESADA', 'CANCELADA', 'EN_CAMINO'),
     prioridad ENUM('URGENTE', 'NO_URGENTE'),
     fechaPedido DATE,
-    fechaCreacion DATE,
     fechaEntrega DATE,
     idUsuario INT,
     FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
@@ -73,21 +74,8 @@ CREATE TABLE IF NOT EXISTS Factura (
     tipoPago ENUM('VISA', 'PAYPAL', 'CUPON'),
     estadoFactura ENUM('ACTIVO', 'DESACTIVADO'),
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido)
-    
-);
 
-CREATE TABLE IF NOT EXISTS DetalleFactura (
-    idDetalleFactura INT AUTO_INCREMENT PRIMARY KEY,
-    idFactura INT,
-    idProducto INT,
-    cantidad INT,
-    precioUnitario DOUBLE,
-    subtotal DOUBLE,
-    estadoDetalleFactura ENUM('ACTIVO', 'DESACTIVO'),
-    FOREIGN KEY (idFactura) REFERENCES Factura(idFactura),
-    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
-
 
 
 
@@ -100,6 +88,14 @@ CREATE TABLE IF NOT EXISTS DetallePedido (
     estadoDetallePedido ENUM('ACTIVO', 'DESACTIVO'),
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+CREATE TABLE IF NOT EXISTS ProductoPrueba (
+    idProducto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150),
+    descripcion VARCHAR(200),
+    precio DOUBLE,
+    stock INT,
+    foto BLOB
 );
 
 

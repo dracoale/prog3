@@ -15,7 +15,7 @@ import pe.edu.pucp.tienda.producto.mysql.OfertaMYSQL;
  *
  * @author james
  */
-@WebService(serviceName = "OfertaWS")
+@WebService(serviceName = "OfertaWS", targetNamespace = "http://services.usuario.model.tienda.pucp.edu.pe/")
 public class OfertaWS {
     private OfertaDAO ofertadao;
     /**

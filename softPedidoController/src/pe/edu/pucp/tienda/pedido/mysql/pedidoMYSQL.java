@@ -29,10 +29,8 @@ public class pedidoMYSQL implements pedidoDAO{
         try{
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{Call InsertaPedido"
-            + "(?,?,?,?,?,?)}"); 	
+            + "(?,?,?,?)}"); 	
             cs.registerOutParameter("p_idPedido", java.sql.Types.INTEGER);
-            cs.setDate("p_fechaPedido", new java.sql.Date(pedido.getFechaPedido().getTime()));
-            cs.setDate("p_fechaCreacion", new java.sql.Date(pedido.getFechaCreacion().getTime()));
             cs.setString("p_prioridad", pedido.getPrioridad().toString());
             cs.setDate("p_fechaEntrega", new java.sql.Date(pedido.getFechaEntrega().getTime()));
             cs.setInt("p_idUsuario", pedido.getIdUsuario());
@@ -58,9 +56,9 @@ public class pedidoMYSQL implements pedidoDAO{
 			rs = cs.executeQuery();
             while(rs.next()){
                 Pedido pedido = new Pedido();
+                pedido.setIdPedido(rs.getInt("idPedido"));
                 pedido.setEstado(EstadoPedido.valueOf(rs.getString("estadoPedido")));
                 pedido.setFechaPedido(rs.getDate("fechaPedido"));
-                pedido.setFechaCreacion(rs.getDate("fechaCreacion"));
                 pedido.setIdUsuario(rs.getInt("idUsuario"));
                 pedido.setPrioridad(Prioridad.valueOf(rs.getString("prioridad")));
                 pedido.setFechaEntrega(rs.getDate("fechaEntrega"));
@@ -81,10 +79,9 @@ public class pedidoMYSQL implements pedidoDAO{
         try{
 			con = DBManager.getInstance().getConnection();
 			cs = con.prepareCall("{call ActualizaPedido"
-                    + "(?,?,?,?)}");
+                    + "(?,?,?)}");
             cs.setInt("p_idPedido", pedido.getIdPedido());
             cs.setString("p_estadoPedido", pedido.getEstado().toString());
-            cs.setDate("p_fechaPedido", new java.sql.Date(pedido.getFechaPedido().getTime()));
             cs.setString("p_prioridad", pedido.getPrioridad().toString());
             resultado = cs.executeUpdate();
 		}catch(Exception ex){

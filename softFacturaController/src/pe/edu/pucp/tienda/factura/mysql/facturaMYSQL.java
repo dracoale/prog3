@@ -112,6 +112,64 @@ public class facturaMYSQL implements facturaDAO{
         }
         return resultado;   
     }
+
+    @Override
+    public Factura buscarFacturaXPedido(int idPedido) {
+        Factura fact =  new Factura();
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscarFacturaXPedido"
+            + "(?)}");
+            cs.setInt("f_idPedido", idPedido);
+            rs = cs.executeQuery();
+            
+            if(rs.next()){
+                fact.setIdFactura(rs.getInt("idFactura"));
+                fact.setIdPedido(rs.getInt("idPedido"));
+                fact.setFecha(rs.getDate("fecha"));
+                fact.setTotal(rs.getDouble("total"));
+                fact.setTipoPago(  TipoPago.valueOf(rs.getString("tipoPago") )   );
+                fact.setEstado( EstadoFactura.valueOf(rs.getString("estadoFactura")));
+            }else{
+                fact.setIdFactura(0);
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }finally{
+            try{rs.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+            try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+        }
+        return fact;
+    }
+
+    @Override
+    public Factura buscarFactura(int idFactura) {
+        Factura fact =  new Factura();
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscarFactura"
+            + "(?)}");
+            cs.setInt("f_idFactura", idFactura);
+            rs = cs.executeQuery();
+            
+            if(rs.next()){
+                fact.setIdFactura(rs.getInt("idFactura"));
+                fact.setIdPedido(rs.getInt("idPedido"));
+                fact.setFecha(rs.getDate("fecha"));
+                fact.setTotal(rs.getDouble("total"));
+                fact.setTipoPago(  TipoPago.valueOf(rs.getString("tipoPago") )   );
+                fact.setEstado( EstadoFactura.valueOf(rs.getString("estadoFactura")));
+            }else{
+                fact.setIdFactura(0);
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }finally{
+            try{rs.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+            try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+        }
+        return fact;
+    }
     
     
 }

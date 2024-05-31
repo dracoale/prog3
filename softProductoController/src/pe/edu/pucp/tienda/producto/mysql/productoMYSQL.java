@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import pe.edu.pucp.tienda.config.DBManager;
 import java.sql.ResultSet;
 import pe.edu.pucp.tienda.producto.model.EstadoProducto;
+import pe.edu.pucp.tienda.producto.model.TipoProducto;
 
 /**
  *
@@ -32,19 +33,16 @@ public class productoMYSQL implements productoDAO {
             con = DBManager.getInstance().getConnection();
             System.out.println(con);
             cs = con.prepareCall("{call InsertaProducto"
-                    + "(?,?,?,?,?,?,?)}");
+                    + "(?,?,?,?,?,?,?,?)}");
             cs.registerOutParameter("p_idProducto", java.sql.Types.INTEGER);
             //cs.setString("_DNI", cliente.getDNI());
             cs.setString("p_nombre", producto.getNombre());
             cs.setString("p_descripcion", producto.getDescripcion());
-           cs.setInt("p_idTipoProducto", 1);
-            cs.setInt("p_idAlmacen", 1);
-            
+            cs.setInt("p_idTipoProducto", producto.getTipoProducto().getIdTipoProducto());
+            cs.setInt("p_idAlmacen", producto.getAlmacen().getIdAlmacen());
             cs.setDouble("p_precio", producto.getPrecio());
-            //  cs.setDouble("_linea_credito", producto.getLineaCredito());
-           // cs.setInt("p_idEstadoProducto", 1);
             cs.setInt("p_stock", producto.getStock());
-            //System.out.println(producto.getStock());
+            cs.setBytes("p_foto",producto.getFoto());
             cs.executeUpdate();
             producto.setCodigo(cs.getInt("p_idProducto"));
             resultado = producto.getCodigo();
@@ -74,7 +72,7 @@ public class productoMYSQL implements productoDAO {
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDescripcion(rs.getString("descripcion"));
                 producto.setCodigo(rs.getInt("idTipoProducto"));
-                
+                producto.setFoto(rs.getBytes("foto"));
                 
                 //int idtipo=rs.getInt("categoria");
                 producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
@@ -102,7 +100,7 @@ public class productoMYSQL implements productoDAO {
         try {
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call ActualizaProducto"
-                    + "(?,?,?,?,?,?,?,?)}");
+                    + "(?,?,?,?,?,?,?,?,?)}");
             cs.setInt("p_idProducto", producto.getCodigo());
             //System.out.println(producto.getCodigo());
             cs.setString("p_nombre", producto.getNombre());
@@ -113,6 +111,7 @@ public class productoMYSQL implements productoDAO {
             cs.setDouble("p_precio", producto.getPrecio());
             cs.setInt("p_stock", producto.getStock());
             cs.setInt("p_idAlmacen", producto.getAlmacen().getIdAlmacen());
+            cs.setBytes("p_foto",producto.getFoto());
             
             resultado = cs.executeUpdate();
 
@@ -164,13 +163,13 @@ public class productoMYSQL implements productoDAO {
                 Producto producto = new Producto();
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDescripcion(rs.getString("descripcion"));
-                producto.setCodigo(rs.getInt("idTipoProducto"));
-                
-                
+                producto.setCodigo(rs.getInt("idProducto"));
+                producto.setTipoProducto(new TipoProducto());
+                producto.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
                 //int idtipo=rs.getInt("categoria");
                 producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 producto.setPrecio(rs.getDouble("precio"));
-
+                producto.setFoto(rs.getBytes("foto"));
                 productos.add(producto);
             }
         } catch (Exception ex) {
@@ -199,11 +198,12 @@ public class productoMYSQL implements productoDAO {
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDescripcion(rs.getString("descripcion"));
                 producto.setCodigo(rs.getInt("idTipoProducto"));
-                
-                
+                producto.setTipoProducto(new TipoProducto());
+                producto.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
                 //int idtipo=rs.getInt("categoria");
                 producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 producto.setPrecio(rs.getDouble("precio"));
+                producto.setFoto(rs.getBytes("foto"));
 
                 productos.add(producto);
             }
@@ -232,9 +232,11 @@ public class productoMYSQL implements productoDAO {
                 prod.setNombre(rs.getString("nombre"));
                 prod.setDescripcion(rs.getString("descripcion"));
                 prod.setCodigo(rs.getInt("idTipoProducto"));
-                //int idtipo=rs.getInt("categoria");
+                prod.setTipoProducto(new TipoProducto());
+                prod.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
                 prod.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 prod.setPrecio(rs.getDouble("precio"));
+                prod.setFoto(rs.getBytes("foto"));
             }else{
                 prod.setCodigo(0);
             }

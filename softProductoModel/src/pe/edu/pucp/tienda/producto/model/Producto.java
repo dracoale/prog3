@@ -19,6 +19,7 @@ public class Producto {
     private int stock;
     private EstadoProducto estadoProducto;
     private Almacen almacen;
+    private byte[] foto;
     public Producto() {
 
     }
@@ -100,4 +101,12 @@ public class Producto {
         this.almacen = almacen;
     }
 
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+    
 }

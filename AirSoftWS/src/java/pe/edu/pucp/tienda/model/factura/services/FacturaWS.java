@@ -16,7 +16,7 @@ import pe.edu.pucp.tienda.factura.mysql.facturaMYSQL;
  *
  * @author james
  */
-@WebService(serviceName = "FacturaWS")
+@WebService(serviceName = "FacturaWS", targetNamespace = "http://services.usuario.model.tienda.pucp.edu.pe/")
 public class FacturaWS {
     private facturaDAO facturadao;
     /**
@@ -65,5 +65,27 @@ public class FacturaWS {
             System.out.println(ex.getMessage());
         }
         return facturas;
+    }
+    @WebMethod(operationName = "buscarFacturaXPed")
+    public Factura buscarFacturaXPed(@WebParam(name = "idPedido") int idPedido) {
+        Factura fact = new Factura();
+        try{
+            facturadao = new facturaMYSQL();
+            fact = facturadao.buscarFacturaXPedido(idPedido);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return fact;
+    }
+    @WebMethod(operationName = "buscarFacturaXId")
+    public Factura buscarFacturaXId(@WebParam(name = "idFactura") int idFactura) {
+        Factura fact = new Factura();
+        try{
+            facturadao = new facturaMYSQL();
+            fact = facturadao.buscarFactura(idFactura);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return fact;
     }
 }

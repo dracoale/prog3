@@ -12,7 +12,6 @@ public class Pedido {
     private EstadoPedido estado;
     private int idUsuario;
     private Date fechaPedido;
-    private Date fechaCreacion;
     private Prioridad prioridad;
     private Date fechaEntrega;
     private ArrayList<DetallePedido> detallePedidos; 
@@ -23,7 +22,6 @@ public class Pedido {
   
     public Pedido(Date fechaPedido, Date fechaCreacion, Prioridad prioridad, Date fechaEntrega) {
         this.fechaPedido = fechaPedido;
-        this.fechaCreacion = fechaCreacion;
         this.prioridad = prioridad;
         this.fechaEntrega = fechaEntrega;
         
@@ -44,9 +42,6 @@ public class Pedido {
         return fechaPedido;
     }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
 
     public Prioridad getPrioridad() {
         return prioridad;
@@ -75,10 +70,6 @@ public class Pedido {
 
     public void setFechaPedido(Date fechaPedido) {
         this.fechaPedido = fechaPedido;
-    }
-
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
     }
 
     public void setPrioridad(Prioridad prioridad) {

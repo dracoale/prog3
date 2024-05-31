@@ -18,11 +18,12 @@ public class Usuario {
     //private static int contador=0;
     private int idUsuario;
     private String nombre;
+    private char genero;
     private String telefono;
     private String correo;
     private Date fechaRegistro;
     private EstadoCuenta estadocuenta;
-    private Date fechaCreacion;
+    private Date fechaNacimiento;
     private String nombreUsuario;
     private String contraseña;
     private String apellidoPaterno;
@@ -34,7 +35,7 @@ public class Usuario {
     public Usuario(){}
     
     public Usuario(String nombre, String telefono, String correo, EstadoCuenta estadocuenta,
-            Date fechaCreacion, String nombreUsuario, String contraseña,
+            Date fechaNacimiento, String nombreUsuario, String contraseña,
             String apellidoPaterno, String apellidoMaterno, TipoUsuario tipoUsuario) {
         //contador++;
         //this.idUsuario = contador;
@@ -43,7 +44,7 @@ public class Usuario {
         this.correo = correo;
         this.fechaRegistro = new Date();
         this.estadocuenta = estadocuenta;
-        this.fechaCreacion = fechaCreacion;
+        this.fechaNacimiento = fechaNacimiento;
         this.nombreUsuario = nombreUsuario;
         this.contraseña = contraseña;
         this.apellidoPaterno = apellidoPaterno;
@@ -101,12 +102,12 @@ public class Usuario {
         this.estadocuenta = estadocuenta;
     }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getNombreUsuario() {
@@ -165,28 +166,28 @@ public class Usuario {
         return pedidos;
     }
 
+    public char getGenero() {
+        return genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
+    public ArrayList<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(ArrayList<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+    
     public void actualizarContraseña(String contraseña, String contraseñaNueva) {
         if (contraseña.equals(this.contraseña)) {
             this.contraseña = contraseñaNueva;
         } else {
             System.out.println("La contraseña dada es incorrecta");
         }
-    }
-
-    public void mostrarOfertas() {
-
-    }
-
-    public void agregarUsuario() {
-
-    }
-
-    public void modificarUsuario() {
-
-    }
-
-    public void eliminarUsuario(String DNI) {
-
     }
     
      public TipoUsuario getTipoUsuario() {

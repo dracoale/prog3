@@ -25,4 +25,7 @@ public interface facturaDAO {
     // Delete
     public int eliminar(int id);
     
+    public Factura buscarFacturaXPedido(int idPedido);
+    public Factura buscarFactura(int idFactura);
+    
 }

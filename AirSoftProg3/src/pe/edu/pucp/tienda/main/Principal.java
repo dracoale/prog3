@@ -1,5 +1,8 @@
 package pe.edu.pucp.tienda.main;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.time.LocalDate;
@@ -17,7 +20,6 @@ import pe.edu.pucp.tienda.pedido.model.Pedido;
 import pe.edu.pucp.tienda.pedido.model.Prioridad;
 import pe.edu.pucp.tienda.pedido.mysql.detallePedidoMYSQL;
 import pe.edu.pucp.tienda.pedido.mysql.pedidoMYSQL;
-import pe.edu.pucp.tienda.producto.model.EstadoProducto;
 import pe.edu.pucp.tienda.producto.model.Producto;
 import pe.edu.pucp.tienda.producto.model.TipoProducto;
 import pe.edu.pucp.tienda.usuario.model.EstadoCuenta;
@@ -26,8 +28,12 @@ import pe.edu.pucp.tienda.usuario.model.Usuario;
 import pe.edu.pucp.tienda.usuario.dao.UsuarioDAO;
 import pe.edu.pucp.tienda.usuario.mysql.UsuarioMYSQL;
 import pe.edu.pucp.tienda.producto.dao.productoDAO;
+import pe.edu.pucp.tienda.producto.dao.productoPruebaDAO;
 import pe.edu.pucp.tienda.producto.model.Almacen;
+import pe.edu.pucp.tienda.producto.model.EstadoProducto;
+import pe.edu.pucp.tienda.producto.model.ProductoPrueba;
 import pe.edu.pucp.tienda.producto.mysql.productoMYSQL;
+import pe.edu.pucp.tienda.producto.mysql.productoPruebaMYSQL;
 import pe.edu.pucp.tienda.usuario.dao.ClienteIndividualDAO;
 import pe.edu.pucp.tienda.usuario.dao.ClienteJuridicoDAO;
 import pe.edu.pucp.tienda.usuario.mysql.ClienteIndividualMYSQL;
@@ -36,8 +42,143 @@ import pe.edu.pucp.tienda.usuario.model.ClienteJuridico;
 import pe.edu.pucp.tienda.usuario.mysql.ClienteJuridicoMYSQL;
 
 public class Principal {
-
+//    public static byte[] leerImagen(String ruta) {
+//        File file = new File(ruta);
+//        byte[] imagen = new byte[(int) file.length()];
+//
+//        try (FileInputStream fis = new FileInputStream(file)) {
+//            fis.read(imagen);
+//            System.out.println("Imagen leída correctamente de " + ruta);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return imagen;
+//    }
+//
+//    // Método para escribir una imagen en un archivo
+//    public static void escribirImagen(String ruta, byte[] imagen) {
+//        if (imagen == null) {
+//            System.out.println("El array de bytes de la imagen es nulo. Verifica la recuperación de la imagen.");
+//            return;
+//        }
+//
+//        try (FileOutputStream fos = new FileOutputStream(ruta)) {
+//            fos.write(imagen);
+//            System.out.println("Imagen escrita correctamente en " + ruta);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     public static void main(String[] args) {
+// Prueba Pedidos Modificados en SQL
+//
+//
+//    pedidoDAO pedidodao = new pedidoMYSQL();
+//    Pedido pedidoprueba = new Pedido();
+//    pedidoprueba.setIdPedido(1);
+//    pedidoprueba.setEstado(EstadoPedido.ENTREGADA);
+//    pedidoprueba.setPrioridad(Prioridad.NO_URGENTE);
+//    pedidoprueba.setFechaEntrega(new Date());
+//    pedidodao.eliminar(5);
+//    ArrayList<Pedido> pedidos= new ArrayList<Pedido>();
+//        pedidos=pedidodao.listar();
+//        for(Pedido ped: pedidos){
+//            System.out.println(ped.getIdPedido());
+//        }
+////  Prueba Usuarios Modificados en SQL
+//
+//
+//    UsuarioDAO usuariodao = new UsuarioMYSQL();
+//    ClienteIndividualDAO clienteinddao = new ClienteIndividualMYSQL();
+//    ClienteJuridicoDAO clientejurdao = new ClienteJuridicoMYSQL();
+//    Usuario usuarioprueba= new Usuario();
+//    ClienteIndividual clienteInd = new ClienteIndividual();
+//    ClienteJuridico clienteJur = new ClienteJuridico();
+//    usuariodao.eliminarUsuario(1);
+//    ArrayList<Usuario> usuarios= new ArrayList<Usuario>();
+//        usuarios=usuariodao.ListaUsuarioXTipo("ADMINISTRADOR");
+//        for(Usuario user: usuarios){
+//            System.out.println(user.getNombre());
+//        }
+//    usuarioprueba.setIdUsuario(4);
+//    usuarioprueba.setNombre("Deivy");
+//    usuarioprueba.setGenero('M');
+//    usuarioprueba.setTelefono("123456789");
+//    usuarioprueba.setCorreo("david1234@example.pucp.edu");
+//    usuarioprueba.setFechaNacimiento(new Date());
+//    usuarioprueba.setNombreUsuario("xDdavidXx");
+//    usuarioprueba.setApellidoPaterno("Juarez");
+//    usuarioprueba.setApellidoMaterno("Manzanal");
+//    usuarioprueba.setContraseña("pollito1234");
+//    usuariodao.ActualizaUsuarioPersona(usuarioprueba);
+//    clienteInd.setIdUsuario(5);
+//    clienteInd.setNombre("Pepe");
+//    clienteInd.setGenero('M');
+//    clienteInd.setTelefono("12312312");
+//    clienteInd.setCorreo("joselito123@example.pucp.edu");
+//    clienteInd.setFechaNacimiento(new Date());
+//    clienteInd.setNombreUsuario("Jose1929");
+//    clienteInd.setApellidoPaterno("Montes");
+//    clienteInd.setApellidoMaterno("Norte");
+//    clienteInd.setContraseña("joselito12312");
+//    clienteInd.setDNI("123912312");
+//    usuariodao.ActualizaUsuarioPersona(clienteInd);
+//    clienteJur.setIdUsuario(6);
+//    clienteJur.setNombre("Marcia");
+//    clienteJur.setGenero('F');
+//    clienteJur.setTelefono("12312321");
+//    clienteJur.setCorreo("marcia1929@example.pucp.edu");
+//    clienteJur.setFechaNacimiento(new Date());
+//    clienteJur.setNombreUsuario("marc929");
+//    clienteJur.setApellidoPaterno("Morales");
+//    clienteJur.setApellidoMaterno("Duarez");
+//    clienteJur.setContraseña("marcia1929");
+//    clienteJur.setRUC("marciaRUC");
+//    clienteJur.setNombreEmpresa("marcia S.A.C.");
+//    clientejurdao.actualizar(clienteJur);
+//        // Ruta de la imagen de prueba
+//        String rutaImagen = "C:/Users/james/OneDrive/Escritorio/Imagenes/pickeosnack.jpg";
+//        byte[] foto = leerImagen(rutaImagen);
+//        if (foto == null || foto.length == 0) {
+//            System.out.println("No se pudo leer la imagen. Verifique la ruta y el archivo.");
+//            return;
+//        }
+//        // Crear un objeto GrupoInvestigacion
+//        Producto prod = new Producto();
+//        Almacen alma = new Almacen();
+//        TipoProducto tipo = new TipoProducto();
+//        tipo.setIdTipoProducto(6);
+//        alma.setIdAlmacen(1);
+//        prod.setCodigo(5);
+//        prod.setDescripcion("2KG");
+//        prod.setNombre("Piqueos Snack");
+//        prod.setPrecio(10);
+//        prod.setStock(200);
+//        prod.setAlmacen(alma);
+//        prod.setEstadoProducto(EstadoProducto.ACTIVO);
+//        prod.setTipoProducto(tipo);
+//        prod.setFoto(foto);
+//
+//        // Guardar el grupo de investigación en la base de datos
+//        productoDAO dao = new productoMYSQL();
+//        dao.actualizar(prod);
+//
+//        // Recuperar el grupo de investigación de la base de datos
+//        Producto prodrecuperado = dao.buscarProducto(5);
+//        System.out.println("Foto length: " + prodrecuperado.getFoto().length);
+//        if (prodrecuperado == null) {
+//            System.out.println("No se pudo recuperar el producto de la base de datos.");
+//            return;
+//        }
+//
+//        if (prodrecuperado.getFoto() == null) {
+//            System.out.println("No se pudo recuperar la imagen de la base de datos.");
+//            return;
+//        }
+//        // Guardar la imagen recuperada en un archivo
+//        escribirImagen("C:/Users/james/OneDrive/Escritorio/Imagenes/imagen_recuperada.jpg", prodrecuperado.getFoto());
+
 // Prueba Pedido
 //        int resultado;
 //        Pedido ped = new Pedido(new Date(),
@@ -251,9 +392,6 @@ public class Principal {
 //
 //            System.out.println(item.getEstadoProducto());
 //        }
-
-
-/////////////////////////////////////////////////////
     }
 
 }

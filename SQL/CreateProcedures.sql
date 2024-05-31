@@ -2,10 +2,10 @@ DELIMITER $$
 CREATE PROCEDURE InsertaUsuarioNatural(
     OUT p_idUsuario INT,
     IN p_nombre VARCHAR(100),
+    IN p_genero CHAR(1),
     IN p_telefono VARCHAR(20),
     IN p_correo VARCHAR(100),
-    IN p_fechaRegistro DATE,
-    IN p_fechaCreacion DATE,
+    IN p_fechaNacimiento DATE,
     IN p_nombreUsuario VARCHAR(100),
     IN p_contrasena VARCHAR(50),
     IN p_apellidoPaterno VARCHAR(100),
@@ -13,61 +13,19 @@ CREATE PROCEDURE InsertaUsuarioNatural(
     IN p_DNI VARCHAR(20)
 )
 BEGIN
-    INSERT INTO Usuario(nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno, DNI)
-    VALUES (p_nombre, p_telefono, p_correo, p_fechaRegistro, 'ACTIVO', 'USER_NATURAL', p_fechaCreacion, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno, p_DNI);
+    INSERT INTO Usuario(nombre, telefono, correo, fechaRegistro,genero, estadoCuenta, tipoUsuario, fechaNacimiento, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno, DNI)
+    VALUES (p_nombre, p_telefono, p_correo, curdate(),p_genero, 'ACTIVO', 'USER_NATURAL', p_fechaNacimiento, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno, p_DNI);
     SET p_idUsuario = @@last_insert_id;
 END$$
-
-
-
-
-CREATE PROCEDURE ActualizaUsuarioNatural(
-    IN p_idUsuario INT,
-    IN p_nombre VARCHAR(100),
-    IN p_telefono VARCHAR(20),
-    IN p_correo VARCHAR(100),
-    IN p_nombreUsuario VARCHAR(100),
-    IN p_contrasena VARCHAR(50),
-    IN p_apellidoPaterno VARCHAR(100),
-    IN p_apellidoMaterno VARCHAR(100)
-)
-BEGIN
-    UPDATE Usuario
-    SET nombre = p_nombre, telefono = p_telefono, correo = p_correo, nombreUsuario = p_nombreUsuario, contrasena = p_contrasena, apellidoPaterno = p_apellidoPaterno, apellidoMaterno = p_apellidoMaterno
-    WHERE idUsuario = p_idUsuario;
-END$$
-
-
-
-CREATE PROCEDURE EliminaUsuarioNatural(
-    IN p_idUsuario INT
-)
-BEGIN
-    Update Usuario SET estadoCuenta='DESACTIVADO' WHERE idUsuario = p_idUsuario;
-END$$
-
-
-CREATE PROCEDURE ListaUsuariosNaturales()
-BEGIN
-    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno
-    FROM Usuario
-    WHERE tipoUsuario='USER_NATURAL';
-END$$
-
-
-
-
-
-
 
 
 CREATE PROCEDURE InsertaUsuarioJuridico(
     OUT p_idUsuario INT,
     IN p_nombre VARCHAR(100),
+    IN p_genero CHAR(1),
     IN p_telefono VARCHAR(20),
     IN p_correo VARCHAR(100),
-    IN p_fechaRegistro DATE,
-    IN p_fechaCreacion DATE,
+    IN p_fechaNacimiento DATE,
     IN p_nombreUsuario VARCHAR(100),
     IN p_contrasena VARCHAR(50),
     IN p_apellidoPaterno VARCHAR(100),
@@ -76,83 +34,64 @@ CREATE PROCEDURE InsertaUsuarioJuridico(
     IN p_nombreEmpresa VARCHAR(150)
 )
 BEGIN
-    INSERT INTO Usuario(nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno, RUC, nombreEmpresa)
-    VALUES (p_nombre, p_telefono, p_correo, p_fechaRegistro, 'ACTIVO', 'USER_JURIDICO', p_fechaCreacion, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno, p_RUC, p_nombreEmpresa);
+    INSERT INTO Usuario(nombre, telefono, correo,genero, fechaRegistro, estadoCuenta, tipoUsuario, fechaNacimiento, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno, RUC, nombreEmpresa)
+    VALUES (p_nombre, p_telefono, p_correo,p_genero, curdate(), 'ACTIVO', 'USER_JURIDICO', p_fechaNacimiento, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno, p_RUC, p_nombreEmpresa);
     SET p_idUsuario = @@last_insert_id;
 END$$
-
 
 
 
 CREATE PROCEDURE ActualizaUsuarioJuridico(
     IN p_idUsuario INT,
     IN p_nombre VARCHAR(100),
+    IN p_genero CHAR(1),
     IN p_telefono VARCHAR(20),
     IN p_correo VARCHAR(100),
+    IN p_fechaNacimiento DATE,
     IN p_nombreUsuario VARCHAR(100),
     IN p_contrasena VARCHAR(50),
     IN p_apellidoPaterno VARCHAR(100),
-    IN p_apellidoMaterno VARCHAR(100)
+    IN p_apellidoMaterno VARCHAR(100),
+    IN p_RUC VARCHAR(100),
+    IN p_nombreEmpresa VARCHAR(150)
 )
 BEGIN
     UPDATE Usuario
-    SET nombre = p_nombre, telefono = p_telefono, correo = p_correo, nombreUsuario = p_nombreUsuario, contrasena = p_contrasena, apellidoPaterno = p_apellidoPaterno, apellidoMaterno = p_apellidoMaterno
+    SET nombre = p_nombre,genero=p_genero, telefono = p_telefono, correo = p_correo,fechaNacimiento=p_fechaNacimiento,
+    nombreUsuario = p_nombreUsuario, contrasena = p_contrasena, apellidoPaterno = p_apellidoPaterno,
+    apellidoMaterno = p_apellidoMaterno, RUC=p_RUC, nombreEmpresa=p_nombreEmpresa
     WHERE idUsuario = p_idUsuario;
 END$$
 
 
-
-CREATE PROCEDURE EliminaUsuarioJuridico(
-    IN p_idUsuario INT
-)
-BEGIN
-    Update Usuario SET estadoCuenta='DESACTIVADO' WHERE idUsuario = p_idUsuario;
-END$$
-
-
-CREATE PROCEDURE ListaUsuariosJuridicos()
-BEGIN
-    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, apellidoPaterno, apellidoMaterno 
-    FROM Usuario
-    WHERE tipoUsuario='USER_JURIDICO';
-END$$
-
-
-
-
-
-
-
-
-
-
+#DELIMITER $$
 CREATE PROCEDURE InsertaAdministrador(
     OUT p_idUsuario INT,
     IN p_nombre VARCHAR(100),
+    IN p_genero CHAR(1),
     IN p_telefono VARCHAR(20),
     IN p_correo VARCHAR(100),
-    IN p_fechaRegistro DATE,
-    IN p_fechaCreacion DATE,
+    IN p_fechaNacimiento DATE,
     IN p_nombreUsuario VARCHAR(50),
     IN p_contrasena VARCHAR(100),
     IN p_apellidoPaterno VARCHAR(100),
     IN p_apellidoMaterno VARCHAR(100)
 )
 BEGIN
-    INSERT INTO Usuario(nombre, telefono, correo, fechaRegistro, estadoCuenta, tipoUsuario, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno)
-    VALUES (p_descripcion, p_nombre, p_telefono, p_correo, p_fechaRegistro, 'ACTIVO', 'ADMINISTRADOR', p_fechaCreacion, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno);
+    INSERT INTO Usuario(nombre, telefono, correo,genero, fechaRegistro, estadoCuenta, tipoUsuario, fechaNacimiento, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno)
+    VALUES (p_nombre, p_telefono, p_correo,p_genero, curdate(), 'ACTIVO', 'ADMINISTRADOR', p_fechaNacimiento, p_nombreUsuario, p_contrasena, p_apellidoPaterno, p_apellidoMaterno);
     SET p_idUsuario = @@last_insert_id;
 END$$
 
 
-
-CREATE PROCEDURE ActualizaAdministrador(
+#DELIMITER $$
+CREATE PROCEDURE ActualizaUsuarioPersona(
     IN p_idUsuario INT,
-    IN p_descripcion VARCHAR(200),
     IN p_nombre VARCHAR(100),
+    IN p_genero CHAR(1),
     IN p_telefono VARCHAR(20),
     IN p_correo VARCHAR(100),
-    IN p_idEstadoCuenta TINYINT,
+    IN p_fechaNacimiento DATE,
     IN p_nombreUsuario VARCHAR(50),
     IN p_contrasena VARCHAR(100),
     IN p_apellidoPaterno VARCHAR(100),
@@ -160,43 +99,21 @@ CREATE PROCEDURE ActualizaAdministrador(
 )
 BEGIN
     UPDATE Usuario
-    SET descripcion = p_descripcion,
-        nombre = p_nombre,
-        telefono = p_telefono,
-        correo = p_correo,
-        idEstadoCuenta = p_idEstadoCuenta,
-        nombreUsuario = p_nombreUsuario,
-        contrasena = p_contrasena,
-        apellidoPaterno = p_apellidoPaterno,
+    SET nombre = p_nombre,genero=p_genero,telefono = p_telefono,fechaNacimiento = p_fechaNacimiento,
+		correo = p_correo,nombreUsuario = p_nombreUsuario,contrasena = p_contrasena,apellidoPaterno = p_apellidoPaterno,
         apellidoMaterno = p_apellidoMaterno
     WHERE idUsuario = p_idUsuario;
 END$$
 
 
 
-CREATE PROCEDURE EliminaAdministrador(
-    IN p_idUsuario INT
-)
-BEGIN
-    Update Usuario SET estadoCuenta='DESACTIVADO'
-    WHERE idUsuario = p_idUsuario;
-END$$
-
-
-
-CREATE PROCEDURE ListaAdministradores()
-BEGIN
-    SELECT nombre, telefono, correo, fechaRegistro, estadoCuenta, fechaCreacion, nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno 
-    FROM Usuario
-    WHERE tipoUsuario='USER_ADMINISTRADOR';
-END$$
 #DELIMITER $$
 CREATE PROCEDURE ListarUsuariosXNombre(
 	_nombre VARCHAR(300)
 )
 BEGIN
-	SELECT idUsuario, CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno) as 'NombreCompleto', nombreUsuario, correo,telefono
-    ,estadoCuenta FROM Usuario where estadoCuenta = 'ACTIVO' 
+	SELECT idUsuario, CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno) as 'NombreCompleto',genero, nombreUsuario, correo,telefono
+    ,fechaNacimiento,estadoCuenta FROM Usuario where estadoCuenta = 'ACTIVO' 
     AND CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno, ' ',nombreUsuario) LIKE CONCAT('%',_nombre,'%');
 END$$
 #DELIMITER $$
@@ -206,11 +123,26 @@ CREATE PROCEDURE LoginUsuario(
 )
 BEGIN
 	SELECT idUsuario, CONCAT(nombre,' ',apellidoPaterno,' ',apellidoMaterno) as 'NombreCompleto',
-    nombreUsuario, correo, telefono, tipoUsuario, contrasena, estadoCuenta FROM Usuario
+    nombreUsuario, correo, telefono,genero,fechaNacimiento, tipoUsuario, contrasena, estadoCuenta FROM Usuario
     where estadoCuenta = 'ACTIVO' 
     AND (_usuario=nombreUsuario OR _usuario=correo) AND _contra=contrasena;
 END$$
 
+CREATE PROCEDURE ListaUsuarioXTipo(
+	IN tipo VARCHAR(20)
+)
+BEGIN
+    SELECT nombre, telefono,genero, correo, fechaRegistro, estadoCuenta, fechaNacimiento,
+    nombreUsuario, contrasena, apellidoPaterno, apellidoMaterno,RUC,nombreEmpresa,DNI
+    FROM Usuario
+    WHERE tipoUsuario=tipo;
+END$$
+CREATE PROCEDURE EliminaUsuario(
+    IN p_idUsuario INT
+)
+BEGIN
+    Update Usuario SET estadoCuenta='DESACTIVADO' WHERE idUsuario = p_idUsuario;
+END$$
 
 
 
@@ -221,16 +153,17 @@ CREATE PROCEDURE InsertaProducto(
     IN p_precio DOUBLE,
     IN p_stock INT,
     IN p_idAlmacen INT,
-    IN p_idTipoProducto INT
+    IN p_idTipoProducto INT,
+    IN p_foto BLOB
 )
 BEGIN
-    INSERT INTO Producto(nombre, descripcion, precio, stock, estadoProducto, idAlmacen, idTipoProducto)
-    VALUES (p_nombre, p_descripcion, p_precio, p_stock, 'ACTIVO', p_idAlmacen, p_idTipoProducto);
+    INSERT INTO Producto(nombre, descripcion, precio, stock, estadoProducto, idAlmacen, idTipoProducto,foto)
+    VALUES (p_nombre, p_descripcion, p_precio, p_stock, 'ACTIVO', p_idAlmacen, p_idTipoProducto,p_foto);
     SET p_idProducto = @@last_insert_id;
 END$$
 
 
-
+#DELIMITER $$
 CREATE PROCEDURE ActualizaProducto(
     IN p_idProducto INT,
     IN p_nombre VARCHAR(150),
@@ -239,12 +172,13 @@ CREATE PROCEDURE ActualizaProducto(
     IN p_stock INT,
     IN p_estadoProducto ENUM('DESCONTINUADO', 'ACTIVO', 'AGOTADO'),
     IN p_idAlmacen INT,
-    IN p_idTipoProducto INT
+    IN p_idTipoProducto INT,
+    IN p_foto BLOB
 )
 BEGIN
     UPDATE Producto
     SET nombre = p_nombre, descripcion = p_descripcion, precio = p_precio, stock = p_stock, estadoProducto = p_estadoProducto,
-    idAlmacen = p_idAlmacen, idTipoProducto=p_idTipoProducto, unidadMedida = p_unidadMedida
+    idAlmacen = p_idAlmacen, idTipoProducto=p_idTipoProducto, foto = p_foto
     WHERE idProducto = p_idProducto;
 END$$
 
@@ -260,14 +194,14 @@ END$$
 
 CREATE PROCEDURE ListaProductos()
 BEGIN
-    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto;
+    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto,foto FROM Producto;
 END$$
 #DELIMITER $$
 CREATE PROCEDURE ListaProductosXTipo(
 	p_idTipo INT
 )
 BEGIN
-    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto FROM Producto 
+    SELECT nombre,descripcion, idTipoProducto, precio, estadoProducto,foto FROM Producto 
     WHERE idTipoProducto = p_idTipo AND estadoProducto = 'ACTIVO';
 END$$
 
@@ -276,15 +210,15 @@ CREATE PROCEDURE LISTAR_PRODUCTOS_POR_NOMBRE(
 	_nombre VARCHAR(300)
 )
 BEGIN
-	SELECT idProducto, nombre,descripcion,idTipoProducto, precio,estadoProducto FROM Producto where estadoProducto = 'ACTIVO' AND CONCAT(nombre,' ',descripcion) LIKE CONCAT('%',_nombre,'%');
+	SELECT idProducto, nombre,descripcion,idTipoProducto, precio,estadoProducto,foto FROM Producto where estadoProducto = 'ACTIVO' AND CONCAT(nombre,' ',descripcion) LIKE CONCAT('%',_nombre,'%');
 END$$
 
 #DELIMITER $$
 CREATE PROCEDURE buscarProducto(
 	IN p_idProducto INT
 )
-BEGIN
-	SELECT nombre,descripcion,idTipoProducto, precio,estadoProducto FROM Producto where estadoProducto = 'ACTIVO' AND p_idProducto=idProducto;
+BEGIN	
+	SELECT nombre,descripcion,idTipoProducto, precio,estadoProducto,foto FROM Producto where estadoProducto = 'ACTIVO' AND p_idProducto=idProducto;
 END$$
 
 
@@ -329,30 +263,50 @@ BEGIN
     WHERE idFactura = p_idFactura;
 END$$
 
-
+#DELIMITER $$
 CREATE PROCEDURE ListaFacturas()
 BEGIN
-    SELECT idPedido,fecha, total, tipoPago, estadoFactura FROM Factura;
+    SELECT idFactura,idPedido,fecha, total, tipoPago, estadoFactura FROM Factura;
 END$$
+#DELIMITER $$
+CREATE PROCEDURE buscarFacturaXPedido(
+	IN f_idPedido INT
+)
+BEGIN
+    SELECT idFactura,idPedido,fecha, total, tipoPago, estadoFactura FROM Factura WHERE f_idPedido=idPedido;
+END$$
+#DELIMITER $$
+CREATE PROCEDURE buscarFactura(
+	IN f_idFactura INT
+)
+BEGIN
+    SELECT idFactura,idPedido,fecha, total, tipoPago, estadoFactura FROM Factura WHERE f_idFactura=idFactura;
+END$$
+#DELIMITER $$
+CREATE TRIGGER after_pedido_update
+AFTER UPDATE ON Pedido
+FOR EACH ROW
+BEGIN
+    IF NEW.estadoPedido = 'EN_CAMINO' AND OLD.estadoPedido != 'EN_CAMINO' THEN
+        INSERT INTO Factura (idPedido, fecha, total, tipoPago, estadoFactura)
+        VALUES (NEW.idPedido, CURDATE(), 0.0, NULL, 'ACTIVO');
+    END IF;
+END $$
 
 
 
 
 
-
-
-
+#DELIMITER $$
 CREATE PROCEDURE InsertaPedido(
-		p_idPedido INT,
-    IN p_fechaPedido DATE,
-    IN p_fechaCreacion DATE,
+	OUT	p_idPedido INT,
     IN p_prioridad ENUM('URGENTE', 'NO_URGENTE'),
     IN p_fechaEntrega DATE,
     IN p_idUsuario INT
 )
 BEGIN
-    INSERT INTO Pedido(estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario)
-    VALUES ('PROCESADA', p_fechaPedido, p_fechaCreacion, p_prioridad, p_fechaEntrega, p_idUsuario);
+    INSERT INTO Pedido(estadoPedido, fechaPedido, prioridad, fechaEntrega, idUsuario)
+    VALUES ('PROCESADA', curdate(), p_prioridad, p_fechaEntrega, p_idUsuario);
     SET p_idPedido = @@last_insert_id;
 END$$
 
@@ -361,12 +315,11 @@ END$$
 CREATE PROCEDURE ActualizaPedido(
     IN p_idPedido INT,
     IN p_estadoPedido ENUM('ENTREGADA', 'PROCESADA', 'CANCELADA','EN_CAMINO'),
-    IN p_fechaPedido DATE,
     IN p_prioridad ENUM('URGENTE', 'NO_URGENTE')
 )
 BEGIN
     UPDATE Pedido
-    SET estadoPedido = p_estadoPedido, fechaPedido = p_fechaPedido, prioridad = p_prioridad
+    SET estadoPedido = p_estadoPedido, prioridad = p_prioridad
     WHERE idPedido = p_idPedido;
 END$$
 
@@ -381,10 +334,10 @@ BEGIN
 END$$
 
 
-
+#DELIMITER $$
 CREATE PROCEDURE ListaPedidos()
 BEGIN
-    SELECT estadoPedido, fechaPedido, fechaCreacion, prioridad, fechaEntrega, idUsuario FROM Pedido;
+    SELECT idPedido,estadoPedido, fechaPedido, prioridad, fechaEntrega, idUsuario FROM Pedido;
 END$$
 
 
@@ -567,9 +520,32 @@ BEGIN
     SELECT * FROM Oferta WHERE estadoOferta='ACTIVO';
 END$$
 
-
-
-
+#DELIMITER $$
+CREATE PROCEDURE InsertaProductoPrueba(
+    OUT p_idProducto INT,
+    IN p_nombre VARCHAR(150),
+    IN p_descripcion VARCHAR(200),
+    IN p_precio DOUBLE,
+    IN p_stock INT,
+    IN p_foto BLOB
+)
+BEGIN
+    INSERT INTO ProductoPrueba(nombre, descripcion, precio, stock,foto)
+    VALUES (p_nombre, p_descripcion, p_precio, p_stock,p_foto);
+    SET p_idProducto = @@last_insert_id;
+END$$
+#DELIMITER $$
+CREATE PROCEDURE ListaProductosPrueba()
+BEGIN
+    SELECT idProducto,nombre,descripcion, precio,stock,foto FROM ProductoPrueba;
+END$$
+#DELIMITER $$
+CREATE PROCEDURE seleccionarProductoPrueba(
+	IN p_id INT
+)
+BEGIN
+    SELECT idProducto,nombre,descripcion, precio,stock,foto FROM ProductoPrueba WHERE idProducto=p_id;
+END$$
 
 
 

@@ -19,7 +19,7 @@ import pe.edu.pucp.tienda.producto.mysql.productoMYSQL;
  *
  * @author james
  */
-@WebService(serviceName = "DetallePedidoWS")
+@WebService(serviceName = "DetallePedidoWS", targetNamespace = "http://services.usuario.model.tienda.pucp.edu.pe/")
 public class DetallePedidoWS {
     private detallePedidoDAO detallepedidodao;
     private productoDAO productodao;

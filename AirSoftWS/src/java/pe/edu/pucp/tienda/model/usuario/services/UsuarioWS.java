@@ -7,7 +7,10 @@ package pe.edu.pucp.tienda.model.usuario.services;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import pe.edu.pucp.tienda.usuario.dao.UsuarioDAO;
 import pe.edu.pucp.tienda.usuario.model.Usuario;
 import pe.edu.pucp.tienda.usuario.mysql.UsuarioMYSQL;
@@ -46,5 +49,49 @@ public class UsuarioWS {
             System.out.println(ex.getMessage());
         }
         return user;
+    }
+    @WebMethod(operationName = "insertarAdmin")
+    public int insertarAdmin(@WebParam(name = "admin") Usuario admin) {
+        int resultado = 0;
+        try{
+            usuariodao = new UsuarioMYSQL();
+            resultado = usuariodao.InsertarAdmin(admin);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return resultado;
+    }
+    @WebMethod(operationName = "ActualizaUsuarioPersona")
+    public int ActualizaUsuarioPersona(@WebParam(name = "usuario") Usuario usuario) {
+        int resultado = 0;
+        try{
+            usuariodao = new UsuarioMYSQL();
+            resultado = usuariodao.ActualizaUsuarioPersona(usuario);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return resultado;
+    }
+    @WebMethod(operationName = "ListaUsuarioXTipo")
+    public ArrayList<Usuario> ListaUsuarioXTipo(@WebParam(name = "tipo") String tipo) {
+        ArrayList<Usuario> usuarios = null;
+        try{
+            usuariodao = new UsuarioMYSQL();
+            usuarios = usuariodao.ListaUsuarioXTipo(tipo);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return usuarios;
+    }
+    @WebMethod(operationName = "eliminaUsuario")
+    public int eliminaUsuario(@WebParam(name = "idUsuario") int idUsuario) {
+        int resultado = 0;
+        try{
+            usuariodao = new UsuarioMYSQL();
+            resultado = usuariodao.eliminarUsuario(idUsuario);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return resultado;
     }
 }

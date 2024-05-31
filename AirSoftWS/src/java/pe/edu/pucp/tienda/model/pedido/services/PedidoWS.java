@@ -16,7 +16,7 @@ import pe.edu.pucp.tienda.pedido.mysql.pedidoMYSQL;
  *
  * @author james
  */
-@WebService(serviceName = "PedidoWS")
+@WebService(serviceName = "PedidoWS", targetNamespace = "http://services.usuario.model.tienda.pucp.edu.pe/")
 public class PedidoWS {
     private pedidoDAO pedidodao;
     /**

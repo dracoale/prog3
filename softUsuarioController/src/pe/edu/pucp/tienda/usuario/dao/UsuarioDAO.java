@@ -13,5 +13,9 @@ import pe.edu.pucp.tienda.usuario.model.Usuario;
  */
 public interface UsuarioDAO {
     public ArrayList<Usuario> ListarUsuariosXNombre(String nombre);
+    public int InsertarAdmin(Usuario usuario);
     public Usuario LoginUsuario(String usuario,String contra);
+    public int ActualizaUsuarioPersona(Usuario usuario);
+    public ArrayList<Usuario> ListaUsuarioXTipo(String tipo);
+    public int eliminarUsuario(int id);
 }
