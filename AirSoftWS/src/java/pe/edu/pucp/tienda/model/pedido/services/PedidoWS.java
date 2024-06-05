@@ -66,4 +66,15 @@ public class PedidoWS {
         }
         return pedidos;
     }
+    @WebMethod(operationName = "ListaPedidosXUsuario")
+    public ArrayList<Pedido> ListaPedidosXUsuario(@WebParam(name = "usuarioID") int usuarioID) {
+        ArrayList<Pedido> pedidos = null;
+        try{
+            pedidodao = new pedidoMYSQL();
+            pedidos = pedidodao.listarPedidosXUsuario(usuarioID);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return pedidos;
+    }
 }

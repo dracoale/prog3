@@ -39,9 +39,15 @@ public class UsuarioMYSQL implements UsuarioDAO {
             while(rs.next()){
                 Usuario usuario=new Usuario();
                 usuario.setIdUsuario(rs.getInt("idUsuario"));
-                usuario.setNombre(rs.getString("NombreCompleto"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellidoPaterno(rs.getString("apellidoPaterno"));
+                usuario.setApellidoMaterno(rs.getString("apellidoMaterno"));
                 usuario.setTelefono(rs.getString("telefono"));
+                usuario.setGenero(rs.getString("genero").charAt(0));
                 usuario.setCorreo(rs.getString("correo"));
+                usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                usuario.setDireccion(rs.getString("direccion"));
+                usuario.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                 usuario.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("estadoCuenta")));
                 usuario.setNombreUsuario(rs.getString("nombreUsuario"));
                 
@@ -68,10 +74,15 @@ public class UsuarioMYSQL implements UsuarioDAO {
             rs=cs.executeQuery();
             if(rs.next()){
                 user.setIdUsuario(rs.getInt("idUsuario"));
-                user.setNombre(rs.getString("NombreCompleto"));
+                user.setNombre(rs.getString("nombre"));
+                user.setApellidoPaterno(rs.getString("apellidoPaterno"));
+                user.setApellidoMaterno(rs.getString("apellidoMaterno"));
                 user.setNombreUsuario(rs.getString("nombreUsuario"));
                 user.setTelefono(rs.getString("telefono"));
                 user.setCorreo(rs.getString("correo"));
+                user.setGenero(rs.getString("genero").charAt(0));
+                user.setDireccion(rs.getString("direccion"));
+                user.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                 user.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("estadoCuenta")));
                 user.setTipoUsuario(TipoUsuario.valueOf(rs.getString("tipoUsuario")));
                 user.setContraseña(rs.getString("contrasena"));
@@ -88,7 +99,7 @@ public class UsuarioMYSQL implements UsuarioDAO {
         return user;
     }
     @Override
-    public int ActualizaUsuarioPersona(Usuario usuario) {
+    public int ActualizaUsuarioPersona(Usuario usuario,String contra) {
        int resultado=0;
         try{    
             con = DBManager.getInstance().getConnection();
@@ -99,12 +110,13 @@ public class UsuarioMYSQL implements UsuarioDAO {
             cs.setString("p_genero", String.valueOf(usuario.getGenero()));
             cs.setString("p_telefono", usuario.getTelefono());
             cs.setString("p_correo", usuario.getCorreo());
-            cs.setDate("p_fechaNacimiento", new java.sql.Date(usuario.getFechaNacimiento().getTime()));
-            cs.setString("p_nombreUsuario", usuario.getNombreUsuario());
+            cs.setString("p_direccion", usuario.getDireccion());
             cs.setString("p_contrasena", usuario.getContraseña());
             cs.setString("p_apellidoPaterno", usuario.getApellidoPaterno());
             cs.setString("p_apellidoMaterno", usuario.getApellidoMaterno());
-            resultado=cs.executeUpdate();
+            cs.setString("p_contrasenanueva", contra);
+            cs.executeUpdate();
+            resultado=1;
         }catch(SQLException ex){
                 System.out.println(ex.getMessage());
         }finally{
@@ -128,6 +140,8 @@ public class UsuarioMYSQL implements UsuarioDAO {
                     usuarioJuridico.setNombre(rs.getString("nombre"));
                     usuarioJuridico.setTelefono(rs.getString("telefono"));
                     usuarioJuridico.setCorreo(rs.getString("correo"));
+                    usuarioJuridico.setGenero(rs.getString("genero").charAt(0));
+                    usuarioJuridico.setDireccion(rs.getString("direccion"));
                     usuarioJuridico.setFechaRegistro(rs.getDate("fechaRegistro"));
                     usuarioJuridico.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("EstadoCuenta")));
                     usuarioJuridico.setFechaNacimiento(rs.getDate("fechaNacimiento"));
@@ -143,6 +157,8 @@ public class UsuarioMYSQL implements UsuarioDAO {
                     usuarioIndividual.setNombre(rs.getString("nombre"));
                     usuarioIndividual.setTelefono(rs.getString("telefono"));
                     usuarioIndividual.setCorreo(rs.getString("correo"));
+                    usuarioIndividual.setGenero(rs.getString("genero").charAt(0));
+                    usuarioIndividual.setDireccion(rs.getString("direccion"));
                     usuarioIndividual.setFechaRegistro(rs.getDate("fechaRegistro"));
                     usuarioIndividual.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("EstadoCuenta")));
                     usuarioIndividual.setFechaNacimiento(rs.getDate("fechaNacimiento"));
@@ -158,6 +174,8 @@ public class UsuarioMYSQL implements UsuarioDAO {
                     user.setTelefono(rs.getString("telefono"));
                     user.setCorreo(rs.getString("correo"));
                     user.setFechaRegistro(rs.getDate("fechaRegistro"));
+                    user.setGenero(rs.getString("genero").charAt(0));
+                    user.setDireccion(rs.getString("direccion"));
                     user.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("EstadoCuenta")));
                     user.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                     user.setNombreUsuario(rs.getString("nombreUsuario"));
@@ -199,12 +217,13 @@ public class UsuarioMYSQL implements UsuarioDAO {
         try{    
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call InsertaAdministrador"
-                + "(?,?,?,?,?,?,?,?,?,?)}"); 	
+                + "(?,?,?,?,?,?,?,?,?,?,?)}"); 	
             cs.registerOutParameter("p_idUsuario", java.sql.Types.INTEGER);
             cs.setString("p_nombre",usuario.getNombre());
             cs.setString("p_genero", String.valueOf(usuario.getGenero()));
             cs.setString("p_telefono", usuario.getTelefono());
             cs.setString("p_correo", usuario.getCorreo());
+            cs.setString("p_direccion", usuario.getDireccion());
             cs.setDate("p_fechaNacimiento", new java.sql.Date(usuario.getFechaNacimiento().getTime()));
             cs.setString("p_nombreUsuario", usuario.getNombreUsuario());
             cs.setString("p_contrasena", usuario.getContraseña());
@@ -221,5 +240,93 @@ public class UsuarioMYSQL implements UsuarioDAO {
         }    
         return resultado;
     }
-    
+
+    @Override
+    public boolean existeUsuarioAdmin(Usuario user) {
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscarUsuarioExistenteAdmin"
+                    + "(?)}"); 	
+            cs.setString("p_usuario", user.getNombreUsuario());
+            rs=cs.executeQuery();
+            if(rs.next()) return true;
+                
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+                try{rs.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        } 
+        return false;
+    } 
+
+    @Override
+    public ArrayList<Usuario> mostrarUsuariosAAdmin() {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call MostrarUsuariosAAdmin"
+                    + "()}");
+            rs=cs.executeQuery();
+            while(rs.next()){
+                Usuario usuario=new Usuario();
+                usuario.setIdUsuario(rs.getInt("idUsuario"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellidoPaterno(rs.getString("apellidoPaterno"));
+                usuario.setApellidoMaterno(rs.getString("apellidoMaterno"));
+                usuario.setTelefono(rs.getString("telefono"));
+                usuario.setGenero(rs.getString("genero").charAt(0));
+                usuario.setCorreo(rs.getString("correo"));
+                usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                usuario.setDireccion(rs.getString("direccion"));
+                usuario.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+                usuario.setTipoUsuario(TipoUsuario.valueOf(rs.getString("tipoUsuario")));
+                usuario.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("estadoCuenta")));
+                usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+                
+                usuarios.add(usuario);
+            }
+                
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        }
+        return usuarios;
+    }
+
+    @Override
+    public Usuario BuscarUsuarioXId(int idUsuario) {
+        Usuario user= new Usuario();
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call BuscarUsuarioXId"
+                    + "(?)}"); 	
+            cs.setInt("p_idUsuario", idUsuario);
+            rs=cs.executeQuery();
+            if(rs.next()){
+                user.setIdUsuario(rs.getInt("idUsuario"));
+                user.setNombre(rs.getString("nombre"));
+                user.setApellidoPaterno(rs.getString("apellidoPaterno"));
+                user.setApellidoMaterno(rs.getString("apellidoMaterno"));
+                user.setNombreUsuario(rs.getString("nombreUsuario"));
+                user.setTelefono(rs.getString("telefono"));
+                user.setCorreo(rs.getString("correo"));
+                user.setGenero(rs.getString("genero").charAt(0));
+                user.setDireccion(rs.getString("direccion"));
+                user.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+                user.setEstadocuenta(EstadoCuenta.valueOf(rs.getString("estadoCuenta")));
+                user.setTipoUsuario(TipoUsuario.valueOf(rs.getString("tipoUsuario")));
+            }else{
+                user.setIdUsuario(0);
+            }
+                
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+                try{rs.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        }
+        return user;
+    }
 }

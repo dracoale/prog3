@@ -21,6 +21,7 @@ public class Usuario {
     private char genero;
     private String telefono;
     private String correo;
+    private String direccion;
     private Date fechaRegistro;
     private EstadoCuenta estadocuenta;
     private Date fechaNacimiento;
@@ -199,6 +200,14 @@ public class Usuario {
     }
     public String getNombreCompleto() {
         return nombre + ' ' + apellidoPaterno + ' ' + apellidoMaterno + ' ';
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
 }

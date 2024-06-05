@@ -57,7 +57,7 @@ public class OfertaMYSQL implements OfertaDAO {
 
     @Override
     public ArrayList<Oferta> listar() {
-ArrayList<Oferta> ofertas = new ArrayList<>();
+    ArrayList<Oferta> ofertas = new ArrayList<>();
         try {
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call ListaOferta()}");
@@ -82,7 +82,8 @@ ArrayList<Oferta> ofertas = new ArrayList<>();
                 System.out.println(ex.getMessage());
             }
         }
-        return ofertas;       }
+        return ofertas;       
+    }
 
     @Override
     public int eliminar(int id) {
@@ -136,6 +137,37 @@ int resultado = 0;
         }
         return resultado;   
     }
+
+    @Override
+    public double buscarOferta(int idProducto) {
+        Oferta oferta = new Oferta();
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscarOfertasXProducto"
+                + "(?)}");
+            cs.setInt("p_idProducto", idProducto);
+            rs = cs.executeQuery();
+            if (rs.next()) {
+                oferta.setIdOferta(rs.getInt("idOferta"));
+                oferta.setDescripcion(rs.getString("descripcion"));
+                oferta.setDescuento(rs.getDouble("descuento"));
+                oferta.setFechaInicio(rs.getDate("fechaInicio"));
+                oferta.setFechaInicio(rs.getDate("fechaFin"));
+            }else{
+                oferta.setIdOferta(0);
+                oferta.setDescuento(0);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return oferta.getDescuento();     
     }
+}
 
 

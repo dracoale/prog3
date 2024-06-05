@@ -20,6 +20,7 @@ import pe.edu.pucp.tienda.pedido.model.Pedido;
 import pe.edu.pucp.tienda.pedido.model.Prioridad;
 import pe.edu.pucp.tienda.pedido.mysql.detallePedidoMYSQL;
 import pe.edu.pucp.tienda.pedido.mysql.pedidoMYSQL;
+import pe.edu.pucp.tienda.producto.dao.AlmacenDAO;
 import pe.edu.pucp.tienda.producto.model.Producto;
 import pe.edu.pucp.tienda.producto.model.TipoProducto;
 import pe.edu.pucp.tienda.usuario.model.EstadoCuenta;
@@ -30,8 +31,10 @@ import pe.edu.pucp.tienda.usuario.mysql.UsuarioMYSQL;
 import pe.edu.pucp.tienda.producto.dao.productoDAO;
 import pe.edu.pucp.tienda.producto.dao.productoPruebaDAO;
 import pe.edu.pucp.tienda.producto.model.Almacen;
+import pe.edu.pucp.tienda.producto.model.EstadoAlmacen;
 import pe.edu.pucp.tienda.producto.model.EstadoProducto;
 import pe.edu.pucp.tienda.producto.model.ProductoPrueba;
+import pe.edu.pucp.tienda.producto.mysql.AlmacenMYSQL;
 import pe.edu.pucp.tienda.producto.mysql.productoMYSQL;
 import pe.edu.pucp.tienda.producto.mysql.productoPruebaMYSQL;
 import pe.edu.pucp.tienda.usuario.dao.ClienteIndividualDAO;
@@ -71,6 +74,27 @@ public class Principal {
 //        }
 //    }
     public static void main(String[] args) {
+//        productoDAO productodao = new productoMYSQL();
+//    ArrayList<Producto> productos= new ArrayList<Producto>();
+//        productos=productodao.productosMenosVendidos();
+//        for(Producto prod: productos){
+//            System.out.println(prod.getCodigo());
+//            System.out.println(prod.getNombre());
+//            System.out.println(prod.getDescripcion());
+//        }
+// Prueba Almacenes
+//
+//
+//    AlmacenDAO almacendao = new AlmacenMYSQL();
+//    Almacen almacen = new Almacen();
+//    almacen.setIdAlmacen(4);
+//    almacen.setDireccion("Av. Angelica Gamarra 727 Jr Peppy");
+//    almacendao.eliminar(4);
+//    ArrayList<Almacen> almacenes= new ArrayList<Almacen>();
+//        almacenes=almacendao.listar();
+//        for(Almacen alm: almacenes){
+//            System.out.println(alm.getDireccion());
+//        }
 // Prueba Pedidos Modificados en SQL
 //
 //
@@ -86,9 +110,9 @@ public class Principal {
 //        for(Pedido ped: pedidos){
 //            System.out.println(ped.getIdPedido());
 //        }
-////  Prueba Usuarios Modificados en SQL
-//
-//
+//  Prueba Usuarios Modificados en SQL
+
+
 //    UsuarioDAO usuariodao = new UsuarioMYSQL();
 //    ClienteIndividualDAO clienteinddao = new ClienteIndividualMYSQL();
 //    ClienteJuridicoDAO clientejurdao = new ClienteJuridicoMYSQL();
@@ -101,18 +125,19 @@ public class Principal {
 //        for(Usuario user: usuarios){
 //            System.out.println(user.getNombre());
 //        }
-//    usuarioprueba.setIdUsuario(4);
+//    usuarioprueba.setIdUsuario(7);
 //    usuarioprueba.setNombre("Deivy");
 //    usuarioprueba.setGenero('M');
 //    usuarioprueba.setTelefono("123456789");
 //    usuarioprueba.setCorreo("david1234@example.pucp.edu");
+//    usuarioprueba.setDireccion("Siempre Viva 1234");
 //    usuarioprueba.setFechaNacimiento(new Date());
 //    usuarioprueba.setNombreUsuario("xDdavidXx");
 //    usuarioprueba.setApellidoPaterno("Juarez");
 //    usuarioprueba.setApellidoMaterno("Manzanal");
 //    usuarioprueba.setContraseña("pollito1234");
-//    usuariodao.ActualizaUsuarioPersona(usuarioprueba);
-//    clienteInd.setIdUsuario(5);
+//    usuariodao.ActualizaUsuarioPersona(usuarioprueba,"pollito13");
+//    clienteInd.setIdUsuario(8);
 //    clienteInd.setNombre("Pepe");
 //    clienteInd.setGenero('M');
 //    clienteInd.setTelefono("12312312");
@@ -120,15 +145,17 @@ public class Principal {
 //    clienteInd.setFechaNacimiento(new Date());
 //    clienteInd.setNombreUsuario("Jose1929");
 //    clienteInd.setApellidoPaterno("Montes");
+//    clienteInd.setDireccion("Av. Prueba 123");
 //    clienteInd.setApellidoMaterno("Norte");
 //    clienteInd.setContraseña("joselito12312");
-//    clienteInd.setDNI("123912312");
-//    usuariodao.ActualizaUsuarioPersona(clienteInd);
-//    clienteJur.setIdUsuario(6);
+//    clienteInd.setDNI("123912312");             
+//    usuariodao.ActualizaUsuarioPersona(clienteInd,"joselito123");
+//    clienteJur.setIdUsuario(9);
 //    clienteJur.setNombre("Marcia");
 //    clienteJur.setGenero('F');
 //    clienteJur.setTelefono("12312321");
 //    clienteJur.setCorreo("marcia1929@example.pucp.edu");
+//    clienteJur.setDireccion("Marcia House");
 //    clienteJur.setFechaNacimiento(new Date());
 //    clienteJur.setNombreUsuario("marc929");
 //    clienteJur.setApellidoPaterno("Morales");
@@ -136,7 +163,7 @@ public class Principal {
 //    clienteJur.setContraseña("marcia1929");
 //    clienteJur.setRUC("marciaRUC");
 //    clienteJur.setNombreEmpresa("marcia S.A.C.");
-//    clientejurdao.actualizar(clienteJur);
+//    clientejurdao.actualizar(clienteJur,"marcia123");
 //        // Ruta de la imagen de prueba
 //        String rutaImagen = "C:/Users/james/OneDrive/Escritorio/Imagenes/pickeosnack.jpg";
 //        byte[] foto = leerImagen(rutaImagen);

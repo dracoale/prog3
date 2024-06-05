@@ -29,8 +29,8 @@ public class ClienteJuridicoWS {
     public int insertarClienteJuridico(@WebParam(name = "clientej") ClienteJuridico clientej) {
         int resultado = 0;
         try{
-            LocalDate fechaActual=LocalDate.now();
             clientejuridicodao = new ClienteJuridicoMYSQL();
+            if(clientejuridicodao.existeClienteJuridico(clientej)) return -1;
             resultado = clientejuridicodao.insertar(clientej);
         }catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -38,11 +38,11 @@ public class ClienteJuridicoWS {
         return resultado;
     }
     @WebMethod(operationName = "actualizarClienteJuridico")
-    public int actualizarClienteJuridico(@WebParam(name = "clientej") ClienteJuridico clientej) {
+    public int actualizarClienteJuridico(@WebParam(name = "clientej") ClienteJuridico clientej,String contra) {
         int resultado = 0;
         try{
             clientejuridicodao = new ClienteJuridicoMYSQL();
-            resultado = clientejuridicodao.actualizar(clientej);
+            resultado = clientejuridicodao.actualizar(clientej,contra);
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }

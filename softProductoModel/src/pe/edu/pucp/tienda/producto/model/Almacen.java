@@ -13,6 +13,7 @@ package pe.edu.pucp.tienda.producto.model;
 public class Almacen {
     private int idAlmacen;
     private String direccion;
+    private EstadoAlmacen estado;
     //private ArrayList<Producto> productos;
 
     public Almacen(int idAlmacen, String direccion) {
@@ -37,14 +38,13 @@ public class Almacen {
         this.direccion = direccion;
     }
 
-//    public ArrayList<Producto> getProductos() {
-//        return productos;
-//    }
-//
-//    public void setProductos(ArrayList<Producto> productos) {
-//        this.productos = productos;
-//    }
-//    
+    public EstadoAlmacen getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoAlmacen estado) {
+        this.estado = estado;
+    }
     
     
     

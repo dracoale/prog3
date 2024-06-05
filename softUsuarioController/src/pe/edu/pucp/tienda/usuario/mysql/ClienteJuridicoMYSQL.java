@@ -26,12 +26,13 @@ public class ClienteJuridicoMYSQL implements ClienteJuridicoDAO{
         try{    
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call InsertaUsuarioJuridico"
-                + "(?,?,?,?,?,?,?,?,?,?,?,?)}"); 	
+                + "(?,?,?,?,?,?,?,?,?,?,?,?,?)}"); 	
             cs.registerOutParameter("p_idUsuario", java.sql.Types.INTEGER);
             cs.setString("p_nombre",cliente.getNombre());
             cs.setString("p_genero", String.valueOf(cliente.getGenero()));
             cs.setString("p_telefono", cliente.getTelefono());
             cs.setString("p_correo", cliente.getCorreo());
+            cs.setString("p_direccion", cliente.getDireccion());
             cs.setDate("p_fechaNacimiento", new java.sql.Date(cliente.getFechaNacimiento().getTime()));
             cs.setString("p_nombreUsuario", cliente.getNombreUsuario());
             cs.setString("p_contrasena", cliente.getContraseña());
@@ -50,24 +51,23 @@ public class ClienteJuridicoMYSQL implements ClienteJuridicoDAO{
         return resultado;
     }
     @Override
-    public int actualizar(ClienteJuridico cliente) {
+    public int actualizar(ClienteJuridico cliente,String contra) {
         int resultado=0;
         try{    
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call ActualizaUsuarioJuridico"
-                + "(?,?,?,?,?,?,?,?,?,?,?,?)}"); 	
+                + "(?,?,?,?,?,?,?,?,?,?,?)}"); 	
             cs.setInt("p_idUsuario", cliente.getIdUsuario());
             cs.setString("p_nombre",cliente.getNombre());
             cs.setString("p_genero", String.valueOf(cliente.getGenero()));
             cs.setString("p_telefono", cliente.getTelefono());
             cs.setString("p_correo", cliente.getCorreo());
-            cs.setDate("p_fechaNacimiento", new java.sql.Date(cliente.getFechaNacimiento().getTime()));
-            cs.setString("p_nombreUsuario", cliente.getNombreUsuario());
+            cs.setString("p_direccion", cliente.getDireccion());
             cs.setString("p_contrasena", cliente.getContraseña());
             cs.setString("p_apellidoPaterno", cliente.getApellidoPaterno());
             cs.setString("p_apellidoMaterno", cliente.getApellidoMaterno());
-            cs.setString("p_RUC", cliente.getRUC());
             cs.setString("p_nombreEmpresa", cliente.getNombreEmpresa());
+            cs.setString("p_contrasenanueva", contra);
             cs.executeUpdate();
             resultado=cliente.getIdUsuario();
         }catch(SQLException ex){
@@ -78,6 +78,24 @@ public class ClienteJuridicoMYSQL implements ClienteJuridicoDAO{
         return resultado;
     }
 
-    
+    @Override
+    public boolean existeClienteJuridico(ClienteJuridico cliente) {
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscarUsuarioExistenteJuridico"
+                    + "(?,?)}"); 	
+            cs.setString("p_usuario", cliente.getNombreUsuario());
+            cs.setString("p_RUC", cliente.getRUC());
+            rs=cs.executeQuery();
+            if(rs.next()) return true;
+                
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+                try{rs.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        } 
+        return false;
+    }
 
 }

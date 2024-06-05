@@ -32,6 +32,7 @@ public class ClienteIndividualWS {
         int resultado = 0;
         try{
             clienteindividualdao = new ClienteIndividualMYSQL();
+            if(clienteindividualdao.existeClienteIndividual(clientei)) return -1;
             resultado = clienteindividualdao.inserta(clientei);
         }catch(Exception ex){
             System.out.println(ex.getMessage());

@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     nombre VARCHAR(100),
     telefono VARCHAR(20),
     correo VARCHAR(100),
+    direccion VARCHAR(200),
     fechaRegistro DATE,
     genero CHAR(1),
     estadoCuenta ENUM('ACTIVO', 'DESACTIVADO', 'SUSPENDIDO'),
@@ -89,14 +90,7 @@ CREATE TABLE IF NOT EXISTS DetallePedido (
     FOREIGN KEY (idPedido) REFERENCES Pedido(idPedido),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
-CREATE TABLE IF NOT EXISTS ProductoPrueba (
-    idProducto INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(150),
-    descripcion VARCHAR(200),
-    precio DOUBLE,
-    stock INT,
-    foto BLOB
-);
+
 
 
 

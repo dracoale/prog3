@@ -29,12 +29,13 @@ public class ClienteIndividualMYSQL implements ClienteIndividualDAO{
         try{    
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call InsertaUsuarioNatural"
-                + "(?,?,?,?,?,?,?,?,?,?,?)}"); 	
+                + "(?,?,?,?,?,?,?,?,?,?,?,?)}"); 	
             cs.registerOutParameter("p_idUsuario", java.sql.Types.INTEGER);
             cs.setString("p_nombre",cliente.getNombre());
             cs.setString("p_genero", String.valueOf(cliente.getGenero()));
             cs.setString("p_telefono", cliente.getTelefono());
             cs.setString("p_correo", cliente.getCorreo());
+            cs.setString("p_direccion", cliente.getDireccion());
             cs.setDate("p_fechaNacimiento", new java.sql.Date(cliente.getFechaNacimiento().getTime()));
             cs.setString("p_nombreUsuario", cliente.getNombreUsuario());
             cs.setString("p_contrasena", cliente.getContraseña());
@@ -51,6 +52,25 @@ public class ClienteIndividualMYSQL implements ClienteIndividualDAO{
                 try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
         }    
         return resultado;
+    }
+    @Override
+    public boolean existeClienteIndividual(ClienteIndividual cliente) {
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscarUsuarioExistenteNatural"
+                    + "(?,?)}"); 	
+            cs.setString("p_usuario", cliente.getNombreUsuario());
+            cs.setString("p_DNI", cliente.getDNI());
+            rs=cs.executeQuery();
+            if(rs.next()) return true;
+                
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+                try{rs.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        } 
+        return false;
     }
 
 }

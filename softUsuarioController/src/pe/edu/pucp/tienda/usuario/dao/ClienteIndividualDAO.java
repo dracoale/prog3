@@ -5,5 +5,6 @@ import pe.edu.pucp.tienda.usuario.model.ClienteIndividual;
 
 public interface ClienteIndividualDAO {
     
-    int inserta(ClienteIndividual cliente);
+    public int inserta(ClienteIndividual cliente);
+    public boolean existeClienteIndividual(ClienteIndividual cliente);
 }

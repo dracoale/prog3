@@ -1,26 +1,28 @@
 DROP TABLE IF EXISTS DetallePedido;
 DROP TABLE IF EXISTS Factura;
 DROP TABLE IF EXISTS Pedido;
-
-
+DROP TABLE IF EXISTS Usuario;
 DROP TABLE IF EXISTS Oferta;
 DROP TABLE IF EXISTS Producto;
 DROP TABLE IF EXISTS TipoProducto;
 DROP TABLE IF EXISTS Almacen;
-DROP TABLE IF EXISTS Usuario;
 
 DROP PROCEDURE IF EXISTS InsertaUsuarioNatural;
-
+DROP PROCEDURE IF EXISTS buscarUsuarioExistenteNatural;
 DROP PROCEDURE IF EXISTS InsertaUsuarioJuridico;
 DROP PROCEDURE IF EXISTS ActualizaUsuarioJuridico;
 
 DROP PROCEDURE IF EXISTS InsertaAdministrador;
 DROP PROCEDURE IF EXISTS ActualizaUsuarioPersona;
+DROP PROCEDURE IF EXISTS buscarUsuarioExistenteAdmin;
 
 DROP PROCEDURE IF EXISTS ListarUsuariosXNombre;
 DROP PROCEDURE IF EXISTS LoginUsuario;
 DROP PROCEDURE IF EXISTS ListaUsuarioXTipo;
 DROP PROCEDURE IF EXISTS EliminaUsuario;
+DROP PROCEDURE IF EXISTS buscarUsuarioExistenteJuridico;
+DROP PROCEDURE IF EXISTS MostrarUsuariosAAdmin;
+DROP PROCEDURE IF EXISTS BuscarUsuarioXId;
 
 DROP PROCEDURE IF EXISTS InsertaProducto;
 DROP PROCEDURE IF EXISTS ActualizaProducto;
@@ -29,6 +31,9 @@ DROP PROCEDURE IF EXISTS ListaProductos;
 DROP PROCEDURE IF EXISTS LISTAR_PRODUCTOS_POR_NOMBRE;
 DROP PROCEDURE IF EXISTS buscarProducto;
 DROP PROCEDURE IF EXISTS ListaProductosXTipo;
+DROP PROCEDURE IF EXISTS top3_productos_mas_vendidos;
+DROP PROCEDURE IF EXISTS top3_productos_menos_vendidos;
+DROP PROCEDURE IF EXISTS calcular_crecimiento_ventas;
 
 DROP PROCEDURE IF EXISTS InsertaFactura;
 DROP PROCEDURE IF EXISTS ActualizaFactura;
@@ -42,6 +47,9 @@ DROP PROCEDURE IF EXISTS EliminaPedido;
 DROP PROCEDURE IF EXISTS ListaPedidos;
 DROP PROCEDURE IF EXISTS buscarFactura;
 DROP TRIGGER IF EXISTS after_pedido_update;
+DROP PROCEDURE IF EXISTS ListaPedidosXUsuario;
+DROP TRIGGER IF EXISTS restar_stock_al_actualizar_pedido;
+
 
 DROP PROCEDURE IF EXISTS InsertaDetallePedido;
 DROP PROCEDURE IF EXISTS ActualizaDetallePedido;
@@ -63,3 +71,5 @@ DROP PROCEDURE IF EXISTS InsertaOferta;
 DROP PROCEDURE IF EXISTS ActualizaOferta;
 DROP PROCEDURE IF EXISTS EliminaOferta;
 DROP PROCEDURE IF EXISTS ListaOfertas;
+DROP PROCEDURE IF EXISTS buscarOfertasXProducto;
+DROP EVENT IF EXISTS desactivar_ofertas;

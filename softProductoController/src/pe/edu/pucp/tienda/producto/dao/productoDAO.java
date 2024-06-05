@@ -33,4 +33,10 @@ public interface productoDAO {
     
     public Producto buscarProducto(int idProducto);
     
+    public ArrayList<Producto> productosMasVendidos();
+    
+    public ArrayList<Producto> productosMenosVendidos();
+    
+    public double crecimientoVentas(int idproducto,int año,int mes);
+    
 }

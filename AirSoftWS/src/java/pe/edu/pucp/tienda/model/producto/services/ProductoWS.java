@@ -100,4 +100,49 @@ public class ProductoWS {
         }
         return prod.getPrecio();
     }
+    @WebMethod(operationName = "buscarProductoXID")
+    public Producto buscarProductoXID(@WebParam(name = "idProducto") int idProducto) {
+        Producto prod = new Producto();
+        try{
+            productodao = new productoMYSQL();
+            prod = productodao.buscarProducto(idProducto);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return prod;
+    }
+    @WebMethod(operationName = "listarProductosMasVendidos")
+    public ArrayList<Producto> listarProductosMasVendidos() {
+        ArrayList<Producto> productos = null;
+        try{
+            productodao = new productoMYSQL();
+            productos = productodao.productosMasVendidos();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return productos;
+    }
+    @WebMethod(operationName = "listarProductosMenosVendidos")
+    public ArrayList<Producto> listarProductosMenosVendidos() {
+        ArrayList<Producto> productos = null;
+        try{
+            productodao = new productoMYSQL();
+            productos = productodao.productosMenosVendidos();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return productos;
+    }
+    @WebMethod(operationName = "conseguirCrecimiento")
+    public double crecimientoVentas(@WebParam(name = "idProducto") int idProducto,
+            @WebParam(name = "anio") int anio,@WebParam(name = "mes") int mes) {
+        double crecimiento=-1;
+        try{
+            productodao = new productoMYSQL();
+            crecimiento = productodao.crecimientoVentas(idProducto, anio, mes);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return crecimiento;
+    }
 }

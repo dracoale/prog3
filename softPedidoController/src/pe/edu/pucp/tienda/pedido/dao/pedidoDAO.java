@@ -20,6 +20,8 @@ public interface pedidoDAO {
     //public Factura consultarPorId(int id);
     public ArrayList<Pedido> listar();
     
+    public ArrayList<Pedido> listarPedidosXUsuario(int id);
+    
     // Update
     public int actualizar(Pedido pedido);
     

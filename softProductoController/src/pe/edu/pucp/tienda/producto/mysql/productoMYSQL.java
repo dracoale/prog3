@@ -56,7 +56,6 @@ public class productoMYSQL implements productoDAO {
                 System.out.println(ex.getMessage());
             }
         }
-        System.out.println(resultado);
         return resultado;
     }
 
@@ -71,13 +70,14 @@ public class productoMYSQL implements productoDAO {
                 Producto producto = new Producto();
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDescripcion(rs.getString("descripcion"));
-                producto.setCodigo(rs.getInt("idTipoProducto"));
+                producto.setCodigo(rs.getInt("idProducto"));
                 producto.setFoto(rs.getBytes("foto"));
-                
+                producto.setTipoProducto(new TipoProducto());
+                producto.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
                 //int idtipo=rs.getInt("categoria");
                 producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 producto.setPrecio(rs.getDouble("precio"));
-
+                producto.setFoto(rs.getBytes("foto"));
                 productos.add(producto);
             }
         } catch (Exception ex) {
@@ -197,7 +197,7 @@ public class productoMYSQL implements productoDAO {
                 Producto producto = new Producto();
                 producto.setNombre(rs.getString("nombre"));
                 producto.setDescripcion(rs.getString("descripcion"));
-                producto.setCodigo(rs.getInt("idTipoProducto"));
+                producto.setCodigo(rs.getInt("idProducto"));
                 producto.setTipoProducto(new TipoProducto());
                 producto.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
                 //int idtipo=rs.getInt("categoria");
@@ -231,7 +231,7 @@ public class productoMYSQL implements productoDAO {
             if (rs.next()) {
                 prod.setNombre(rs.getString("nombre"));
                 prod.setDescripcion(rs.getString("descripcion"));
-                prod.setCodigo(rs.getInt("idTipoProducto"));
+                prod.setCodigo(rs.getInt("idProducto"));
                 prod.setTipoProducto(new TipoProducto());
                 prod.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
                 prod.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
@@ -250,4 +250,90 @@ public class productoMYSQL implements productoDAO {
             }
         }
         return prod;    }
+
+    @Override
+    public ArrayList<Producto> productosMasVendidos() {
+    ArrayList<Producto> productos = new ArrayList<>();
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call top3_productos_mas_vendidos"
+                    + "()}");
+            rs = cs.executeQuery();
+            while (rs.next()) {
+                Producto producto = new Producto();
+                producto.setCodigo(rs.getInt("p.idProducto"));
+                producto.setNombre(rs.getString("p.nombre"));
+                producto.setDescripcion(rs.getString("p.descripcion"));
+                producto.setFoto(rs.getBytes("p.foto"));
+                producto.setStock(rs.getInt("total_vendido"));
+                productos.add(producto);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return productos;
+    }    
+
+    @Override
+    public ArrayList<Producto> productosMenosVendidos() {
+        ArrayList<Producto> productos = new ArrayList<>();
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call top3_productos_menos_vendidos"
+                    + "()}");
+            rs = cs.executeQuery();
+            while (rs.next()) {
+                Producto producto = new Producto();
+                producto.setCodigo(rs.getInt("p.idProducto"));
+                producto.setNombre(rs.getString("p.nombre"));
+                producto.setDescripcion(rs.getString("p.descripcion"));
+                producto.setFoto(rs.getBytes("p.foto"));
+                producto.setStock(rs.getInt("total_vendido"));
+
+                productos.add(producto);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return productos;
+    }    
+
+    @Override
+    public double crecimientoVentas(int idproducto, int año, int mes) {
+        double crecimiento = 0;
+        try {
+            con = DBManager.getInstance().getConnection();
+            System.out.println(con);
+            cs = con.prepareCall("{call calcular_crecimiento_ventas"
+                    + "(?,?,?,?)}");
+            cs.registerOutParameter("crecimiento", java.sql.Types.DOUBLE);
+            cs.setInt("producto_id", idproducto);
+            cs.setInt("anio_actual", año);
+            cs.setInt("mes_actual", mes);
+            cs.executeUpdate();
+            crecimiento = cs.getDouble("crecimiento");
+        } catch (Exception ex) {
+            // System.out.println("no entrio");
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return crecimiento;
+    }
 }

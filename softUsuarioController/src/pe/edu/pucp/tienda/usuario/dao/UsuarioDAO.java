@@ -15,7 +15,10 @@ public interface UsuarioDAO {
     public ArrayList<Usuario> ListarUsuariosXNombre(String nombre);
     public int InsertarAdmin(Usuario usuario);
     public Usuario LoginUsuario(String usuario,String contra);
-    public int ActualizaUsuarioPersona(Usuario usuario);
+    public int ActualizaUsuarioPersona(Usuario usuario,String contra);
     public ArrayList<Usuario> ListaUsuarioXTipo(String tipo);
     public int eliminarUsuario(int id);
+    public boolean existeUsuarioAdmin(Usuario user);
+    public ArrayList<Usuario> mostrarUsuariosAAdmin();
+    public Usuario BuscarUsuarioXId(int idUsuario);
 }

@@ -56,4 +56,16 @@ public class OfertaWS {
         }
         return resultado;
     }
+    
+    @WebMethod(operationName = "buscarOferta")
+    public double buscarOferta(@WebParam(name = "idProducto") int idProducto) {
+        double oferta = 0;
+        try{
+            ofertadao = new OfertaMYSQL();
+            oferta = ofertadao.buscarOferta(idProducto);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return oferta;
+    }
 }

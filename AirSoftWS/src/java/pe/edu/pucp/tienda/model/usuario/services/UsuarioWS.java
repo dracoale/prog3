@@ -55,6 +55,7 @@ public class UsuarioWS {
         int resultado = 0;
         try{
             usuariodao = new UsuarioMYSQL();
+            if(usuariodao.existeUsuarioAdmin(admin)) return -1;
             resultado = usuariodao.InsertarAdmin(admin);
         }catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -62,11 +63,11 @@ public class UsuarioWS {
         return resultado;
     }
     @WebMethod(operationName = "ActualizaUsuarioPersona")
-    public int ActualizaUsuarioPersona(@WebParam(name = "usuario") Usuario usuario) {
+    public int ActualizaUsuarioPersona(@WebParam(name = "usuario") Usuario usuario,String contra) {
         int resultado = 0;
         try{
             usuariodao = new UsuarioMYSQL();
-            resultado = usuariodao.ActualizaUsuarioPersona(usuario);
+            resultado = usuariodao.ActualizaUsuarioPersona(usuario,contra);
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
@@ -93,5 +94,27 @@ public class UsuarioWS {
             System.out.println(ex.getMessage());
         }
         return resultado;
+    }
+    @WebMethod(operationName = "mostarUsuariosAAdmin")
+    public ArrayList<Usuario> mostarUsuariosAAdmin() {
+        ArrayList<Usuario> usuarios = null;
+        try{
+            usuariodao = new UsuarioMYSQL();
+            usuarios = usuariodao.mostrarUsuariosAAdmin();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return usuarios;
+    }
+    @WebMethod(operationName = "BuscarUsuarioXId")
+    public Usuario BuscarUsuarioXId(@WebParam(name = "idUsuario") int idUsuario) {
+        Usuario user = new Usuario();
+        try{
+            usuariodao = new UsuarioMYSQL();
+            user = usuariodao.BuscarUsuarioXId(idUsuario);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return user;
     }
 }

@@ -16,4 +16,5 @@ public interface OfertaDAO {
     ArrayList<Oferta> listar();
     int eliminar(int id);
     int actualizar(Oferta oferta);
+    double buscarOferta(int idProducto);
 }

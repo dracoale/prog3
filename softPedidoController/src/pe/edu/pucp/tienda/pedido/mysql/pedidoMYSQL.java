@@ -108,4 +108,30 @@ public class pedidoMYSQL implements pedidoDAO{
 		}
     return resultado;
  }
+    @Override
+    public ArrayList<Pedido> listarPedidosXUsuario(int id) {
+        
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+		try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call ListaPedidosXUsuario"
+                    + "(?)}"); 
+			rs = cs.executeQuery();
+            while(rs.next()){
+                Pedido pedido = new Pedido();
+                pedido.setIdPedido(rs.getInt("idPedido"));
+                pedido.setEstado(EstadoPedido.valueOf(rs.getString("estadoPedido")));
+                pedido.setFechaPedido(rs.getDate("fechaPedido"));
+                pedido.setPrioridad(Prioridad.valueOf(rs.getString("prioridad")));
+                pedido.setFechaEntrega(rs.getDate("fechaEntrega"));
+                pedidos.add(pedido);
+            }
+			
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+		}
+		return pedidos;
+    }
 }
