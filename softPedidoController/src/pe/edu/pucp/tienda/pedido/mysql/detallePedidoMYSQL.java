@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import pe.edu.pucp.tienda.config.DBManager;
 import pe.edu.pucp.tienda.pedido.dao.detallePedidoDAO;
 import pe.edu.pucp.tienda.pedido.model.DetallePedido;
+import pe.edu.pucp.tienda.producto.dao.productoDAO;
 import pe.edu.pucp.tienda.producto.model.Producto;
+import pe.edu.pucp.tienda.producto.mysql.productoMYSQL;
 
 /**
  *
@@ -115,6 +117,8 @@ public class detallePedidoMYSQL implements detallePedidoDAO{
             rs = cs.executeQuery();
             while(rs.next()){
                 DetallePedido detalle = new DetallePedido();
+                detalle.setIdDetallePedido(rs.getInt("idDetallePedido"));
+                detalle.setIdPedido(rs.getInt("idPedido"));
                 detalle.setCantidad(rs.getInt("cantidad"));
                 detalle.setProducto(new Producto());
                 detalle.getProducto().setCodigo(rs.getInt("idProducto"));

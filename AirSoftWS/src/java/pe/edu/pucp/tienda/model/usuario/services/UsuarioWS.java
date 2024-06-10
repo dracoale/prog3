@@ -117,4 +117,26 @@ public class UsuarioWS {
         }
         return user;
     }
+    @WebMethod(operationName = "ActivarUsuario")
+    public int ActivarUsuario(@WebParam(name = "idUsuario") int idUsuario) {
+        int resultado=0;
+        try{
+            usuariodao = new UsuarioMYSQL();
+            resultado = usuariodao.activarUsuario(idUsuario);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return resultado;
+    }
+    @WebMethod(operationName = "SuspenderUsuario")
+    public int SuspenderUsuario(@WebParam(name = "idUsuario") int idUsuario) {
+        int resultado=0;
+        try{
+            usuariodao = new UsuarioMYSQL();
+            resultado = usuariodao.suspenderUsuario(idUsuario);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return resultado;
+    }
 }

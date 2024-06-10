@@ -7,6 +7,7 @@ package pe.edu.pucp.tienda.model.producto.services;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
+import java.util.ArrayList;
 import pe.edu.pucp.tienda.producto.dao.OfertaDAO;
 import pe.edu.pucp.tienda.producto.model.Oferta;
 import pe.edu.pucp.tienda.producto.mysql.OfertaMYSQL;
@@ -67,5 +68,27 @@ public class OfertaWS {
             System.out.println(ex.getMessage());
         }
         return oferta;
+    }
+    @WebMethod(operationName = "listarOfertas")
+    public ArrayList<Oferta> listarOfertas() {
+        ArrayList<Oferta> ofertas = null;
+        try{
+            ofertadao = new OfertaMYSQL();
+            ofertas = ofertadao.listar();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return ofertas;
+    }
+    @WebMethod(operationName = "buscarOfertaXId")
+    public Oferta buscarOfertaXId(@WebParam(name = "idOferta") int idOferta) {
+        Oferta ofer = new Oferta();
+        try{
+            ofertadao = new OfertaMYSQL();
+            ofer = ofertadao.buscarOfertaXId(idOferta);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return ofer;
     }
 }

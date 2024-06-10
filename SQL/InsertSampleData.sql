@@ -27,7 +27,8 @@ CALL InsertaAdministrador(@idUsuario,'Billete','M','999999','billetinportas@exam
 CALL InsertaUsuarioJuridico(@idUsuario,'Norma','F','111111','normax@example.com',
 'Av. Anonimo','2020-04-27',
 'normanda','1234','Veramendi','Guinea','asdsaRUC','Norma S.A.');
-CALL InsertaPedido(@idPedido,'URGENTE','2024-05-29',1);
+CALL InsertaPedido(@idPedido,'URGENTE',1);
+CALL InsertaPedido(@idPedido,'URGENTE',3);
 CALL InsertaProducto(@idProducto,'Camisa','Camisa de algodón con estampado de rayas',
 29.99,100,1,1,0);
 CALL InsertaProducto(@idProducto,'Gaseosa INCA KOLA','1L',25.99,
@@ -76,7 +77,7 @@ CALL ActualizaPedido(1,'EN_CAMINO','URGENTE');
 CALL top3_productos_mas_vendidos();
 CALL EliminaDetallePedido(6);
 CALL top3_productos_mas_vendidos();
-CALL InsertaPedido(@idPedido,'URGENTE','2024-04-29',2);
+CALL InsertaPedido(@idPedido,'URGENTE',2);
 CALL InsertaDetallePedido(@idDetallePedido,2,5,1);
 CALL InsertaDetallePedido(@idDetallePedido,2,4,1);
 CALL InsertaDetallePedido(@idDetallePedido,2,3,1);
@@ -88,3 +89,6 @@ CALL calcular_crecimiento_ventas(2,2024,5,@crecimiento);
 Select @crecimiento;
 CALL MostrarUsuariosAAdmin();
 CALL BuscarUsuarioXId(4);
+CALL ListaTiposProducto();
+CALL buscardOfertaXId(1);
+CALL ListaPedidosXIdPedido(1);

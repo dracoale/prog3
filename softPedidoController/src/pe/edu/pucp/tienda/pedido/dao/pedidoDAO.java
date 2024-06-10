@@ -28,4 +28,5 @@ public interface pedidoDAO {
     // Delete
     public int eliminar(int id);
     
+    public Pedido cargarPedido(int idPedido);
 }

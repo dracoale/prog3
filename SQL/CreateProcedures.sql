@@ -63,8 +63,8 @@ BEGIN
     SELECT contrasena
     INTO v_contrasena
     FROM Usuario
-    WHERE idUsuario = p_idUsuario;
-    IF v_contrasena = p_contrasena THEN
+    WHERE CAST(idUsuario AS BINARY)= CAST(p_idUsuario AS BINARY);
+    IF CAST(v_contrasena AS BINARY) = CAST(p_contrasena AS BINARY) THEN
 		UPDATE Usuario
 		SET nombre = p_nombre,genero=p_genero,telefono = p_telefono,
 			correo = p_correo,direccion=p_direccion,contrasena = p_contrasenanueva,apellidoPaterno = p_apellidoPaterno,
@@ -116,8 +116,8 @@ BEGIN
     SELECT contrasena
     INTO v_contrasena
     FROM Usuario
-    WHERE idUsuario = p_idUsuario;
-    IF v_contrasena = p_contrasena THEN
+    WHERE CAST(idUsuario AS BINARY)= CAST(p_idUsuario AS BINARY);
+    IF CAST(v_contrasena AS BINARY) = CAST(p_contrasena AS BINARY) THEN
 		UPDATE Usuario
 		SET nombre = p_nombre,genero=p_genero,telefono = p_telefono,
 			correo = p_correo,direccion=p_direccion,contrasena = p_contrasenanueva,apellidoPaterno = p_apellidoPaterno,
@@ -148,7 +148,8 @@ BEGIN
 	SELECT idUsuario,nombre,apellidoPaterno,apellidoMaterno,
     nombreUsuario, correo, telefono,genero,direccion,fechaNacimiento, tipoUsuario, estadoCuenta FROM Usuario
     where estadoCuenta = 'ACTIVO' 
-    AND (_usuario=nombreUsuario OR _usuario=correo) AND _contra=contrasena;
+    AND (CAST(_usuario AS BINARY)=CAST(nombreUsuario AS BINARY) OR CAST(_usuario=correo AS BINARY)) AND CAST(_contra AS BINARY) = 
+    CAST(contrasena AS BINARY);
 END$$
 
 CREATE PROCEDURE ListaUsuarioXTipo(
@@ -173,7 +174,7 @@ CREATE PROCEDURE buscarUsuarioExistenteAdmin(
 BEGIN
     SELECT *
     FROM Usuario
-    WHERE usuario=p_usuario AND estadoCuenta<>'DESACTIVADO';
+    WHERE nombreUsuario=p_usuario AND estadoCuenta<>'DESACTIVADO';
 END$$
 #DELIMITER $$
 CREATE PROCEDURE buscarUsuarioExistenteNatural(
@@ -183,7 +184,7 @@ CREATE PROCEDURE buscarUsuarioExistenteNatural(
 BEGIN
     SELECT *
     FROM Usuario
-    WHERE (usuario=p_usuario OR DNI=p_DNI) AND estadoCuenta<>'DESACTIVADO';
+    WHERE (nombreUsuario=p_usuario OR DNI=p_DNI) AND estadoCuenta<>'DESACTIVADO';
 END$$
 #DELIMITER $$
 CREATE PROCEDURE buscarUsuarioExistenteJuridico(
@@ -193,15 +194,11 @@ CREATE PROCEDURE buscarUsuarioExistenteJuridico(
 BEGIN
     SELECT *
     FROM Usuario
-    WHERE (usuario=p_usuario OR RUC=p_RUC) AND estadoCuenta<>'DESACTIVADO';
+    WHERE (nombreUsuario=p_usuario OR RUC=p_RUC) AND estadoCuenta<>'DESACTIVADO';
 END$$
 
 
-#DELIMITER $$
-CREATE PROCEDURE buscarUsuarioExistenteJuridico(
-	IN p_usuario VARCHAR(20),
-    IN p_RUC VARCHAR(20)
-)
+
 #DELIMITER $$
 CREATE PROCEDURE MostrarUsuariosAAdmin()
 BEGIN
@@ -217,6 +214,20 @@ BEGIN
     SELECT *
     FROM Usuario
     WHERE p_idUsuario = idUsuario;
+END$$
+#DELIMITER $$
+CREATE PROCEDURE ActivarUsuario(
+	IN p_idUsuario INT
+)
+BEGIN
+    Update Usuario SET estadoCuenta='ACTIVO' WHERE idUsuario = p_idUsuario;
+END$$
+#DELIMITER $$
+CREATE PROCEDURE SuspenderUsuario(
+	IN p_idUsuario INT
+)
+BEGIN
+    Update Usuario SET estadoCuenta='SUSPENDIDO' WHERE idUsuario = p_idUsuario;
 END$$
 CREATE PROCEDURE InsertaProducto(
     OUT p_idProducto INT,
@@ -266,14 +277,14 @@ END$$
 #DELIMITER $$
 CREATE PROCEDURE ListaProductos()
 BEGIN
-    SELECT idProducto,nombre,descripcion, idTipoProducto, precio, estadoProducto,foto FROM Producto;
+    SELECT idProducto,nombre,descripcion, idTipoProducto, precio, estadoProducto,foto,stock FROM Producto;
 END$$
 #DELIMITER $$
 CREATE PROCEDURE ListaProductosXTipo(
 	p_idTipo INT
 )
 BEGIN
-    SELECT idProducto,nombre,descripcion, idTipoProducto, precio, estadoProducto,foto FROM Producto 
+    SELECT idProducto,nombre,descripcion, idTipoProducto, precio, estadoProducto,foto,stock FROM Producto 
     WHERE idTipoProducto = p_idTipo AND estadoProducto = 'ACTIVO';
 END$$
 
@@ -282,7 +293,7 @@ CREATE PROCEDURE LISTAR_PRODUCTOS_POR_NOMBRE(
 	_nombre VARCHAR(300)
 )
 BEGIN
-	SELECT idProducto, nombre,descripcion,idTipoProducto, precio,estadoProducto,foto FROM Producto where estadoProducto = 'ACTIVO' AND CONCAT(nombre,' ',descripcion) LIKE CONCAT('%',_nombre,'%');
+	SELECT idProducto, nombre,descripcion,idTipoProducto, precio,estadoProducto,foto,stock FROM Producto where estadoProducto = 'ACTIVO' AND CONCAT(nombre,' ',descripcion) LIKE CONCAT('%',_nombre,'%');
 END$$
 
 #DELIMITER $$
@@ -290,7 +301,7 @@ CREATE PROCEDURE buscarProducto(
 	IN p_idProducto INT
 )
 BEGIN	
-	SELECT nombre,descripcion,idTipoProducto, precio,estadoProducto,foto FROM Producto where p_idProducto=idProducto;
+	SELECT idProducto,nombre,descripcion,idTipoProducto,precio,estadoProducto,foto,stock FROM Producto WHERE p_idProducto=idProducto;
 END$$
 #DELIMITER $$
 CREATE PROCEDURE top3_productos_mas_vendidos()
@@ -458,12 +469,11 @@ END $$
 CREATE PROCEDURE InsertaPedido(
 	OUT	p_idPedido INT,
     IN p_prioridad ENUM('URGENTE', 'NO_URGENTE'),
-    IN p_fechaEntrega DATE,
     IN p_idUsuario INT
 )
 BEGIN
     INSERT INTO Pedido(estadoPedido, fechaPedido, prioridad, fechaEntrega, idUsuario)
-    VALUES ('PROCESADA', curdate(), p_prioridad, p_fechaEntrega, p_idUsuario);
+    VALUES ('PROCESADA', curdate(), p_prioridad, curdate()+1, p_idUsuario);
     SET p_idPedido = @@last_insert_id;
 END$$
 
@@ -501,8 +511,16 @@ CREATE PROCEDURE ListaPedidosXUsuario(
 	IN id INT
 )
 BEGIN
-    SELECT idPedido, fechaPedido, prioridad, fechaEntrega FROM Pedido WHERE id=idUsuario AND estadoPedido<>'CANCELADA';
+    SELECT idPedido,idUsuario, fechaPedido, prioridad, fechaEntrega,estadoPedido FROM Pedido WHERE id=idUsuario AND estadoPedido<>'CANCELADA';
 END$$
+#DELIMITER $$
+CREATE PROCEDURE ListaPedidosXIdPedido(
+	IN p_idPedido INT
+)
+BEGIN
+    SELECT idPedido,idUsuario, fechaPedido, prioridad, fechaEntrega,estadoPedido FROM Pedido WHERE idPedido=p_idPedido AND estadoPedido<>'CANCELADA';
+END$$
+
 
 #DELIMITER $$
 CREATE TRIGGER restar_stock_al_actualizar_pedido
@@ -554,8 +572,10 @@ CREATE PROCEDURE InsertaDetallePedido (
     IN p_cantidad INT
 )
 BEGIN
-    INSERT INTO DetallePedido (idPedido, idProducto, cantidad, estadoDetallePedido)
-    VALUES (p_idPedido, p_idProducto, p_cantidad, 'ACTIVO');
+	DECLARE v_precio DECIMAL(10,2);
+    SELECT precio INTO v_precio FROM Producto WHERE idProducto = p_idProducto;
+    INSERT INTO DetallePedido (idPedido, idProducto, cantidad, estadoDetallePedido,subtotal)
+    VALUES (p_idPedido, p_idProducto, p_cantidad, 'ACTIVO',p_cantidad*v_precio);
     SET p_idDetallePedido = @@last_insert_id;
 END $$
 
@@ -667,20 +687,13 @@ BEGIN
     UPDATE TipoProducto SET estadoTipoProducto='DESACTIVADO'
     WHERE idTipoProducto = p_idTipoProducto;
 END $$
-
+#DELIMITER $$
 CREATE PROCEDURE ListaTiposProducto()
 BEGIN
-    SELECT * FROM TipoProducto WHERE estadoTipoProducto='ACTIVO';
+    SELECT * FROM TipoProducto;
 END $$
-
-
-
-
-
-
-
-
-CREATE PROCEDURE InsertaOferta(
+#DELIMITER $$
+CREATE PROCEDURE InsertarOferta(
 	OUT p_idOferta INT,
     IN p_descripcion VARCHAR(200),
     IN p_descuento DOUBLE,
@@ -718,10 +731,10 @@ CREATE PROCEDURE EliminaOferta(
 BEGIN
     UPDATE Oferta SET estadoOferta = 'DESACTIVADO' WHERE idOferta = p_idOferta;
 END$$
-
+#DELIMITER $$
 CREATE PROCEDURE ListaOfertas()
 BEGIN
-    SELECT * FROM Oferta WHERE estadoOferta='ACTIVO';
+    SELECT * FROM Oferta;
 END$$
 #DELIMITER $$
 CREATE PROCEDURE buscarOfertasXProducto(
@@ -730,7 +743,13 @@ CREATE PROCEDURE buscarOfertasXProducto(
 BEGIN
     SELECT * FROM Oferta WHERE p_idProducto=idProducto AND estadoOferta='ACTIVO';
 END$$
-
+#DELIMITER $$
+CREATE PROCEDURE buscardOfertaXId(
+	IN p_idOferta INT
+)
+BEGIN
+    SELECT * FROM Oferta WHERE idOferta=p_idOferta;
+END$$
 #DELIMITER $$
 CREATE EVENT IF NOT EXISTS desactivar_ofertas
 ON SCHEDULE EVERY 1 DAY

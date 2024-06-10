@@ -59,7 +59,7 @@ public class TipoProductoMYSQL implements TipoProductoDAO {
         ArrayList<TipoProducto> tipoProductos = new ArrayList<>();
         try {
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call ListaTipoProducto()}");
+            cs = con.prepareCall("{call ListaTiposProducto()}");
             rs = cs.executeQuery();
             while (rs.next()) {
                 TipoProducto tipoProducto = new TipoProducto();

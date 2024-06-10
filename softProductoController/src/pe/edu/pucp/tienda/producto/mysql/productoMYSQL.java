@@ -74,6 +74,7 @@ public class productoMYSQL implements productoDAO {
                 producto.setFoto(rs.getBytes("foto"));
                 producto.setTipoProducto(new TipoProducto());
                 producto.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
+                producto.setStock(rs.getInt("stock"));
                 //int idtipo=rs.getInt("categoria");
                 producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 producto.setPrecio(rs.getDouble("precio"));
@@ -166,6 +167,7 @@ public class productoMYSQL implements productoDAO {
                 producto.setCodigo(rs.getInt("idProducto"));
                 producto.setTipoProducto(new TipoProducto());
                 producto.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
+                producto.setStock(rs.getInt("stock"));
                 //int idtipo=rs.getInt("categoria");
                 producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 producto.setPrecio(rs.getDouble("precio"));
@@ -200,6 +202,7 @@ public class productoMYSQL implements productoDAO {
                 producto.setCodigo(rs.getInt("idProducto"));
                 producto.setTipoProducto(new TipoProducto());
                 producto.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
+                producto.setStock(rs.getInt("stock"));
                 //int idtipo=rs.getInt("categoria");
                 producto.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 producto.setPrecio(rs.getDouble("precio"));
@@ -234,6 +237,7 @@ public class productoMYSQL implements productoDAO {
                 prod.setCodigo(rs.getInt("idProducto"));
                 prod.setTipoProducto(new TipoProducto());
                 prod.getTipoProducto().setIdTipoProducto(rs.getInt("idTipoProducto"));
+                prod.setStock(rs.getInt("stock"));
                 prod.setEstadoProducto(EstadoProducto.valueOf( rs.getString("estadoProducto")));
                 prod.setPrecio(rs.getDouble("precio"));
                 prod.setFoto(rs.getBytes("foto"));
@@ -249,7 +253,8 @@ public class productoMYSQL implements productoDAO {
                 System.out.println(ex.getMessage());
             }
         }
-        return prod;    }
+        return prod;   
+    }
 
     @Override
     public ArrayList<Producto> productosMasVendidos() {

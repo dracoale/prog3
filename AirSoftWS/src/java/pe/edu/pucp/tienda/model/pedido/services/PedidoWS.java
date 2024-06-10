@@ -77,4 +77,15 @@ public class PedidoWS {
         }
         return pedidos;
     }
+    @WebMethod(operationName = "cargaPedidoXId")
+    public Pedido cargaPedidoXId(@WebParam(name = "idPedido") int idPedido) {
+        Pedido ped = new Pedido();
+        try{
+            pedidodao = new pedidoMYSQL();
+            ped = pedidodao.cargarPedido(idPedido);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return ped;
+    }
 }

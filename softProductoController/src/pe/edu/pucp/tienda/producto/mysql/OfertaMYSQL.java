@@ -11,7 +11,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import pe.edu.pucp.tienda.config.DBManager;
 import pe.edu.pucp.tienda.producto.dao.OfertaDAO;
+import pe.edu.pucp.tienda.producto.dao.productoDAO;
 import pe.edu.pucp.tienda.producto.model.Oferta;
+import pe.edu.pucp.tienda.producto.model.Producto;
 
 /**
  *
@@ -35,8 +37,8 @@ public class OfertaMYSQL implements OfertaDAO {
             //cs.setString("_DNI", cliente.getDNI());
             cs.setString("p_descripcion", oferta.getDescripcion());
             cs.setDouble("p_descuento", oferta.getDescuento());
-            cs.setDate("p_fechaInicio", (Date) oferta.getFechaInicio());
-            cs.setDate("p_fechaFin", (Date) oferta.getFechaFin());
+            cs.setDate("p_fechaInicio", new java.sql.Date(oferta.getFechaInicio().getTime()));
+            cs.setDate("p_fechaFin", new java.sql.Date(oferta.getFechaFin().getTime()) );
             cs.setInt("p_idProducto", oferta.getProducto().getCodigo());
             cs.executeUpdate();
             oferta.setIdOferta(cs.getInt("p_idOferta"));
@@ -58,18 +60,22 @@ public class OfertaMYSQL implements OfertaDAO {
     @Override
     public ArrayList<Oferta> listar() {
     ArrayList<Oferta> ofertas = new ArrayList<>();
+    productoDAO proddao = new productoMYSQL();
         try {
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call ListaOferta()}");
+            cs = con.prepareCall("{call ListaOfertas()}");
             rs = cs.executeQuery();
             while (rs.next()) {
                 Oferta oferta = new Oferta();
+                Producto prod = new Producto();
+                prod = proddao.buscarProducto(rs.getInt("idProducto"));
                 oferta.setIdOferta(rs.getInt("idOferta"));
                 //oferta.setDescripcion(rs.getString("des"));
                 oferta.setDescripcion(rs.getString("descripcion"));
                 oferta.setDescuento(rs.getDouble("descuento"));
                 oferta.setFechaInicio(rs.getDate("fechaInicio"));
-                oferta.setFechaInicio(rs.getDate("fechaFin"));
+                oferta.setFechaFin(rs.getDate("fechaFin"));
+                oferta.setProducto(prod);
                 //oferta.setProducto();
                 ofertas.add(oferta);
             }
@@ -113,17 +119,17 @@ int resultado = 0;
         int resultado = 0;
         try {
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call ActualizaTipoProducto"
-                    + "(?,?,?,?,?)}");
+            cs = con.prepareCall("{call ActualizaOferta"
+                    + "(?,?,?,?,?,?)}");
             cs.setInt("p_idOferta", oferta.getIdOferta());
             //System.out.println(producto.getCodigo());
             //cs.setString("p_nombre", oferta.getNombre());
             cs.setString("p_descripcion", oferta.getDescripcion());
-
             //cs.setString("p_estadoTipoProducto", oferta.getEstadoTipoProducto().toString());
             cs.setDouble("p_descuento",oferta.getDescuento());
-            cs.setDate("fechaInicio", (Date) oferta.getFechaInicio());
-            cs.setDate("fechaFin", (Date) oferta.getFechaFin());
+            cs.setDate("p_fechaInicio", new java.sql.Date(oferta.getFechaInicio().getTime()));
+            cs.setDate("p_fechaFin", new java.sql.Date(oferta.getFechaFin().getTime()));
+            cs.setInt("p_idProducto", oferta.getProducto().getCodigo());
             resultado = cs.executeUpdate();
 
         } catch (Exception ex) {
@@ -167,6 +173,36 @@ int resultado = 0;
             }
         }
         return oferta.getDescuento();     
+    }
+
+    @Override
+    public Oferta buscarOfertaXId(int idOferta) {
+        Oferta oferta = new Oferta();
+        try {
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call buscardOfertaXId"
+                + "(?)}");
+            cs.setInt("p_idOferta", idOferta);
+            rs = cs.executeQuery();
+            if (rs.next()) {
+                oferta.setIdOferta(rs.getInt("idOferta"));
+                oferta.setDescripcion(rs.getString("descripcion"));
+                oferta.setDescuento(rs.getDouble("descuento"));
+                oferta.setFechaInicio(rs.getDate("fechaInicio"));
+                oferta.setFechaFin(rs.getDate("fechaFin"));
+            }else{
+                oferta.setIdOferta(0);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return oferta;
     }
 }
 

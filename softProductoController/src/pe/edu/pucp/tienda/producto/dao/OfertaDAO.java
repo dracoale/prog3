@@ -17,4 +17,5 @@ public interface OfertaDAO {
     int eliminar(int id);
     int actualizar(Oferta oferta);
     double buscarOferta(int idProducto);
+    Oferta buscarOfertaXId(int idOferta);
 }

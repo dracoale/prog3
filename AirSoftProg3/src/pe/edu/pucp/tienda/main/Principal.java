@@ -45,34 +45,34 @@ import pe.edu.pucp.tienda.usuario.model.ClienteJuridico;
 import pe.edu.pucp.tienda.usuario.mysql.ClienteJuridicoMYSQL;
 
 public class Principal {
-//    public static byte[] leerImagen(String ruta) {
-//        File file = new File(ruta);
-//        byte[] imagen = new byte[(int) file.length()];
-//
-//        try (FileInputStream fis = new FileInputStream(file)) {
-//            fis.read(imagen);
-//            System.out.println("Imagen leída correctamente de " + ruta);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return imagen;
-//    }
-//
-//    // Método para escribir una imagen en un archivo
-//    public static void escribirImagen(String ruta, byte[] imagen) {
-//        if (imagen == null) {
-//            System.out.println("El array de bytes de la imagen es nulo. Verifica la recuperación de la imagen.");
-//            return;
-//        }
-//
-//        try (FileOutputStream fos = new FileOutputStream(ruta)) {
-//            fos.write(imagen);
-//            System.out.println("Imagen escrita correctamente en " + ruta);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static byte[] leerImagen(String ruta) {
+        File file = new File(ruta);
+        byte[] imagen = new byte[(int) file.length()];
+
+        try (FileInputStream fis = new FileInputStream(file)) {
+            fis.read(imagen);
+            System.out.println("Imagen leída correctamente de " + ruta);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return imagen;
+    }
+
+    // Método para escribir una imagen en un archivo
+    public static void escribirImagen(String ruta, byte[] imagen) {
+        if (imagen == null) {
+            System.out.println("El array de bytes de la imagen es nulo. Verifica la recuperación de la imagen.");
+            return;
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(ruta)) {
+            fos.write(imagen);
+            System.out.println("Imagen escrita correctamente en " + ruta);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
 //        productoDAO productodao = new productoMYSQL();
 //    ArrayList<Producto> productos= new ArrayList<Producto>();
@@ -96,15 +96,40 @@ public class Principal {
 //            System.out.println(alm.getDireccion());
 //        }
 // Prueba Pedidos Modificados en SQL
-//
-//
-//    pedidoDAO pedidodao = new pedidoMYSQL();
-//    Pedido pedidoprueba = new Pedido();
-//    pedidoprueba.setIdPedido(1);
-//    pedidoprueba.setEstado(EstadoPedido.ENTREGADA);
-//    pedidoprueba.setPrioridad(Prioridad.NO_URGENTE);
-//    pedidoprueba.setFechaEntrega(new Date());
-//    pedidodao.eliminar(5);
+    Producto prod = new Producto();
+    Producto prod2 = new Producto();
+    prod.setCodigo(3);
+    prod2.setCodigo(5);
+    DetallePedido det = new DetallePedido();
+    DetallePedido det2 = new DetallePedido();
+    det.setCantidad(12);
+    det.setProducto(prod);
+    pedidoDAO pedidodao = new pedidoMYSQL();
+    Pedido pedidoprueba = new Pedido();
+    pedidoprueba = pedidodao.cargarPedido(8);
+    System.out.println(pedidoprueba.getIdPedido());
+    System.out.println(pedidoprueba.getFechaEntrega());
+    System.out.println(pedidoprueba.getPrioridad());
+    System.out.println(pedidoprueba.getEstado());
+    for(DetallePedido detalle: pedidoprueba.getDetallePedidos()){
+        System.out.println(detalle.getIdDetallePedido());
+        System.out.println(detalle.getIdPedido());
+        System.out.println(detalle.getProducto().getCodigo());
+        System.out.println(detalle.getSubtotal());
+        System.out.println(detalle.getCantidad());        
+    }
+    
+//    pedidoprueba.setDetallePedidos(new ArrayList<DetallePedido>());
+//    pedidoprueba.setIdUsuario(5);
+//    pedidoprueba.setIdPedido(3);
+//    pedidoprueba.setEstado(EstadoPedido.PROCESADA);
+//    pedidoprueba.setPrioridad(Prioridad.URGENTE);
+//    det2.setCantidad(10);
+//    det2.setProducto(prod2);
+//    pedidoprueba.getListaDetallesPedidos().add(det);
+//    pedidoprueba.getListaDetallesPedidos().add(det2);
+//    pedidodao.insertar(pedidoprueba);
+//    
 //    ArrayList<Pedido> pedidos= new ArrayList<Pedido>();
 //        pedidos=pedidodao.listar();
 //        for(Pedido ped: pedidos){
@@ -164,8 +189,8 @@ public class Principal {
 //    clienteJur.setRUC("marciaRUC");
 //    clienteJur.setNombreEmpresa("marcia S.A.C.");
 //    clientejurdao.actualizar(clienteJur,"marcia123");
-//        // Ruta de la imagen de prueba
-//        String rutaImagen = "C:/Users/james/OneDrive/Escritorio/Imagenes/pickeosnack.jpg";
+        // Ruta de la imagen de prueba
+//        String rutaImagen = "C:/Users/Darklune/Desktop/PUCP/8vo Ciclo/Imagenes/yog.jpg";
 //        byte[] foto = leerImagen(rutaImagen);
 //        if (foto == null || foto.length == 0) {
 //            System.out.println("No se pudo leer la imagen. Verifique la ruta y el archivo.");
@@ -175,13 +200,13 @@ public class Principal {
 //        Producto prod = new Producto();
 //        Almacen alma = new Almacen();
 //        TipoProducto tipo = new TipoProducto();
-//        tipo.setIdTipoProducto(6);
+//        tipo.setIdTipoProducto(1);
 //        alma.setIdAlmacen(1);
-//        prod.setCodigo(5);
-//        prod.setDescripcion("2KG");
-//        prod.setNombre("Piqueos Snack");
-//        prod.setPrecio(10);
-//        prod.setStock(200);
+//        prod.setCodigo(1);
+//        prod.setDescripcion("3L");
+//        prod.setNombre("Yogurt");
+//        prod.setPrecio(29.99);
+//        prod.setStock(98);
 //        prod.setAlmacen(alma);
 //        prod.setEstadoProducto(EstadoProducto.ACTIVO);
 //        prod.setTipoProducto(tipo);
@@ -192,7 +217,7 @@ public class Principal {
 //        dao.actualizar(prod);
 //
 //        // Recuperar el grupo de investigación de la base de datos
-//        Producto prodrecuperado = dao.buscarProducto(5);
+//        Producto prodrecuperado = dao.buscarProducto(1);
 //        System.out.println("Foto length: " + prodrecuperado.getFoto().length);
 //        if (prodrecuperado == null) {
 //            System.out.println("No se pudo recuperar el producto de la base de datos.");
@@ -204,7 +229,7 @@ public class Principal {
 //            return;
 //        }
 //        // Guardar la imagen recuperada en un archivo
-//        escribirImagen("C:/Users/james/OneDrive/Escritorio/Imagenes/imagen_recuperada.jpg", prodrecuperado.getFoto());
+//        escribirImagen("C:/Users/Darklune/Desktop/PUCP/8vo Ciclo/Imagenes/imagen_recuperada.jpg", prodrecuperado.getFoto());
 
 // Prueba Pedido
 //        int resultado;

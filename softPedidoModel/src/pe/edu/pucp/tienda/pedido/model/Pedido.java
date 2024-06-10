@@ -79,14 +79,12 @@ public class Pedido {
     public void setFechaEntrega(Date fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
-    public ArrayList<DetallePedido> getListaDetallesPedidos() {
+    public ArrayList<DetallePedido> getDetallePedidos() {
         return detallePedidos;
     }
-    public void generarBoleta(String type) {
 
+    public void setDetallePedidos(ArrayList<DetallePedido> detallePedidos) {
+        this.detallePedidos = detallePedidos;
     }
-
-    public EstadoPedido validarPedido() {
-    return null;
-    }
+   
 }

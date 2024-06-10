@@ -329,4 +329,42 @@ public class UsuarioMYSQL implements UsuarioDAO {
         }
         return user;
     }
+
+    @Override
+    public int activarUsuario(int idUsuario) {
+        int resultado=0;
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call ActivarUsuario"
+                + "(?)}"); 
+            cs.setInt("p_idUsuario", idUsuario);
+            cs.executeUpdate();
+            resultado=idUsuario;
+
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        }
+        return resultado;
+    }
+
+    @Override
+    public int suspenderUsuario(int idUsuario) {
+        int resultado=0;
+        try{
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call SuspenderUsuario"
+                + "(?)}"); 
+            cs.setInt("p_idUsuario", idUsuario);
+            cs.executeUpdate();
+            resultado=idUsuario;
+
+        }catch(SQLException ex){
+                System.out.println(ex.getMessage());
+        }finally{
+                try{con.close();}catch(SQLException ex){System.out.println(ex.getMessage());}
+        }
+        return resultado;
+    }
 }

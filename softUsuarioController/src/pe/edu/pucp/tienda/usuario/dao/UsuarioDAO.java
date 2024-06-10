@@ -21,4 +21,6 @@ public interface UsuarioDAO {
     public boolean existeUsuarioAdmin(Usuario user);
     public ArrayList<Usuario> mostrarUsuariosAAdmin();
     public Usuario BuscarUsuarioXId(int idUsuario);
+    public int activarUsuario(int idUsuario);
+    public int suspenderUsuario(int idUsuario);
 }

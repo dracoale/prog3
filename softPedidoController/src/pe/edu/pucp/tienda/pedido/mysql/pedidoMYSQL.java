@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import pe.edu.pucp.tienda.config.DBManager;
+import pe.edu.pucp.tienda.pedido.dao.detallePedidoDAO;
+import pe.edu.pucp.tienda.pedido.model.DetallePedido;
 import pe.edu.pucp.tienda.pedido.model.EstadoPedido;
 import pe.edu.pucp.tienda.pedido.model.Prioridad;
 
@@ -25,18 +27,23 @@ public class pedidoMYSQL implements pedidoDAO{
 
     @Override
     public int insertar(Pedido pedido) {
+        detallePedidoDAO detallepedidodao = new  detallePedidoMYSQL();
         int resultado =0;
         try{
             con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{Call InsertaPedido"
-            + "(?,?,?,?)}"); 	
+            + "(?,?,?)}"); 	
             cs.registerOutParameter("p_idPedido", java.sql.Types.INTEGER);
             cs.setString("p_prioridad", pedido.getPrioridad().toString());
-            cs.setDate("p_fechaEntrega", new java.sql.Date(pedido.getFechaEntrega().getTime()));
             cs.setInt("p_idUsuario", pedido.getIdUsuario());
             cs.executeUpdate();
             pedido.setIdPedido(cs.getInt("p_idPedido"));
             resultado = pedido.getIdPedido();
+            ArrayList<DetallePedido> detalles = pedido.getDetallePedidos();
+            for(DetallePedido det: detalles){
+                det.setIdPedido(resultado);
+                detallepedidodao.insertar(det);
+            }
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 		}finally{
@@ -116,10 +123,12 @@ public class pedidoMYSQL implements pedidoDAO{
 			con = DBManager.getInstance().getConnection();
 			cs = con.prepareCall("{call ListaPedidosXUsuario"
                     + "(?)}"); 
+                        cs.setInt("id",id);
 			rs = cs.executeQuery();
             while(rs.next()){
                 Pedido pedido = new Pedido();
                 pedido.setIdPedido(rs.getInt("idPedido"));
+                pedido.setIdUsuario(rs.getInt("idUsuario"));
                 pedido.setEstado(EstadoPedido.valueOf(rs.getString("estadoPedido")));
                 pedido.setFechaPedido(rs.getDate("fechaPedido"));
                 pedido.setPrioridad(Prioridad.valueOf(rs.getString("prioridad")));
@@ -133,5 +142,37 @@ public class pedidoMYSQL implements pedidoDAO{
 			try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
 		}
 		return pedidos;
+    }
+
+    @Override
+    public Pedido cargarPedido(int idPedido) {
+        detallePedidoDAO detallepedidodao = new  detallePedidoMYSQL();
+        Pedido ped = new Pedido();
+        ArrayList<DetallePedido> detalles= new ArrayList<DetallePedido>();
+		try{
+			con = DBManager.getInstance().getConnection();
+			cs = con.prepareCall("{call ListaPedidosXIdPedido"
+                    + "(?)}"); 
+                        cs.setInt("p_idPedido",idPedido);
+			rs = cs.executeQuery();
+            if(rs.next()){
+                ped.setIdPedido(rs.getInt("idPedido"));
+                ped.setIdUsuario(rs.getInt("idUsuario"));
+                ped.setEstado(EstadoPedido.valueOf(rs.getString("estadoPedido")));
+                ped.setFechaPedido(rs.getDate("fechaPedido"));
+                ped.setPrioridad(Prioridad.valueOf(rs.getString("prioridad")));
+                ped.setFechaEntrega(rs.getDate("fechaEntrega"));
+                detalles = detallepedidodao.listarXPedido(idPedido);
+                ped.setDetallePedidos(detalles);
+            }else{
+                ped.setIdPedido(0);
+            }
+			
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}finally{
+			try{con.close();}catch(Exception ex){System.out.println(ex.getMessage());}
+		}
+	return ped;
     }
 }
